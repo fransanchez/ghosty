@@ -37,6 +37,7 @@ void Game::update(uint32_t deltaMilliseconds)
 		if (event.type == sf::Event::Closed)
 		{
 			m_window->close();
+			m_world->unload();
 		}
 	}
 

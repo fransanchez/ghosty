@@ -1,17 +1,10 @@
-#include <Core/AssetManager.h>
 #include <Core/World.h>
+#include <Core/AssetManager.h>
 #include <Gameplay/Zombie.h>
-#include <Render/SFMLOrthogonalLayer.h>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <tmxlite/Map.hpp>
 
 World::~World()
 {
-	delete m_enemy;
-	delete m_layerZero;
-	delete m_layerOne;
-	delete m_layerTwo;
-	delete m_map;
+	unload();
 }
 
 bool World::load()
@@ -32,28 +25,32 @@ bool World::load()
 	m_enemy = zombie;
 	zombie->setPosition({ .0f, 50.f });
 
-	// To-Do, Load level: this should have its own class
-	m_map = new tmx::Map();
-	m_map->load("../Data/Levels/demo.tmx");
-	m_layerZero = new MapLayer(*m_map, 0);
-	m_layerOne = new MapLayer(*m_map, 1);
-	m_layerTwo = new MapLayer(*m_map, 2);
+	const std::string mapFile = "../Data/Levels/test.tmx";
 
-	m_collisionLayer = new ObjectLayer(*m_map, 3);
+	if (!m_level.load(mapFile))
+	{
+		return false;
+	}
 
 	return initOk;
 }
 
+void World::unload()
+{
+	delete m_enemy;
+	m_enemy = nullptr;
+	m_level.unload();
+}
+
 void World::update(uint32_t deltaMilliseconds)
 {
-	// To-Do: update level
-	m_layerZero->update(sf::milliseconds(deltaMilliseconds));
+	m_level.update(deltaMilliseconds);
 
 	// Update actors
 	m_enemy->update(deltaMilliseconds);
 
 	// Check for collisions (We could do it in a function here or have a collision manager if it gets complex)
-	const auto& collisionShapes = m_collisionLayer->getShapes();
+	const auto& collisionShapes = m_level.getCollisionShapes();
 	for (const auto* shape : collisionShapes)
 	{
 		if (shape->getGlobalBounds().intersects(m_enemy->getBounds()))
@@ -67,9 +64,6 @@ void World::update(uint32_t deltaMilliseconds)
 
 void World::render(sf::RenderWindow& window)
 {
-	window.draw(*m_layerZero);
-	window.draw(*m_layerOne);
-	window.draw(*m_layerTwo);
-	window.draw(*m_collisionLayer);
+	m_level.render(window);
 	m_enemy->render(window);
 }

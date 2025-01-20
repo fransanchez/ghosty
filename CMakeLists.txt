@@ -27,6 +27,7 @@ set(PROJECT_HEADERS
     include/Core/AssetManager.h
     include/Core/Game.h
     include/Core/World.h
+    include/Core/Level.h
 
     include/Gameplay/Enemy.h
     include/Gameplay/GameObject.h
@@ -42,6 +43,7 @@ set(PROJECT_SOURCES
     src/Core/AssetManager.cpp
     src/Core/Game.cpp
     src/Core/World.cpp
+    src/Core/Level.cpp
 
     src/Gameplay/Enemy.cpp
     src/Gameplay/Zombie.cpp
