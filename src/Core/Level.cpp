@@ -2,8 +2,6 @@
 #include <tmxlite/Map.hpp>
 #include <Render/SFMLOrthogonalLayer.h>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <iostream>
-
 
 Level::~Level()
 {
@@ -15,7 +13,6 @@ bool Level::load(const std::string& filePath)
     m_map = new tmx::Map();
     if (!m_map->load(filePath))
     {
-        std::cerr << "Error while loading the map: " << filePath << std::endl;
         return false;
     }
 
@@ -25,7 +22,6 @@ bool Level::load(const std::string& filePath)
 
     m_collisionLayer = new ObjectLayer(*m_map, 3);
 
-    std::cout << "Map loading worked!!! " << filePath << std::endl;
     return true;
 }
 

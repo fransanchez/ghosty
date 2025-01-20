@@ -1,0 +1,5 @@
+{
+    "Idle": [ "../data/Images/Player/1_IDLE_000.png", "../data/Images/Player/1_IDLE_001.png", "../data/Images/Player/1_IDLE_002.png", "../data/Images/Player/1_IDLE_003.png", "../data/Images/Player/1_IDLE_004.png" ],
+    "Walk": [ "../data/Images/Player/2_WALK_000.png", "../data/Images/Player/2_WALK_001.png", "../data/Images/Player/2_WALK_002.png", "../data/Images/Player/2_WALK_003.png", "../data/Images/Player/2_WALK_004.png" ],
+    "Run": [ "../data/Images/Player/3_RUN_000.png", "../data/Images/Player/3_RUN_001.png", "../data/Images/Player/3_RUN_002.png", "../data/Images/Player/3_RUN_003.png", "../data/Images/Player/3_RUN_004.png" ]
+}

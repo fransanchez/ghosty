@@ -20,6 +20,14 @@ FetchContent_Declare(
     SOURCE_SUBDIR tmxlite)
 FetchContent_MakeAvailable(TMXLITE)
 
+# Download and add nlohmann (json library) as a dependency
+FetchContent_Declare(
+    JSON
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.2 # Reemplaza con la versión que prefieras
+)
+FetchContent_MakeAvailable(JSON)
+
 
 set(PROJECT_HEADERS 
     include/Utils/Constants.h
@@ -32,8 +40,12 @@ set(PROJECT_HEADERS
     include/Gameplay/Enemy.h
     include/Gameplay/GameObject.h
     include/Gameplay/Zombie.h
+    include/Gameplay/Player.h
+    include/Gameplay/PlayerFactory.h
 
     include/Render/SFMLOrthogonalLayer.h
+    include/Render/Animation.h
+    include/Render/AnimationType.h
 
     include/UI/UIScreenMainMenu.h
 )
@@ -47,6 +59,11 @@ set(PROJECT_SOURCES
 
     src/Gameplay/Enemy.cpp
     src/Gameplay/Zombie.cpp
+    src/Gameplay/Player.cpp
+    src/Gameplay/PlayerFactory.cpp
+
+
+    src/Render/Animation.cpp
 
     src/main.cpp
 )
@@ -62,7 +79,7 @@ add_executable(${PROJECT_NAME} ${PROJECT_FILES})
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics tmxlite)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics tmxlite nlohmann_json::nlohmann_json)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_MODE=0)
