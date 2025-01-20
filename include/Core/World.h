@@ -27,5 +27,5 @@ class World
 
 		// This is just an example. Think a good way to group the actors of your game. If they need any type of manager, etc...
 		Enemy* m_enemy{ nullptr };
-		Level m_level{};
+		Level* m_level{};
 };

@@ -36,11 +36,11 @@ void Level::unload()
     delete m_layerOne;
     delete m_layerZero;
     delete m_map;
-   // m_collisionLayer = nullptr;
-    //m_layerTwo = nullptr;
-    //m_layerOne = nullptr;
-    //m_layerZero = nullptr;
-    //m_map = nullptr;
+    m_collisionLayer = nullptr;
+    m_layerTwo = nullptr;
+    m_layerOne = nullptr;
+    m_layerZero = nullptr;
+    m_map = nullptr;
 }
 
 void Level::update(uint32_t deltaMilliseconds)

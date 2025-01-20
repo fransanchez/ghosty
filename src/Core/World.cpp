@@ -27,7 +27,8 @@ bool World::load()
 
 	const std::string mapFile = "../Data/Levels/test.tmx";
 
-	if (!m_level.load(mapFile))
+	m_level = new Level();
+	if (!m_level->load(mapFile))
 	{
 		return false;
 	}
@@ -39,18 +40,19 @@ void World::unload()
 {
 	delete m_enemy;
 	m_enemy = nullptr;
-	m_level.unload();
+	m_level->unload();
+	m_level = nullptr;
 }
 
 void World::update(uint32_t deltaMilliseconds)
 {
-	m_level.update(deltaMilliseconds);
+	m_level->update(deltaMilliseconds);
 
 	// Update actors
 	m_enemy->update(deltaMilliseconds);
 
 	// Check for collisions (We could do it in a function here or have a collision manager if it gets complex)
-	const auto& collisionShapes = m_level.getCollisionShapes();
+	const auto& collisionShapes = m_level->getCollisionShapes();
 	for (const auto* shape : collisionShapes)
 	{
 		if (shape->getGlobalBounds().intersects(m_enemy->getBounds()))
@@ -64,6 +66,6 @@ void World::update(uint32_t deltaMilliseconds)
 
 void World::render(sf::RenderWindow& window)
 {
-	m_level.render(window);
+	m_level->render(window);
 	m_enemy->render(window);
 }
