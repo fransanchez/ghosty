@@ -74,7 +74,8 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
             ? animationConfig["FrameDuration"][key].get<float>()
             : 0.1f;
         animation.setFrameDuration(frameDuration);
-
+        bool loop = animationData.contains("Loop") ? animationData["Loop"].get<bool>() : true;
+        animation.setLoop(loop);
         animations[animType] = animation;
     }
 

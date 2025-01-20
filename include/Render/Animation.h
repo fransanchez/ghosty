@@ -11,6 +11,7 @@ public:
 
     void update(float deltaTime);
     void setFrameDuration(float duration);
+    void setLoop(bool loop);
     void reset();
 
     const std::vector<const sf::Texture*>& getFrames() const
@@ -29,4 +30,5 @@ private:
     float m_elapsedTime{ 0.f };
     size_t m_currentFrame{ 0 };
     int counter = 0;
+    bool m_loop{ true };
 };

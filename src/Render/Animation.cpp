@@ -23,13 +23,25 @@ void Animation::update(float deltaTime)
     while (m_elapsedTime >= m_frameDuration)
     {
         m_elapsedTime -= m_frameDuration;
-        m_currentFrame = (m_currentFrame + 1) % m_frames.size();
+        if (m_loop)
+        {
+            m_currentFrame = (m_currentFrame + 1) % m_frames.size();
+        }
+        else
+        {
+            m_currentFrame = std::min(m_currentFrame + 1, m_frames.size() - 1);
+        }
     }
 }
 
 void Animation::setFrameDuration(float duration)
 {
     m_frameDuration = duration;
+}
+
+void Animation::setLoop(bool loop)
+{
+    m_loop = loop;
 }
 
 void Animation::reset()
