@@ -29,6 +29,7 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
         if (key == "Idle") animType = AnimationType::Idle;
         else if (key == "Walk") animType = AnimationType::Walk;
         else if (key == "Run") animType = AnimationType::Run;
+        else if (key == "Jump") animType = AnimationType::Jump;
         else
             continue;
 

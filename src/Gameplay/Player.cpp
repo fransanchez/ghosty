@@ -5,7 +5,6 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-
 bool Player::init(const PlayerDescriptor& descriptor, const std::unordered_map<AnimationType, Animation>& animations)
 {
     m_animations = animations;
@@ -113,32 +112,55 @@ void Player::handleInput()
 
     bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         m_direction.y = -1.f;
-        setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        if (m_isGrounded)
+        {
+            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         m_direction.y = 1.f;
-        setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        if (m_isGrounded)
+        {
+            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        }
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         m_direction.x = -1.f;
         m_sprite.setScale(-1.0f, 1.0f);
-        setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        if (m_isGrounded)
+        {
+            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        }
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
 
         m_direction.x = 1.f;
         m_sprite.setScale(1.0f, 1.0f);
-        setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        if (m_isGrounded)
+        {
+            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
+        }
     }
 
-    if (m_direction == sf::Vector2f(0.f, 0.f))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+        if (m_isGrounded)
+        {
+            m_verticalVelocity = JUMP_INITIAL_VELOCITY;
+            m_isGrounded = false;
+            setAnimation(AnimationType::Jump);
+        }
+    }
+
+    if (m_direction == sf::Vector2f(0.f, 0.f) && m_isGrounded)
     {
         m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
         setAnimation(AnimationType::Idle);

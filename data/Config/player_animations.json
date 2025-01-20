@@ -3,7 +3,7 @@
         "Idle": {
             "TexturePath": "../data/Images/Player/Mage/Idle/idle.png",
             "FrameCountRows": 1,
-            "FrameCountColumns":  14
+            "FrameCountColumns": 14
         },
         "Walk": {
             "TexturePath": "../data/Images/Player/Mage/Walk/walk.png",
@@ -14,11 +14,17 @@
             "TexturePath": "../data/Images/Player/Mage/Run/run.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 8
+        },
+        "Jump": {
+            "TexturePath": "../data/Images/Player/Mage/High_jump/high_jump2.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 10
         }
     },
     "FrameDuration": {
         "Idle": 0.15,
         "Walk": 0.1,
-        "Run": 0.08
+        "Run": 0.08,
+        "Jump": 0.10
     }
 }

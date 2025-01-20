@@ -35,6 +35,8 @@ public:
     void render(sf::RenderWindow& window) override;
 
 private:
+    const float JUMP_INITIAL_VELOCITY = -250.0f;
+
     sf::Sprite m_sprite;
     sf::Vector2f m_direction{ .0f, .0f };
     sf::Vector2f m_speed{ 0.f, 0.f };
