@@ -23,9 +23,6 @@ bool Player::init(const PlayerDescriptor& descriptor, const std::unordered_map<A
     setPosition(descriptor.position);
     m_sprite.setPosition(descriptor.position);
     m_speed = descriptor.speed;
-
-    m_sprite.setOrigin(0.f, m_sprite.getLocalBounds().height / 2.f);
-    m_sprite.setScale(0.5f, 0.5f);
     return true;
 }
 
@@ -55,6 +52,16 @@ void Player::update(float deltaMilliseconds)
 void Player::render(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
+
+
+    sf::FloatRect bounds = m_sprite.getGlobalBounds();
+    sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
+    debugRect.setPosition(bounds.left, bounds.top);
+    debugRect.setOutlineColor(sf::Color::Red);
+    debugRect.setOutlineThickness(1.0f);
+    debugRect.setFillColor(sf::Color::Transparent);
+
+    window.draw(debugRect);
 }
 
 void Player::setAnimation(AnimationType animationType)
@@ -87,7 +94,7 @@ void Player::setAnimation(AnimationType animationType)
 
 void Player::handleInput()
 {
-    m_direction = { 0.f, 0.f }; // Resetear dirección
+    m_direction = { 0.f, 0.f };
 
     bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
@@ -105,22 +112,21 @@ void Player::handleInput()
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         m_direction.x = -1.f;
-        m_sprite.setOrigin(m_sprite.getLocalBounds().width, m_sprite.getLocalBounds().height / 2.f);
-        m_sprite.setScale(-0.5f, 0.5f);
+        m_sprite.setScale(-1.0f, 1.0f);
         setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
+
         m_direction.x = 1.f;
-        m_sprite.setOrigin(0.f, m_sprite.getLocalBounds().height / 2.f);
-        m_sprite.setScale(0.5f, 0.5f);
+        m_sprite.setScale(1.0f, 1.0f);
         setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
     }
 
     if (m_direction == sf::Vector2f(0.f, 0.f))
     {
-        m_sprite.setOrigin(0.f, m_sprite.getLocalBounds().height / 2.f);
-        m_sprite.setScale(0.5f, 0.5f);
+        m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
         setAnimation(AnimationType::Idle);
     }
 }
+
