@@ -30,4 +30,6 @@ class World
 		Enemy* m_enemy{ nullptr };
 		Level* m_level{};
 		Player* m_player{ nullptr };
+
+		void handleCollisions();
 };

@@ -33,6 +33,8 @@ class Level
         const ObjectLayer* getCollisionLayer() const { return m_collisionLayer; }
         const std::vector<sf::Shape*>& getCollisionShapes() const;
 
+        bool isGrounded(const sf::FloatRect& bounds) const;
+
     private:
         tmx::Map* m_map{ nullptr };
         MapLayer* m_layerZero{ nullptr };

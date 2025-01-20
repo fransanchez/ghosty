@@ -62,3 +62,15 @@ const std::vector<sf::Shape*>& Level::getCollisionShapes() const
 {
     return m_collisionLayer->getShapes();
 }
+
+bool Level::isGrounded(const sf::FloatRect& bounds) const
+{
+    for (const auto* shape : m_collisionLayer->getShapes())
+    {
+        if (shape->getGlobalBounds().intersects(bounds))
+        {
+            return true;
+        }
+    }
+    return false;
+}

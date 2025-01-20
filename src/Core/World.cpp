@@ -71,17 +71,7 @@ void World::update(uint32_t deltaMilliseconds)
 	// Update actors
 	m_player->update(deltaMilliseconds);
 
-	// Check for collisions (We could do it in a function here or have a collision manager if it gets complex)
-	const auto& collisionShapes = m_level->getCollisionShapes();
-	for (const auto* shape : collisionShapes)
-	{
-		if (shape->getGlobalBounds().intersects(m_player->getBounds()))
-		{
-#if DEBUG_MODE
-			printf("Collision is detected");
-#endif
-		}
-	}
+	handleCollisions();
 
 }
 
@@ -90,4 +80,22 @@ void World::render(sf::RenderWindow& window)
 	m_level->render(window);
 	m_player->render(window);
 	//m_enemy->render(window);
+}
+
+
+void World::handleCollisions()
+{
+	const auto& collisionShapes = m_level->getCollisionShapes();
+	sf::FloatRect playerBounds = m_player->getBounds();
+
+	bool isGrounded = false;
+
+	if (m_level->isGrounded(playerBounds))
+	{
+		m_player->resetVerticalVelocity();
+		isGrounded = true;
+	}
+
+	m_player->setGrounded(isGrounded);
+
 }

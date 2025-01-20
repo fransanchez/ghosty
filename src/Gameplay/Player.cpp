@@ -33,8 +33,23 @@ void Player::update(float deltaMilliseconds)
 
     float deltaSeconds = deltaMilliseconds / 1000.f;
 
+    if (!m_isGrounded)
+    {
+        m_verticalVelocity += m_gravity * deltaSeconds;
+
+        const float maxFallSpeed = 1000.0f;
+        if (m_verticalVelocity > maxFallSpeed)
+        {
+            m_verticalVelocity = maxFallSpeed;
+        }
+    }
+    else
+    {
+        m_verticalVelocity = 0.0f;
+    }
+
     m_position.x += m_direction.x * m_speed.x * deltaSeconds;
-    m_position.y += m_direction.y * m_speed.y * deltaSeconds;
+    m_position.y += m_verticalVelocity * deltaSeconds;
 
     m_sprite.setPosition(m_position);
 
@@ -128,5 +143,10 @@ void Player::handleInput()
         m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
         setAnimation(AnimationType::Idle);
     }
+}
+
+void Player::resetVerticalVelocity()
+{
+    m_verticalVelocity = 0.0f;
 }
 
