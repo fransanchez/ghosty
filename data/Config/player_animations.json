@@ -34,6 +34,20 @@
             "FrameCountColumns": 7,
             "Loop": false,
             "FrameDuration": 0.1
+        },
+        "WalkAttack": {
+            "TexturePath": "../data/Images/Player/Mage/Walk_Attack/walk_attack.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 6,
+            "Loop": false,
+            "FrameDuration": 0.08
+        },
+        "RunAttack": {
+            "TexturePath": "../data/Images/Player/Mage/Run_Attack/run_attack.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 8,
+            "Loop": false,
+            "FrameDuration": 0.06
         }
     },
     "Attacks": {

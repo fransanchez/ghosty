@@ -7,16 +7,9 @@
 #include <SFML/Graphics/Texture.hpp>
 
 bool Player::init(const PlayerDescriptor& descriptor,
-    const std::unordered_map<AnimationType, Animation>& animations,
-    const std::unordered_map<AttackAnimationType, AttackAnimation>& attacks)
+    const std::unordered_map<AnimationType, Animation>& animations)
 {
     m_animations = move(animations);
-    m_attacks = move(attacks);
-
-    //if (!m_attacks.empty())
-    //{
-    //    m_currentAttack = m_attacks.begin()->second.get();
-    //}
 
     if (m_animations.count(AnimationType::Idle))
     {
@@ -66,31 +59,21 @@ void Player::update(float deltaMilliseconds)
         m_currentAnimation->update(deltaSeconds);
         m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
 
-        //if (m_isAttacking && m_currentAnimation->isFinished())
-        //{
-        //    m_isAttacking = false;
-        //}
+        if (m_isAttacking && m_currentAnimation->isFinished())
+        {
+            m_isAttacking = false;
+        }
     }
     else
     {
         printf("Error: Current animation is not set or has no frames\n");
     }
-
-    //if (m_currentAttack)
-    //{
-    //    m_currentAttack->update(deltaSeconds);
-    //}
 }
 
 void Player::render(sf::RenderWindow& window)
 {
 
     window.draw(m_sprite);
-
-    //if (m_currentAttack)
-    //{
-    //    m_currentAttack->render(window);
-    //}
 
     sf::FloatRect bounds = m_sprite.getGlobalBounds();
     sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
@@ -102,17 +85,106 @@ void Player::render(sf::RenderWindow& window)
     window.draw(debugRect);
 }
 
-void Player::setAnimation(AnimationType animationType)
+
+void Player::handleInput()
+{
+    m_direction = { 0.f, 0.f };
+
+    bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+        if (m_isGrounded)
+        {
+            m_verticalVelocity = JUMP_INITIAL_VELOCITY;
+            m_isGrounded = false;
+            setAnimation(isRunning);
+        }
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+    {   
+        m_isAttacking = true;
+        setAnimation(isRunning);
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+        m_direction.y = -1.f;
+        setAnimation(isRunning);
+
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+        m_direction.y = 1.f;
+        setAnimation(isRunning);
+    }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+    {
+        m_direction.x = -1.f;
+        m_sprite.setScale(-1.0f, 1.0f);
+        setAnimation(isRunning);
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+    {
+
+        m_direction.x = 1.f;
+        m_sprite.setScale(1.0f, 1.0f);
+        setAnimation(isRunning);
+    }
+
+    if (m_direction == sf::Vector2f(0.f, 0.f) && m_isGrounded)
+    {
+        m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
+        setAnimation(isRunning);
+    }
+}
+
+void Player::resetVerticalVelocity()
+{
+    m_verticalVelocity = 0.0f;
+}
+
+void Player::setAnimation(bool isRunning)
 {
 
-    if (m_currentAnimation && m_currentAnimation == &m_animations[animationType])
+    AnimationType desiredAnimationType = AnimationType::Idle;
+
+    // Jumping
+    if (!m_isGrounded) {
+        desiredAnimationType = AnimationType::Jump;
+    }
+    else if (m_direction == sf::Vector2f(0.f, 0.f))
+    {
+        // Idle
+        if (m_isAttacking) {
+            desiredAnimationType = AnimationType::Attack;
+        }
+        else {
+            desiredAnimationType = AnimationType::Idle;
+        }
+    }
+    else {
+        // Movement
+        if (m_isAttacking) {
+            desiredAnimationType = isRunning ? AnimationType::RunAttack : AnimationType::WalkAttack;
+        }
+        else
+        {
+            desiredAnimationType = isRunning ? AnimationType::Run : AnimationType::Walk;
+        }
+    }
+
+    // Check if it's not the same as the one desired, otherwise return
+    if (m_currentAnimation && m_currentAnimation == &m_animations[desiredAnimationType])
     {
         return;
     }
 
-    if (m_animations.count(animationType))
+    if (m_animations.count(desiredAnimationType))
     {
-        m_currentAnimation = &m_animations[animationType];
+        m_currentAnimation = &m_animations[desiredAnimationType];
         if (m_currentAnimation->getFrames().empty())
         {
             printf("Animation has no frames\n");
@@ -122,7 +194,6 @@ void Player::setAnimation(AnimationType animationType)
         {
             m_currentAnimation->reset();
         }
-        //m_isAttacking = (animationType == AnimationType::Attack);
     }
     else
     {
@@ -130,85 +201,3 @@ void Player::setAnimation(AnimationType animationType)
         m_currentAnimation = nullptr;
     }
 }
-
-void Player::handleInput()
-{
-    //if (m_isAttacking)
-    //{
-    //    return;
-    //}
-
-    m_direction = { 0.f, 0.f };
-
-    bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && m_currentAttack)
-    {
-        setAnimation(AnimationType::Attack);
-
-        //m_currentAttack->activate(
-        //    m_sprite.getPosition(),
-        //    m_sprite.getScale().x > 0.f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f)
-        //);
-        return;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        m_direction.y = -1.f;
-        if (m_isGrounded)
-        {
-            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
-        m_direction.y = 1.f;
-        if (m_isGrounded)
-        {
-            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
-        }
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        m_direction.x = -1.f;
-        m_sprite.setScale(-1.0f, 1.0f);
-        if (m_isGrounded)
-        {
-            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
-        }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
-
-        m_direction.x = 1.f;
-        m_sprite.setScale(1.0f, 1.0f);
-        if (m_isGrounded)
-        {
-            setAnimation(isRunning ? AnimationType::Run : AnimationType::Walk);
-        }
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        if (m_isGrounded)
-        {
-            m_verticalVelocity = JUMP_INITIAL_VELOCITY;
-            m_isGrounded = false;
-            setAnimation(AnimationType::Jump);
-        }
-    }
-
-    if (m_direction == sf::Vector2f(0.f, 0.f) && m_isGrounded)
-    {
-        m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
-        setAnimation(AnimationType::Idle);
-    }
-}
-
-void Player::resetVerticalVelocity()
-{
-    m_verticalVelocity = 0.0f;
-}
-

@@ -8,6 +8,8 @@ enum class AnimationType
     Run,
     Jump,
     Attack,
+    WalkAttack,
+    RunAttack,
     Hurt,
     Die
 };
@@ -19,6 +21,8 @@ inline AnimationType parseAnimationType(const std::string& key)
     if (key == "Run") return AnimationType::Run;
     if (key == "Jump") return AnimationType::Jump;
     if (key == "Attack") return AnimationType::Attack;
+    if (key == "WalkAttack") return AnimationType::WalkAttack;
+    if (key == "RunAttack") return AnimationType::RunAttack;
     if (key == "Hurt") return AnimationType::Hurt;
     if (key == "Die") return AnimationType::Die;
     return AnimationType::None;
