@@ -1,5 +1,28 @@
 #include <Render/Animation.h>
 
+
+Animation::Animation(const Animation& baseAnimation)
+{
+    // Copy from the BaseAnimation
+    m_frames = baseAnimation.m_frames;
+    m_frameDuration = baseAnimation.m_frameDuration;
+    m_loop = baseAnimation.m_loop;
+
+    // Reset Animation
+    reset();
+}
+
+void Animation::render(sf::RenderWindow& window, const sf::Vector2f& position) const
+{
+    if (const auto* frame = getCurrentFrame())
+    {
+        sf::Sprite sprite;
+        sprite.setTexture(*frame);
+        sprite.setPosition(position);
+        window.draw(sprite);
+    }
+}
+
 void Animation::addFrame(const sf::Texture* texture)
 {
     m_frames.push_back(texture);

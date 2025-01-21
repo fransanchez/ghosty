@@ -1,8 +1,6 @@
 #pragma once
 
-#include <Gameplay/Attack.h>
 #include <Gameplay/GameObject.h>
-#include <Gameplay/ProjectileAttack.h>
 #include <memory>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
@@ -11,6 +9,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <string>
 #include <unordered_map>
+
+class Attack;
 
 class Player : public GameObject
 {
@@ -24,7 +24,8 @@ class Player : public GameObject
         ~Player() override = default;
 
         bool init(const PlayerDescriptor& descriptor,
-            const std::unordered_map<AnimationType, Animation>& animations);
+            const std::unordered_map<AnimationType, Animation>& animations,
+            std::vector<std::unique_ptr<Attack>> attacks);
 
         void setAnimation(bool isRunning);
 
@@ -39,6 +40,8 @@ class Player : public GameObject
 
     private:
         const float JUMP_INITIAL_VELOCITY = -500.0f;
+
+        std::vector<std::unique_ptr<Attack>> m_attacks;
 
         sf::Sprite m_sprite;
         sf::Vector2f m_direction{ .0f, .0f };

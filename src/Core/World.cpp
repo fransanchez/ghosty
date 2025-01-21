@@ -36,7 +36,7 @@ bool World::load()
 	//}
 
 
-	m_player = PlayerFactory::createPlayer("../data/Config/player_animations.json", { 100.f, 100.f }, { 200.f, 150.f });
+	m_player = PlayerFactory::createPlayer("../data/Config/player_config_mage.json", { 100.f, 100.f }, { 200.f, 150.f });
 	if (!m_player)
 	{
 		return false;

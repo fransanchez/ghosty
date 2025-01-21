@@ -1,11 +1,19 @@
 #pragma once
 
 #include <vector>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
 class Animation
 {
 public:
+
+    Animation() = default;
+    Animation(const Animation& baseAnimation);
+
+    void render(sf::RenderWindow& window, const sf::Vector2f& position) const;
+
     void addFrame(const sf::Texture* texture);
     const sf::Texture* getCurrentFrame() const;
 
@@ -23,7 +31,6 @@ public:
     {
         return m_frameDuration;
     }
-
 
 private:
     std::vector<const sf::Texture*> m_frames;

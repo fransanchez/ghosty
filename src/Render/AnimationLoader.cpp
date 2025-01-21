@@ -1,6 +1,5 @@
 #include <Render/AnimationLoader.h>
 #include <Core/AssetManager.h>
-#include <nlohmann/json.hpp>
 #include <fstream>
 #include <stdexcept>
 
@@ -34,42 +33,15 @@ std::unordered_map<AnimationType, Animation> AnimationLoader::LoadPlayerAnimatio
     return animations;
 }
 
-std::unordered_map<AttackAnimationType, AttackAnimation> AnimationLoader::LoadAttackAnimations(const std::string& configFile)
+Animation AnimationLoader::LoadSingleAttackAnimation(const nlohmann::json& animationData)
 {
-    std::ifstream file(configFile);
-    if (!file.is_open())
-    {
-        throw std::runtime_error("Failed to open configuration file: " + configFile);
-    }
-
-    json config;
-    file >> config;
-
-    std::unordered_map<AttackAnimationType, AttackAnimation> attackAnimations;
-
-    if (config.contains("Attacks"))
-    {
-        for (const auto& [attackName, attackData] : config["Attacks"].items())
-        {
-            Animation baseAnimation = LoadAnimation(
-                attackData["TexturePath"].get<std::string>(),
-                attackData["FrameCountRows"].get<int>(),
-                attackData["FrameCountColumns"].get<int>(),
-                attackData.contains("FrameDuration") ? attackData["FrameDuration"].get<float>() : 0.1f,
-                attackData.contains("Loop") ? attackData["Loop"].get<bool>() : true
-            );
-
-            float effectTriggerTime = attackData.contains("EffectTriggerTime")
-                ? attackData["EffectTriggerTime"].get<float>()
-                : 0.0f;
-
-            AttackAnimation attackAnimation(baseAnimation, effectTriggerTime);
-            AttackAnimationType type = parseAttackAnimationType(attackName);
-            attackAnimations[type] = std::move(attackAnimation);
-        }
-    }
-
-    return attackAnimations;
+    return LoadAnimation(
+        animationData["TexturePath"].get<std::string>(),
+        animationData["FrameCountRows"].get<int>(),
+        animationData["FrameCountColumns"].get<int>(),
+        animationData.contains("FrameDuration") ? animationData["FrameDuration"].get<float>() : 0.1f,
+        animationData.contains("Loop") ? animationData["Loop"].get<bool>() : true
+    );
 }
 
 Animation AnimationLoader::LoadAnimation(const std::string& texturePath, int frameRows, int frameColumns, float frameDuration, bool loop)

@@ -51,14 +51,50 @@
         }
     },
     "Attacks": {
-        "FireProjectile": {
-            "TexturePath": "../data/Images/Player/Mage/Fire/fire.png",
-            "FrameCountRows": 1,
-            "FrameCountColumns": 9,
-            "Loop": false,
-            "FrameDuration": 0.05,
+        "Darkball": {
+            "Damage": 15.0,
+            "Lifetime": 2.0,
             "Speed": 500.0,
-            "Lifetime": 2.0
+            "FireRate": 3,
+            "Animation": {
+                "DarkProjectile": {
+                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",
+                    "FrameCountRows": 1,
+                    "FrameCountColumns": 9,
+                    "Loop": true,
+                    "FrameDuration": 0.05
+                }
+            }
+        },
+        "Fireball": {
+            "Damage": 15.0,
+            "Lifetime": 2.0,
+            "Speed": 500.0,
+            "FireRate": 3,
+            "Animation": {
+                "FireProjectile": {
+                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/fire.png",
+                    "FrameCountRows": 1,
+                    "FrameCountColumns": 9,
+                    "Loop": true,
+                    "FrameDuration": 0.05
+                }
+            }
+        },
+        "IceSpike": {
+            "Damage": 15.0,
+            "Lifetime": 1.0,
+            "Speed": 500.0,
+            "FireRate": 3,
+            "Animation": {
+                "IceProjectile": {
+                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/ice.png",
+                    "FrameCountRows": 1,
+                    "FrameCountColumns": 13,
+                    "Loop": false,
+                    "FrameDuration": 0.05
+                }
+            }
         }
     }
 }

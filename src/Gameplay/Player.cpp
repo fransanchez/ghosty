@@ -1,5 +1,5 @@
 #include <Gameplay/Player.h>
-#include <Gameplay/ProjectileAttack.h>
+#include <Gameplay/Attack.h>
 #include <Render/AnimationType.h>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -7,9 +7,11 @@
 #include <SFML/Graphics/Texture.hpp>
 
 bool Player::init(const PlayerDescriptor& descriptor,
-    const std::unordered_map<AnimationType, Animation>& animations)
+    const std::unordered_map<AnimationType, Animation>& animations,
+    std::vector<std::unique_ptr<Attack>> attacks)
 {
     m_animations = move(animations);
+    m_attacks = std::move(attacks);
 
     if (m_animations.count(AnimationType::Idle))
     {
@@ -68,12 +70,22 @@ void Player::update(float deltaMilliseconds)
     {
         printf("Error: Current animation is not set or has no frames\n");
     }
+
+    for (auto& attack : m_attacks)
+    {
+        attack->update(deltaSeconds);
+    }
 }
 
 void Player::render(sf::RenderWindow& window)
 {
 
     window.draw(m_sprite);
+
+    for (auto& attack : m_attacks)
+    {
+        attack->render(window);
+    }
 
     sf::FloatRect bounds = m_sprite.getGlobalBounds();
     sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
@@ -106,6 +118,13 @@ void Player::handleInput()
     {   
         m_isAttacking = true;
         setAnimation(isRunning);
+
+        // Use the weapon to attack
+        if (!m_attacks.empty())
+        {
+            sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
+            m_attacks[2]->attack(m_sprite.getPosition(), attackDirection); // To-Do: First attack for now
+        }
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
