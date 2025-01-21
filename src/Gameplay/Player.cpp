@@ -104,6 +104,8 @@ void Player::handleInput()
 
     bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
+    float horizontalVelocity = isRunning ? RUN_VELOCITY : WALK_VELOCITY;
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         if (m_isGrounded)
@@ -139,26 +141,26 @@ void Player::handleInput()
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        m_direction.y = -1.f;
-        setAnimation(isRunning);
+        //m_direction.y = -1.f * horizontalVelocity;
+        //setAnimation(isRunning);
 
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        m_direction.y = 1.f;
-        setAnimation(isRunning);
+        //m_direction.y = 1.f * horizontalVelocity;
+        //setAnimation(isRunning);
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        m_direction.x = -1.f;
+        m_direction.x = -1.f * horizontalVelocity;
         m_sprite.setScale(-1.0f, 1.0f);
         setAnimation(isRunning);
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
 
-        m_direction.x = 1.f;
+        m_direction.x = 1.f * horizontalVelocity;
         m_sprite.setScale(1.0f, 1.0f);
         setAnimation(isRunning);
     }
