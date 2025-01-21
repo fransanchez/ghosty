@@ -1,13 +1,22 @@
 #include <Gameplay/Player.h>
+#include <Gameplay/ProjectileAttack.h>
 #include <Render/AnimationType.h>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-bool Player::init(const PlayerDescriptor& descriptor, const std::unordered_map<AnimationType, Animation>& animations)
+bool Player::init(const PlayerDescriptor& descriptor,
+    const std::unordered_map<AnimationType, Animation>& animations,
+    std::unordered_map<std::string, std::unique_ptr<Attack>> attacks)
 {
     m_animations = animations;
+    m_attacks = std::move(attacks);
+
+    if (!m_attacks.empty())
+    {
+        m_currentAttack = m_attacks.begin()->second.get();
+    }
 
     if (m_animations.count(AnimationType::Idle))
     {
@@ -56,17 +65,32 @@ void Player::update(float deltaMilliseconds)
     {
         m_currentAnimation->update(deltaSeconds);
         m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
+
+        if (m_isAttacking && m_currentAnimation->isFinished())
+        {
+            m_isAttacking = false;
+        }
     }
     else
     {
         printf("Error: Current animation is not set or has no frames\n");
     }
+
+    if (m_currentAttack)
+    {
+        m_currentAttack->update(deltaSeconds);
+    }
 }
 
 void Player::render(sf::RenderWindow& window)
 {
+
     window.draw(m_sprite);
 
+    if (m_currentAttack)
+    {
+        m_currentAttack->render(window);
+    }
 
     sf::FloatRect bounds = m_sprite.getGlobalBounds();
     sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
@@ -98,6 +122,7 @@ void Player::setAnimation(AnimationType animationType)
         {
             m_currentAnimation->reset();
         }
+        m_isAttacking = (animationType == AnimationType::Attack);
     }
     else
     {
@@ -108,10 +133,25 @@ void Player::setAnimation(AnimationType animationType)
 
 void Player::handleInput()
 {
+    if (m_isAttacking)
+    {
+        return;
+    }
+
     m_direction = { 0.f, 0.f };
 
     bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && m_currentAttack)
+    {
+        setAnimation(AnimationType::Attack);
+
+        m_currentAttack->activate(
+            m_sprite.getPosition(),
+            m_sprite.getScale().x > 0.f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f)
+        );
+        return;
+    }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {

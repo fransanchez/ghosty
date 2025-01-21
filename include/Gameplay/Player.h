@@ -1,13 +1,16 @@
 #pragma once
 
+#include <Gameplay/Attack.h>
 #include <Gameplay/GameObject.h>
+#include <Gameplay/ProjectileAttack.h>
+#include <memory>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 
 class Player : public GameObject
 {
@@ -20,7 +23,9 @@ public:
 
     ~Player() override = default;
 
-    bool init(const PlayerDescriptor& descriptor, const std::unordered_map<AnimationType, Animation>& animations);
+    bool init(const PlayerDescriptor& descriptor,
+        const std::unordered_map<AnimationType, Animation>& animations,
+        std::unordered_map<std::string, std::unique_ptr<Attack>> attacks);
 
     void setAnimation(AnimationType animationType);
 
@@ -30,12 +35,11 @@ public:
     void setGrounded(bool grounded) { m_isGrounded = grounded; }
     bool isGrounded() const { return m_isGrounded; }
 
-
     void update(float deltaMilliseconds) override;
     void render(sf::RenderWindow& window) override;
 
 private:
-    const float JUMP_INITIAL_VELOCITY = -250.0f;
+    const float JUMP_INITIAL_VELOCITY = -500.0f;
 
     sf::Sprite m_sprite;
     sf::Vector2f m_direction{ .0f, .0f };
@@ -45,8 +49,12 @@ private:
     std::unordered_map<AnimationType, Animation> m_animations;
     Animation* m_currentAnimation{ nullptr };
 
-    float m_gravity{ 500.0f };
+    float m_gravity{ 981.0f };
     float m_verticalVelocity{ 0.0f };
+
+    std::unordered_map<std::string, std::unique_ptr<Attack>> m_attacks;
+    Attack* m_currentAttack{ nullptr };
+    bool m_isAttacking{ false };
 
     void handleInput();
     void updateAnimation();

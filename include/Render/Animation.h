@@ -13,6 +13,7 @@ public:
     void setFrameDuration(float duration);
     void setLoop(bool loop);
     void reset();
+    bool isFinished() const;
 
     const std::vector<const sf::Texture*>& getFrames() const
     {

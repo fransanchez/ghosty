@@ -10,73 +10,12 @@ using json = nlohmann::json;
 
 Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vector2f& position, const sf::Vector2f& speed)
 {
-    // Json config
-    std::ifstream configFile(configPath);
-    if (!configFile.is_open())
+    PlayerAssets assets = loadPlayerAssets(configPath);
+
+    if (assets.animations.empty())
     {
-        printf("Error: Could not open config file %s\n", configPath.c_str());
+        printf("Error: No animations loaded for player.\n");
         return nullptr;
-    }
-
-    json animationConfig;
-    configFile >> animationConfig;
-
-    std::unordered_map<AnimationType, Animation> animations;
-
-    for (const auto& [key, animationData] : animationConfig["Animations"].items())
-    {
-        AnimationType animType;
-        if (key == "Idle") animType = AnimationType::Idle;
-        else if (key == "Walk") animType = AnimationType::Walk;
-        else if (key == "Run") animType = AnimationType::Run;
-        else if (key == "Jump") animType = AnimationType::Jump;
-        else
-            continue;
-
-        const std::string& texturePath = animationData["TexturePath"].get<std::string>();
-        int frameRows = animationData["FrameCountRows"].get<int>();
-        int frameColumns = animationData["FrameCountColumns"].get<int>();
-
-        sf::Texture* texture = AssetManager::getInstance()->loadTexture(texturePath.c_str());
-        if (!texture)
-        {
-            printf("Error: Could not load texture %s\n", texturePath.c_str());
-            continue;
-        }
-
-        // Break down the tilesheets and load each animation on a frame
-        int textureWidth = texture->getSize().x;
-        int textureHeight = texture->getSize().y;
-        int frameWidth = textureWidth / frameColumns;
-        int frameHeight = textureHeight / frameRows;
-
-        Animation animation;
-        for (int row = 0; row < frameRows; ++row)
-        {
-            for (int col = 0; col < frameColumns; ++col)
-            {
-                sf::Texture* frameTexture = new sf::Texture();
-                if (frameTexture->loadFromImage(
-                    texture->copyToImage(),
-                    sf::IntRect(col * frameWidth, row * frameHeight, frameWidth, frameHeight)))
-                {
-                    animation.addFrame(frameTexture);
-                }
-                else
-                {
-                    delete frameTexture;
-                    printf("Error: Could not extract frame (%d, %d) from %s\n", row, col, texturePath.c_str());
-                }
-            }
-        }
-
-        float frameDuration = animationConfig["FrameDuration"].contains(key)
-            ? animationConfig["FrameDuration"][key].get<float>()
-            : 0.1f;
-        animation.setFrameDuration(frameDuration);
-        bool loop = animationData.contains("Loop") ? animationData["Loop"].get<bool>() : true;
-        animation.setLoop(loop);
-        animations[animType] = animation;
     }
 
     Player::PlayerDescriptor descriptor;
@@ -84,12 +23,91 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
     descriptor.speed = speed;
 
     Player* player = new Player();
-    if (!player->init(descriptor, animations))
+    if (!player->init(descriptor, assets.animations, std::move(assets.attacks)))
     {
-        printf("Error: Could not initialize player\n");
+        printf("Error: Could not initialize player.\n");
         delete player;
         return nullptr;
     }
 
     return player;
+}
+
+PlayerAssets PlayerFactory::loadPlayerAssets(const std::string& configPath)
+{
+    // Leer archivo JSON
+    std::ifstream configFile(configPath);
+    if (!configFile.is_open())
+    {
+        printf("Error: Could not open config file %s\n", configPath.c_str());
+        return {};
+    }
+
+    json config;
+    configFile >> config;
+
+    std::unordered_map<AnimationType, Animation> animations;
+    std::unordered_map<std::string, std::unique_ptr<Attack>> attacks;
+
+    for (const auto& [key, animationData] : config["Animations"].items())
+    {
+        AnimationType animType = parseAnimationType(key);
+        animations[animType] = loadAnimation(animationData);
+    }
+
+    if (config.contains("Attacks"))
+    {
+        for (const auto& [attackName, attackData] : config["Attacks"].items())
+        {
+            Animation attackAnimation = loadAnimation(attackData);
+            float speed = attackData.contains("Speed") ? attackData["Speed"].get<float>() : 500.0f;
+            float lifetime = attackData.contains("Lifetime") ? attackData["Lifetime"].get<float>() : 2.0f;
+            attacks[attackName] = std::make_unique<ProjectileAttack>(attackAnimation, speed, lifetime);
+        }
+    }
+
+    return { animations, std::move(attacks) };
+}
+
+Animation PlayerFactory::loadAnimation(const nlohmann::json& data)
+{
+    const std::string& texturePath = data["TexturePath"].get<std::string>();
+    int frameRows = data["FrameCountRows"].get<int>();
+    int frameColumns = data["FrameCountColumns"].get<int>();
+    float frameDuration = data.contains("FrameDuration") ? data["FrameDuration"].get<float>() : 0.1f;
+    bool loop = data.contains("Loop") ? data["Loop"].get<bool>() : true;
+
+    sf::Texture* texture = AssetManager::getInstance()->loadTexture(texturePath.c_str());
+    if (!texture)
+    {
+        printf("Error: Could not load texture %s\n", texturePath.c_str());
+        return {};
+    }
+
+    int frameWidth = texture->getSize().x / frameColumns;
+    int frameHeight = texture->getSize().y / frameRows;
+
+    Animation animation;
+    for (int row = 0; row < frameRows; ++row)
+    {
+        for (int col = 0; col < frameColumns; ++col)
+        {
+            sf::Texture* frameTexture = new sf::Texture();
+            if (frameTexture->loadFromImage(
+                texture->copyToImage(),
+                sf::IntRect(col * frameWidth, row * frameHeight, frameWidth, frameHeight)))
+            {
+                animation.addFrame(frameTexture);
+            }
+            else
+            {
+                delete frameTexture;
+                printf("Error: Could not extract frame (%d, %d) from %s\n", row, col, texturePath.c_str());
+            }
+        }
+    }
+
+    animation.setFrameDuration(frameDuration);
+    animation.setLoop(loop);
+    return animation;
 }

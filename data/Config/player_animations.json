@@ -23,12 +23,27 @@
             "FrameCountRows": 1,
             "FrameCountColumns": 10,
             "Loop": false
+        },
+        "Attack": {
+            "TexturePath": "../data/Images/Player/Mage/Attack/attack.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 7,
+            "Loop": false
+        }
+    },
+    "Attacks": {
+        "FireProjectile": {
+            "TexturePath": "../data/Images/Player/Mage/Fire/fire.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 9,
+            "FrameDuration": 0.05
         }
     },
     "FrameDuration": {
-        "Idle": 0.15,
+        "Idle": 0.2,
         "Walk": 0.1,
         "Run": 0.08,
-        "Jump": 0.10
+        "Jump": 0.10,
+        "Attack": 0.1
     }
 }

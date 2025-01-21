@@ -50,3 +50,7 @@ void Animation::reset()
     m_elapsedTime = 0.f;
 }
 
+bool Animation::isFinished() const
+{
+    return !m_loop && m_currentFrame == m_frames.size() - 1;
+}

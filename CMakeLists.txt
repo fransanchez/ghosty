@@ -37,11 +37,13 @@ set(PROJECT_HEADERS
     include/Core/World.h
     include/Core/Level.h
 
+    include/Gameplay/Attack.h
     include/Gameplay/Enemy.h
     include/Gameplay/GameObject.h
     include/Gameplay/Zombie.h
     include/Gameplay/Player.h
     include/Gameplay/PlayerFactory.h
+    include/Gameplay/ProjectileAttack.h
 
     include/Render/SFMLOrthogonalLayer.h
     include/Render/Animation.h
@@ -61,6 +63,7 @@ set(PROJECT_SOURCES
     src/Gameplay/Zombie.cpp
     src/Gameplay/Player.cpp
     src/Gameplay/PlayerFactory.cpp
+    src/Gameplay/ProjectileAttack.cpp
 
 
     src/Render/Animation.cpp
