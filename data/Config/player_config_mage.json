@@ -33,7 +33,7 @@
             "FrameCountRows": 1,
             "FrameCountColumns": 7,
             "Loop": false,
-            "FrameDuration": 0.1
+            "FrameDuration": 0.07
         },
         "WalkAttack": {
             "TexturePath": "../data/Images/Player/Mage/Walk_Attack/walk_attack.png",
@@ -55,7 +55,7 @@
             "Damage": 15.0,
             "Lifetime": 2.0,
             "Speed": 500.0,
-            "FireRate": 2,
+            "FireRate": 2.5,
             "Animation": {
                 "DarkProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",
@@ -70,7 +70,7 @@
             "Damage": 15.0,
             "Lifetime": 2.0,
             "Speed": 500.0,
-            "FireRate": 2,
+            "FireRate": 2.5,
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/fire.png",
@@ -85,7 +85,7 @@
             "Damage": 15.0,
             "Lifetime": 1.0,
             "Speed": 500.0,
-            "FireRate": 2,
+            "FireRate": 2.5,
             "Animation": {
                 "IceProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/ice.png",

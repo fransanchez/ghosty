@@ -55,3 +55,7 @@ void RangedAttack::render(sf::RenderWindow& window)
         projectile.animation.render(window, projectile.position);
     }
 }
+
+bool RangedAttack::canAttack() {
+    return m_cooldownTimer <= 0.0f;
+}

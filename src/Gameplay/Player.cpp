@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Texture.hpp>
 
 bool Player::init(const PlayerDescriptor& descriptor,
-    const std::unordered_map<AnimationType, Animation>& animations,
+    std::unordered_map<AnimationType, Animation>& animations,
     std::vector<std::unique_ptr<Attack>> attacks)
 {
     m_animations = move(animations);
@@ -118,17 +118,18 @@ void Player::handleInput()
     {
         if (!m_attackKeyPressed) {
             m_attackKeyPressed = true;
-            m_isAttacking = true;
+            
 
             // Use the weapon to attack
-            if (!m_attacks.empty())
+            if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
             {
+                m_isAttacking = true;
                 sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
                 sf::Vector2f attackPosition = m_sprite.getPosition();
                 // Setting the projectile at 2/3 from the top to align with the wand
                 attackPosition.y += m_sprite.getOrigin().y - (m_sprite.getGlobalBounds().height * (2.f / 3.f));
 
-                m_attacks[1]->attack(attackPosition, attackDirection); // To-Do: First attack for now
+                m_attacks[m_currentAttackIndex]->attack(attackPosition, attackDirection); // To-Do: First attack for now
             }
         }
     }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Utils/Constants.h>
 #include <Gameplay/GameObject.h>
 #include <memory>
 #include <Render/Animation.h>
@@ -24,7 +25,7 @@ class Player : public GameObject
         ~Player() override = default;
 
         bool init(const PlayerDescriptor& descriptor,
-            const std::unordered_map<AnimationType, Animation>& animations,
+            std::unordered_map<AnimationType, Animation>& animations,
             std::vector<std::unique_ptr<Attack>> attacks);
 
         void setAnimation(bool isRunning);
@@ -39,7 +40,6 @@ class Player : public GameObject
         void render(sf::RenderWindow& window) override;
 
     private:
-        const float JUMP_INITIAL_VELOCITY = -500.0f;
 
         std::vector<std::unique_ptr<Attack>> m_attacks;
 
@@ -50,6 +50,8 @@ class Player : public GameObject
 
         std::unordered_map<AnimationType, Animation> m_animations;
         Animation* m_currentAnimation{ nullptr };
+
+        int m_currentAttackIndex{ 0 };
 
         float m_gravity{ 981.0f };
         float m_verticalVelocity{ 0.0f };
