@@ -55,6 +55,7 @@ class Player : public GameObject
         float m_verticalVelocity{ 0.0f };
 
         bool m_isAttacking{ false };
+        bool m_attackKeyPressed{ false };
 
         void handleInput();
         void updateAnimation();

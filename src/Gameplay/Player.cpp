@@ -115,16 +115,25 @@ void Player::handleInput()
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-    {   
-        m_isAttacking = true;
-        setAnimation(isRunning);
+    {
+        if (!m_attackKeyPressed) {
+            m_attackKeyPressed = true;
+            m_isAttacking = true;
 
-        // Use the weapon to attack
-        if (!m_attacks.empty())
-        {
-            sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
-            m_attacks[2]->attack(m_sprite.getPosition(), attackDirection); // To-Do: First attack for now
+            // Use the weapon to attack
+            if (!m_attacks.empty())
+            {
+                sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
+                sf::Vector2f attackPosition = m_sprite.getPosition();
+                // Setting the projectile at 2/3 from the top to align with the wand
+                attackPosition.y += m_sprite.getOrigin().y - (m_sprite.getGlobalBounds().height * (2.f / 3.f));
+
+                m_attacks[1]->attack(attackPosition, attackDirection); // To-Do: First attack for now
+            }
         }
+    }
+    else {
+        m_attackKeyPressed = false;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
