@@ -8,15 +8,15 @@
 
 bool Player::init(const PlayerDescriptor& descriptor,
     const std::unordered_map<AnimationType, Animation>& animations,
-    std::unordered_map<std::string, std::unique_ptr<Attack>> attacks)
+    const std::unordered_map<AttackAnimationType, AttackAnimation>& attacks)
 {
-    m_animations = animations;
-    m_attacks = std::move(attacks);
+    m_animations = move(animations);
+    m_attacks = move(attacks);
 
-    if (!m_attacks.empty())
-    {
-        m_currentAttack = m_attacks.begin()->second.get();
-    }
+    //if (!m_attacks.empty())
+    //{
+    //    m_currentAttack = m_attacks.begin()->second.get();
+    //}
 
     if (m_animations.count(AnimationType::Idle))
     {
@@ -66,20 +66,20 @@ void Player::update(float deltaMilliseconds)
         m_currentAnimation->update(deltaSeconds);
         m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
 
-        if (m_isAttacking && m_currentAnimation->isFinished())
-        {
-            m_isAttacking = false;
-        }
+        //if (m_isAttacking && m_currentAnimation->isFinished())
+        //{
+        //    m_isAttacking = false;
+        //}
     }
     else
     {
         printf("Error: Current animation is not set or has no frames\n");
     }
 
-    if (m_currentAttack)
-    {
-        m_currentAttack->update(deltaSeconds);
-    }
+    //if (m_currentAttack)
+    //{
+    //    m_currentAttack->update(deltaSeconds);
+    //}
 }
 
 void Player::render(sf::RenderWindow& window)
@@ -87,10 +87,10 @@ void Player::render(sf::RenderWindow& window)
 
     window.draw(m_sprite);
 
-    if (m_currentAttack)
-    {
-        m_currentAttack->render(window);
-    }
+    //if (m_currentAttack)
+    //{
+    //    m_currentAttack->render(window);
+    //}
 
     sf::FloatRect bounds = m_sprite.getGlobalBounds();
     sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
@@ -122,7 +122,7 @@ void Player::setAnimation(AnimationType animationType)
         {
             m_currentAnimation->reset();
         }
-        m_isAttacking = (animationType == AnimationType::Attack);
+        //m_isAttacking = (animationType == AnimationType::Attack);
     }
     else
     {
@@ -133,10 +133,10 @@ void Player::setAnimation(AnimationType animationType)
 
 void Player::handleInput()
 {
-    if (m_isAttacking)
-    {
-        return;
-    }
+    //if (m_isAttacking)
+    //{
+    //    return;
+    //}
 
     m_direction = { 0.f, 0.f };
 
@@ -146,10 +146,10 @@ void Player::handleInput()
     {
         setAnimation(AnimationType::Attack);
 
-        m_currentAttack->activate(
-            m_sprite.getPosition(),
-            m_sprite.getScale().x > 0.f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f)
-        );
+        //m_currentAttack->activate(
+        //    m_sprite.getPosition(),
+        //    m_sprite.getScale().x > 0.f ? sf::Vector2f(1.0f, 0.0f) : sf::Vector2f(-1.0f, 0.0f)
+        //);
         return;
     }
 

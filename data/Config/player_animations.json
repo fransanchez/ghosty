@@ -4,31 +4,36 @@
             "TexturePath": "../data/Images/Player/Mage/Idle/idle.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 14,
-            "Loop": true
+            "Loop": true,
+            "FrameDuration": 0.2
         },
         "Walk": {
             "TexturePath": "../data/Images/Player/Mage/Walk/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 6,
-            "Loop": true
+            "Loop": true,
+            "FrameDuration": 0.1
         },
         "Run": {
             "TexturePath": "../data/Images/Player/Mage/Run/run.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 8,
-            "Loop": true
+            "Loop": true,
+            "FrameDuration": 0.08
         },
         "Jump": {
             "TexturePath": "../data/Images/Player/Mage/High_jump/high_jump2.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 10,
-            "Loop": false
+            "Loop": false,
+            "FrameDuration": 0.1
         },
         "Attack": {
             "TexturePath": "../data/Images/Player/Mage/Attack/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 7,
-            "Loop": false
+            "Loop": false,
+            "FrameDuration": 0.1
         }
     },
     "Attacks": {
@@ -36,14 +41,10 @@
             "TexturePath": "../data/Images/Player/Mage/Fire/fire.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 9,
-            "FrameDuration": 0.05
+            "Loop": false,
+            "FrameDuration": 0.05,
+            "Speed": 500.0,
+            "Lifetime": 2.0
         }
-    },
-    "FrameDuration": {
-        "Idle": 0.2,
-        "Walk": 0.1,
-        "Run": 0.08,
-        "Jump": 0.10,
-        "Attack": 0.1
     }
 }

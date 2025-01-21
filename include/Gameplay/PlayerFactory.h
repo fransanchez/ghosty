@@ -7,7 +7,7 @@
 
 struct PlayerAssets {
     std::unordered_map<AnimationType, Animation> animations;
-    std::unordered_map<std::string, std::unique_ptr<Attack>> attacks;
+    std::unordered_map<AttackAnimationType, AttackAnimation> attacks;
 };
 
 class PlayerFactory
@@ -17,5 +17,4 @@ class PlayerFactory
 
     private:
         static PlayerAssets loadPlayerAssets(const std::string& configPath);
-        static Animation loadAnimation(const nlohmann::json& data);
 };

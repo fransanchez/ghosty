@@ -45,9 +45,12 @@ set(PROJECT_HEADERS
     include/Gameplay/PlayerFactory.h
     include/Gameplay/ProjectileAttack.h
 
-    include/Render/SFMLOrthogonalLayer.h
     include/Render/Animation.h
+    include/Render/AnimationLoader.h
     include/Render/AnimationType.h
+    include/Render/AttackAnimation.h
+    include/Render/AttackAnimationType.h
+    include/Render/SFMLOrthogonalLayer.h
 
     include/UI/UIScreenMainMenu.h
 )
@@ -67,6 +70,10 @@ set(PROJECT_SOURCES
 
 
     src/Render/Animation.cpp
+    src/Render/AnimationLoader.cpp
+    src/Render/AttackAnimation.cpp
+
+
 
     src/main.cpp
 )

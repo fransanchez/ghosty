@@ -6,6 +6,8 @@
 #include <memory>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
+#include <Render/AttackAnimation.h>
+#include <Render/AttackAnimationType.h>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -25,7 +27,7 @@ public:
 
     bool init(const PlayerDescriptor& descriptor,
         const std::unordered_map<AnimationType, Animation>& animations,
-        std::unordered_map<std::string, std::unique_ptr<Attack>> attacks);
+        const std::unordered_map<AttackAnimationType, AttackAnimation>& attacks);
 
     void setAnimation(AnimationType animationType);
 
@@ -52,7 +54,7 @@ private:
     float m_gravity{ 981.0f };
     float m_verticalVelocity{ 0.0f };
 
-    std::unordered_map<std::string, std::unique_ptr<Attack>> m_attacks;
+    std::unordered_map<AttackAnimationType, AttackAnimation> m_attacks;
     Attack* m_currentAttack{ nullptr };
     bool m_isAttacking{ false };
 
