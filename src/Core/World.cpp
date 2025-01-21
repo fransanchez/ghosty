@@ -92,10 +92,9 @@ void World::handleCollisions()
 
 	if (m_level->isGrounded(playerBounds))
 	{
-		m_player->resetVerticalVelocity();
 		isGrounded = true;
 	}
-
 	m_player->setGrounded(isGrounded);
 
 }
+

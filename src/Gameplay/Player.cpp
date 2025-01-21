@@ -6,6 +6,12 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+Player::~Player() {
+    m_attacks.clear();
+    m_animations.clear();
+    m_currentAnimation = nullptr;
+}
+
 bool Player::init(const PlayerDescriptor& descriptor,
     std::unordered_map<AnimationType, Animation>& animations,
     std::vector<std::unique_ptr<Attack>> attacks)
@@ -172,9 +178,13 @@ void Player::handleInput()
     }
 }
 
-void Player::resetVerticalVelocity()
-{
-    m_verticalVelocity = 0.0f;
+void Player::setGrounded(bool grounded) {
+
+    m_isGrounded = grounded;
+    if (grounded)
+    {
+        m_verticalVelocity = 0.0f;
+    }
 }
 
 void Player::setAnimation(bool isRunning)

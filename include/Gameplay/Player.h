@@ -22,7 +22,7 @@ class Player : public GameObject
             sf::Vector2f speed{ .0f, .0f };
         };
 
-        ~Player() override = default;
+        ~Player() override;
 
         bool init(const PlayerDescriptor& descriptor,
             std::unordered_map<AnimationType, Animation>& animations,
@@ -30,10 +30,8 @@ class Player : public GameObject
 
         void setAnimation(bool isRunning);
 
-        void resetVerticalVelocity();
-
         sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
-        void setGrounded(bool grounded) { m_isGrounded = grounded; }
+        void setGrounded(bool grounded);
         bool isGrounded() const { return m_isGrounded; }
 
         void update(float deltaMilliseconds) override;
@@ -53,7 +51,7 @@ class Player : public GameObject
 
         int m_currentAttackIndex{ 0 };
 
-        float m_gravity{ 981.0f };
+        float m_gravity{ GRAVITY };
         float m_verticalVelocity{ 0.0f };
 
         bool m_isAttacking{ false };
