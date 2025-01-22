@@ -38,13 +38,14 @@ set(PROJECT_HEADERS
     include/Core/World.h
     include/Core/Level.h
 
-    include/Gameplay/Attack.h
-    include/Gameplay/Enemy.h
+    include/Gameplay/AttackSystem/Attack.h
+    include/Gameplay/AttackSystem/RangedAttack.h
+    include/Gameplay/Enemy/Enemy.h
+    include/Gameplay/Enemy/Zombie.h
+    include/Gameplay/Player/Player.h
+    include/Gameplay/Player/PlayerFactory.h
+
     include/Gameplay/GameObject.h
-    include/Gameplay/Zombie.h
-    include/Gameplay/Player.h
-    include/Gameplay/PlayerFactory.h
-    include/Gameplay/RangedAttack.h
 
     include/Render/Animation.h
     include/Render/AnimationLoader.h
@@ -61,11 +62,11 @@ set(PROJECT_SOURCES
     src/Core/World.cpp
     src/Core/Level.cpp
 
-    src/Gameplay/Enemy.cpp
-    src/Gameplay/Zombie.cpp
-    src/Gameplay/Player.cpp
-    src/Gameplay/PlayerFactory.cpp
-    src/Gameplay/RangedAttack.cpp
+    src/Gameplay/AttackSystem/RangedAttack.cpp
+    src/Gameplay/Enemy/Enemy.cpp
+    src/Gameplay/Enemy/Zombie.cpp
+    src/Gameplay/Player/Player.cpp
+    src/Gameplay/Player/PlayerFactory.cpp
 
     src/Render/Animation.cpp
     src/Render/AnimationLoader.cpp

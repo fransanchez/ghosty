@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gameplay/Enemy.h>
+#include <Gameplay/Enemy/Enemy.h>
 
 
 class Zombie : public Enemy

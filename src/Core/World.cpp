@@ -1,7 +1,7 @@
 #include <Core/World.h>
 #include <Core/AssetManager.h>
-#include <Gameplay/Zombie.h>
-#include <Gameplay/PlayerFactory.h>
+#include <Gameplay/Enemy/Zombie.h>
+#include <Gameplay/Player/PlayerFactory.h>
 
 World::~World()
 {

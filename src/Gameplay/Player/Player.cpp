@@ -1,5 +1,5 @@
-#include <Gameplay/Player.h>
-#include <Gameplay/Attack.h>
+#include <Gameplay/Player/Player.h>
+#include <Gameplay/AttackSystem/Attack.h>
 #include <Render/AnimationType.h>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>

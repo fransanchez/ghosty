@@ -1,4 +1,4 @@
-#include <Gameplay/RangedAttack.h>
+#include <Gameplay/AttackSystem/RangedAttack.h>
 
 RangedAttack::RangedAttack(
     float damage,

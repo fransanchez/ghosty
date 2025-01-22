@@ -1,8 +1,8 @@
 #include <Core/AssetManager.h>
 #include <fstream>
-#include <Gameplay/PlayerFactory.h>
-#include <Gameplay/Attack.h>
-#include <Gameplay/RangedAttack.h>
+#include <Gameplay/AttackSystem/Attack.h>
+#include <Gameplay/AttackSystem/RangedAttack.h>
+#include <Gameplay/Player/PlayerFactory.h>
 #include <nlohmann/json.hpp>
 #include <Render/Animation.h>
 #include <Render/AnimationLoader.h>

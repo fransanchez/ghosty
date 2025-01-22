@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gameplay/Player.h>
+#include <Gameplay/Player/Player.h>
 #include <vector>
 #include <memory>
 

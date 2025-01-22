@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gameplay/Attack.h>
+#include <Gameplay/AttackSystem/Attack.h>
 #include <Render/Animation.h>
 #include <vector>
 

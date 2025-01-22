@@ -1,4 +1,4 @@
-#include <Gameplay/Enemy.h>
+#include <Gameplay/Enemy/Enemy.h>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 

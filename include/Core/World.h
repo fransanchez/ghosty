@@ -2,8 +2,8 @@
 
 #include <cstdint>
 #include <Core/Level.h>
-#include <Gameplay/Player.h>
-#include <Gameplay/Zombie.h>
+#include <Gameplay/Enemy/Zombie.h>
+#include <Gameplay/Player/Player.h>
 #include <Utils/ObjectPool.h>
 
 class Enemy;

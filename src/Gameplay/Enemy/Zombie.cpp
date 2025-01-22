@@ -1,4 +1,4 @@
-#include <Gameplay/Zombie.h>
+#include <Gameplay/Enemy/Zombie.h>
 #include <SFML/Window/Keyboard.hpp>
 
 bool Zombie::init(const ZombieDescriptor& zombieDescriptor)
