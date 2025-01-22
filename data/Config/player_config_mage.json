@@ -1,4 +1,16 @@
 {
+    "Collider": {
+        "Bounds": {
+            "Left": 0.0,
+            "Top": 0.0,
+            "Width": 20.0,
+            "Height": 40.0
+        },
+        "Offset": {
+            "X": 5.0,
+            "Y": -10.0
+        }
+    },
     "Animations": {
         "Idle": {
             "TexturePath": "../data/Images/Player/Mage/Idle/idle.png",
@@ -22,7 +34,7 @@
             "FrameDuration": 0.08
         },
         "Jump": {
-            "TexturePath": "../data/Images/Player/Mage/High_jump/high_jump2.png",
+            "TexturePath": "../data/Images/Player/Mage/High_jump/high_jump.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 10,
             "Loop": false,
