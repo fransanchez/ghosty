@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <Core/Level.h>
 #include <Gameplay/Player.h>
+#include <Gameplay/Zombie.h>
+#include <Utils/ObjectPool.h>
 
 class Enemy;
 
@@ -25,6 +27,8 @@ class World
 		void render(sf::RenderWindow& window);
 
 	private:
+
+		ObjectPool<Zombie, 10> m_zombiesPool;
 
 		// This is just an example. Think a good way to group the actors of your game. If they need any type of manager, etc...
 		Enemy* m_enemy{ nullptr };

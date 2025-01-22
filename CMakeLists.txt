@@ -31,6 +31,7 @@ FetchContent_MakeAvailable(JSON)
 
 set(PROJECT_HEADERS 
     include/Utils/Constants.h
+    include/Utils/ObjectPool.h
 
     include/Core/AssetManager.h
     include/Core/Game.h
