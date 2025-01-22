@@ -5,7 +5,7 @@
 
 using json = nlohmann::json;
 
-std::unordered_map<AnimationType, Animation> AnimationLoader::LoadPlayerAnimations(const std::string& configFile)
+std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadPlayerAnimations(const std::string& configFile)
 {
     std::ifstream file(configFile);
     if (!file.is_open())
@@ -16,7 +16,7 @@ std::unordered_map<AnimationType, Animation> AnimationLoader::LoadPlayerAnimatio
     json config;
     file >> config;
 
-    std::unordered_map<AnimationType, Animation> animations;
+    std::unordered_map<AnimationType, Animation*> animations;
 
     for (const auto& [key, animationData] : config["Animations"].items())
     {
@@ -33,7 +33,7 @@ std::unordered_map<AnimationType, Animation> AnimationLoader::LoadPlayerAnimatio
     return animations;
 }
 
-Animation AnimationLoader::LoadSingleAttackAnimation(const nlohmann::json& animationData)
+Animation* AnimationLoader::LoadSingleAttackAnimation(const nlohmann::json& animationData)
 {
     return LoadAnimation(
         animationData["TexturePath"].get<std::string>(),
@@ -44,7 +44,7 @@ Animation AnimationLoader::LoadSingleAttackAnimation(const nlohmann::json& anima
     );
 }
 
-Animation AnimationLoader::LoadAnimation(const std::string& texturePath, int frameRows, int frameColumns, float frameDuration, bool loop)
+Animation* AnimationLoader::LoadAnimation(const std::string& texturePath, int frameRows, int frameColumns, float frameDuration, bool loop)
 {
     sf::Texture* texture = AssetManager::getInstance()->loadTexture(texturePath.c_str());
     if (!texture)
@@ -55,7 +55,7 @@ Animation AnimationLoader::LoadAnimation(const std::string& texturePath, int fra
     int frameWidth = texture->getSize().x / frameColumns;
     int frameHeight = texture->getSize().y / frameRows;
 
-    Animation animation;
+    Animation* animation = new Animation();
     for (int row = 0; row < frameRows; ++row)
     {
         for (int col = 0; col < frameColumns; ++col)
@@ -65,7 +65,7 @@ Animation AnimationLoader::LoadAnimation(const std::string& texturePath, int fra
                 texture->copyToImage(),
                 sf::IntRect(col * frameWidth, row * frameHeight, frameWidth, frameHeight)))
             {
-                animation.addFrame(frameTexture);
+                animation->addFrame(frameTexture);
             }
             else
             {
@@ -75,7 +75,7 @@ Animation AnimationLoader::LoadAnimation(const std::string& texturePath, int fra
         }
     }
 
-    animation.setFrameDuration(frameDuration);
-    animation.setLoop(loop);
+    animation->setFrameDuration(frameDuration);
+    animation->setLoop(loop);
     return animation;
 }

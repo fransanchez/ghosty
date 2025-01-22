@@ -3,7 +3,7 @@
 
 RangedAttack::RangedAttack(
     float damage,
-    const Animation& animation,
+    const Animation* animation,
     float projectileLifetime,
     float projectileSpeed,
     float fireRate)
@@ -31,7 +31,7 @@ void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& dire
     if (m_cooldownTimer <= 0.0f)
     {
         Projectile& projectile = m_projectilesPool.get();
-        projectile.init(position, direction, m_projectileSpeed, m_projectileLifetime, m_animation);
+        projectile.init(position, direction, m_projectileSpeed, m_projectileLifetime, *m_animation);
         m_projectiles.push_front(&projectile);
         m_cooldownTimer = m_fireRate;
     }

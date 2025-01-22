@@ -27,5 +27,6 @@ class Projectile : public GameObject
         sf::Vector2f m_direction;
         float m_lifetime{ 0.0f };
         float m_projectileSpeed{ 0.0f };
+        // We want a copy of the animation, not a pointer to the base one
         Animation m_animation;
 };

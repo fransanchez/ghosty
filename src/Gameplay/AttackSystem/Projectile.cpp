@@ -7,12 +7,12 @@ void Projectile::init(const sf::Vector2f& pos, const sf::Vector2f& dir, float pr
     m_projectileSpeed = projectileSpeed;
     m_lifetime = life;
     m_animation = anim;
+    // reset the copy of the animation
+    m_animation.reset();
 }
 
 Projectile::~Projectile()
 {
-    // Limpieza o depuración si es necesario
-    printf("Projectile destroyed.\n");
 }
 
 sf::Vector2f Projectile::getPosition() const

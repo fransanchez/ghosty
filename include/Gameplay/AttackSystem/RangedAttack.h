@@ -9,7 +9,7 @@
 class RangedAttack : public Attack
 {
 public:
-    RangedAttack(float damage, const Animation& animation, float projectileLifetime, float projectileSpeed, float fireRate);
+    RangedAttack(float damage, const Animation* animation, float projectileLifetime, float projectileSpeed, float fireRate);
     ~RangedAttack();
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction) override;
@@ -27,5 +27,5 @@ private:
 
     ObjectPool<Projectile, 8> m_projectilesPool;
     std::list<Projectile*> m_projectiles;
-    Animation m_animation;
+    const Animation* m_animation;
 };

@@ -10,10 +10,10 @@
 class AnimationLoader
 {
 public:
-    static std::unordered_map<AnimationType, Animation> LoadPlayerAnimations(const std::string& configFile);
-    static Animation LoadSingleAttackAnimation(const nlohmann::json& animationData);
+    static std::unordered_map<AnimationType, Animation*> LoadPlayerAnimations(const std::string& configFile);
+    static Animation* LoadSingleAttackAnimation(const nlohmann::json& animationData);
 
 private:
-    static Animation LoadAnimation(const std::string& texturePath, int frameRows, int frameColumns, float frameDuration, bool loop);
+    static Animation* LoadAnimation(const std::string& texturePath, int frameRows, int frameColumns, float frameDuration, bool loop);
 
 };

@@ -25,7 +25,7 @@ class Player : public GameObject
         ~Player() override;
 
         bool init(const PlayerDescriptor& descriptor,
-            std::unordered_map<AnimationType, Animation>& animations,
+            std::unordered_map<AnimationType, Animation*>& animations,
             std::vector<std::unique_ptr<Attack>> attacks);
 
         void setAnimation(bool isRunning);
@@ -46,7 +46,7 @@ class Player : public GameObject
         sf::Vector2f m_speed{ 0.f, 0.f };
         bool m_isGrounded{ false };
 
-        std::unordered_map<AnimationType, Animation> m_animations;
+        std::unordered_map<AnimationType, Animation*> m_animations;
         Animation* m_currentAnimation{ nullptr };
 
         int m_currentAttackIndex{ 0 };

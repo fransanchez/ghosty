@@ -16,7 +16,7 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
 {
 
     // Load player movement animations
-    std::unordered_map<AnimationType, Animation> playerAnimations = AnimationLoader::LoadPlayerAnimations(configPath);
+    std::unordered_map<AnimationType, Animation*> playerAnimations = AnimationLoader::LoadPlayerAnimations(configPath);
 
     if (playerAnimations.empty())
     {
@@ -75,7 +75,7 @@ std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const std::strin
             if (attackData.contains("Animation"))
             {
                 const auto& animationData = attackData["Animation"].begin().value();
-                Animation attackAnimation = AnimationLoader::LoadSingleAttackAnimation(animationData);
+                Animation* attackAnimation = AnimationLoader::LoadSingleAttackAnimation(animationData);
 
                 auto rangedAttack = std::make_unique<RangedAttack>(
                     damage,

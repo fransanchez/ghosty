@@ -8,12 +8,16 @@
 
 Player::~Player() {
     m_attacks.clear();
+    for (auto& [type, animation] : m_animations)
+    {
+        delete animation;
+    }
     m_animations.clear();
     m_currentAnimation = nullptr;
 }
 
 bool Player::init(const PlayerDescriptor& descriptor,
-    std::unordered_map<AnimationType, Animation>& animations,
+    std::unordered_map<AnimationType, Animation*>& animations,
     std::vector<std::unique_ptr<Attack>> attacks)
 {
     m_animations = move(animations);
@@ -21,7 +25,7 @@ bool Player::init(const PlayerDescriptor& descriptor,
 
     if (m_animations.count(AnimationType::Idle))
     {
-        m_currentAnimation = &m_animations[AnimationType::Idle];
+        m_currentAnimation = m_animations[AnimationType::Idle];
     }
     else
     {
@@ -227,14 +231,14 @@ void Player::setAnimation(bool isRunning)
     }
 
     // Check if it's not the same as the one desired, otherwise return
-    if (m_currentAnimation && m_currentAnimation == &m_animations[desiredAnimationType])
+    if (m_currentAnimation && m_currentAnimation == m_animations[desiredAnimationType])
     {
         return;
     }
 
     if (m_animations.count(desiredAnimationType))
     {
-        m_currentAnimation = &m_animations[desiredAnimationType];
+        m_currentAnimation = m_animations[desiredAnimationType];
         if (m_currentAnimation->getFrames().empty())
         {
             printf("Animation has no frames\n");
