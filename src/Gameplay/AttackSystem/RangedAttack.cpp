@@ -1,3 +1,4 @@
+#include <Gameplay/AttackSystem/Projectile.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 
 RangedAttack::RangedAttack(
@@ -15,11 +16,23 @@ RangedAttack::RangedAttack(
 {
 }
 
+RangedAttack::~RangedAttack()
+{
+    // Return all active projectiles to the pool
+    for (auto& projectile : m_projectiles)
+    {
+        m_projectilesPool.release(*projectile);
+    }
+    m_projectiles.clear(); // Clear the active list
+}
+
 void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direction)
 {
     if (m_cooldownTimer <= 0.0f)
     {
-        m_projectiles.emplace_back(position, direction, m_projectileLifetime, m_animation);
+        Projectile& projectile = m_projectilesPool.get();
+        projectile.init(position, direction, m_projectileSpeed, m_projectileLifetime, m_animation);
+        m_projectiles.push_front(&projectile);
         m_cooldownTimer = m_fireRate;
     }
 }
@@ -33,16 +46,16 @@ void RangedAttack::update(float deltaTime)
 
     for (auto it = m_projectiles.begin(); it != m_projectiles.end();)
     {
-        it->lifetime -= deltaTime;
+        Projectile* projectile = *it;
+        projectile->update(deltaTime);
 
-        if (it->lifetime <= 0.0f)
+        if (projectile->isExpired())
         {
+            m_projectilesPool.release(*projectile);
             it = m_projectiles.erase(it);
         }
         else
         {
-            it->position += it->direction * m_projectileSpeed * deltaTime;
-            it->animation.update(deltaTime);
             ++it;
         }
     }
@@ -52,7 +65,7 @@ void RangedAttack::render(sf::RenderWindow& window)
 {
     for (const auto& projectile : m_projectiles)
     {
-        projectile.animation.render(window, projectile.position);
+        projectile->getAnimation().render(window, projectile->getPosition());
     }
 }
 

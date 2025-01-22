@@ -51,8 +51,8 @@ bool World::load()
 
 void World::unload()
 {
-	//delete m_enemy;
-	//m_enemy = nullptr;
+	Zombie* z = dynamic_cast<Zombie*>(m_enemy);
+	m_zombiesPool.release(*z);
 	delete m_player;
 	m_player = nullptr;
 	m_level->unload();

@@ -54,6 +54,6 @@ T& ObjectPool<T, N>::get()
 template<typename T, size_t N>
 void ObjectPool<T, N>::release(T& element)
 {
-	assert(m_availableelements.size() < m_elements.size() && "Pool is already full");
+	assert(m_availableElements.size() < m_elements.size() && "Pool is already full");
 	m_availableElements.push_back(&element);
 }
