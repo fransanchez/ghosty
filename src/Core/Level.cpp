@@ -67,10 +67,17 @@ bool Level::isGrounded(const sf::FloatRect& bounds) const
 {
     for (const auto* shape : m_collisionLayer->getShapes())
     {
-        if (shape->getGlobalBounds().intersects(bounds))
+        sf::FloatRect groundBounds = shape->getGlobalBounds();
+
+        const float margin = 4.f;
+        sf::FloatRect playerBottom(bounds.left, bounds.top + bounds.height - 1.f, bounds.width, margin);
+        sf::FloatRect groundTop(groundBounds.left, groundBounds.top, groundBounds.width, margin);
+
+        if (playerBottom.intersects(groundTop))
         {
             return true;
         }
     }
+
     return false;
 }
