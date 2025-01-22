@@ -10,5 +10,7 @@ class PlayerFactory
         static Player* createPlayer(const std::string& basePath, const sf::Vector2f& position, const sf::Vector2f& speed);
     
     private:
-        static std::vector<std::unique_ptr<Attack>> loadAttacks(const std::string& configPath);
+        static std::vector<std::unique_ptr<Attack>> loadAttacks(const nlohmann::json& config);
+        static std::unique_ptr<Collider> PlayerFactory::loadCollider(const nlohmann::json& config, Player* player, const sf::Vector2f& position);
+
 };

@@ -5,13 +5,11 @@
 #include <memory>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/System/Vector2.hpp>
 #include <string>
 #include <unordered_map>
 
 class Attack;
+class Collider;
 
 class Player : public GameObject
 {
@@ -34,6 +32,10 @@ class Player : public GameObject
         void setGrounded(bool grounded);
         bool isGrounded() const { return m_isGrounded; }
 
+        void setCollider(std::unique_ptr<Collider> collider);
+        Collider* getCollider() const;
+        sf::FloatRect getSpriteBounds() const;
+
         void update(float deltaMilliseconds) override;
         void render(sf::RenderWindow& window) override;
 
@@ -48,6 +50,8 @@ class Player : public GameObject
 
         std::unordered_map<AnimationType, Animation*> m_animations;
         Animation* m_currentAnimation{ nullptr };
+
+        std::unique_ptr<Collider> m_collider;
 
         int m_currentAttackIndex{ 0 };
 

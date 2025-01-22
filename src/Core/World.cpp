@@ -1,5 +1,6 @@
 #include <Core/World.h>
 #include <Core/AssetManager.h>
+#include <Gameplay/Collider.h>
 #include <Gameplay/Enemy/Zombie.h>
 #include <Gameplay/Player/PlayerFactory.h>
 
@@ -84,11 +85,11 @@ void World::render(sf::RenderWindow& window)
 void World::handleCollisions()
 {
 	const auto& collisionShapes = m_level->getCollisionShapes();
-	sf::FloatRect playerBounds = m_player->getBounds();
+	sf::FloatRect playerCollider = m_player->getCollider()->getBounds();
 
 	bool isGrounded = false;
 
-	if (m_level->isGrounded(playerBounds))
+	if (m_level->isGrounded(playerCollider))
 	{
 		isGrounded = true;
 	}

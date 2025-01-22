@@ -46,6 +46,7 @@ set(PROJECT_HEADERS
     include/Gameplay/Player/Player.h
     include/Gameplay/Player/PlayerFactory.h
 
+    include/Gameplay/Collider.h
     include/Gameplay/GameObject.h
 
     include/Render/Animation.h
@@ -71,6 +72,8 @@ set(PROJECT_SOURCES
     src/Gameplay/Enemy/Zombie.cpp
     src/Gameplay/Player/Player.cpp
     src/Gameplay/Player/PlayerFactory.cpp
+
+    src/Gameplay/Collider.cpp
 
     src/Render/Animation.cpp
     src/Render/AnimationLoader.cpp

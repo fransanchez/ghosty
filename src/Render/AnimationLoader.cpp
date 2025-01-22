@@ -5,16 +5,8 @@
 
 using json = nlohmann::json;
 
-std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadPlayerAnimations(const std::string& configFile)
+std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadPlayerAnimations(const json& config)
 {
-    std::ifstream file(configFile);
-    if (!file.is_open())
-    {
-        throw std::runtime_error("Failed to open configuration file: " + configFile);
-    }
-
-    json config;
-    file >> config;
 
     std::unordered_map<AnimationType, Animation*> animations;
 

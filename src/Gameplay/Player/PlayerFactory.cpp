@@ -1,5 +1,6 @@
 #include <Core/AssetManager.h>
 #include <fstream>
+#include <Gameplay/Collider.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/Player/PlayerFactory.h>
@@ -14,9 +15,18 @@ using json = nlohmann::json;
 
 Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vector2f& position, const sf::Vector2f& speed)
 {
+    std::ifstream file(configPath);
+    if (!file.is_open())
+    {
+        printf("Error: Could not open configuration file %s\n", configPath.c_str());
+        return nullptr;
+    }
+
+    json config;
+    file >> config;
 
     // Load player movement animations
-    std::unordered_map<AnimationType, Animation*> playerAnimations = AnimationLoader::LoadPlayerAnimations(configPath);
+    std::unordered_map<AnimationType, Animation*> playerAnimations = AnimationLoader::LoadPlayerAnimations(config);
 
     if (playerAnimations.empty())
     {
@@ -25,13 +35,14 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
     }
 
     // Load Player Attacks
-    std::vector<std::unique_ptr<Attack>> attacks = loadAttacks(configPath);
+    std::vector<std::unique_ptr<Attack>> attacks = loadAttacks(config);
 
     if (attacks.empty())
     {
         printf("Error: No attacks loaded for player.\n");
         return nullptr;
     }
+
 
     Player::PlayerDescriptor descriptor;
     descriptor.position = position;
@@ -45,21 +56,36 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
         return nullptr;
     }
 
+    std::unique_ptr<Collider> collider = loadCollider(config, player, position);
+    if (collider)
+    {
+        player->setCollider(std::move(collider));
+    }
+    if (config.contains("Collider"))
+    {
+        const auto& colliderData = config["Collider"];
+        sf::FloatRect spriteBounds = player->getSpriteBounds();
+
+        sf::Vector2f size{
+            colliderData["Size"]["Width"].get<float>(),
+            colliderData["Size"]["Height"].get<float>()
+        };
+        sf::Vector2f centerOffset{
+            colliderData["CenterOffset"]["X"].get<float>(),
+            colliderData["CenterOffset"]["Y"].get<float>()
+        };
+
+        // Alineamos el collider respecto al centro del sprite
+        auto collider = std::make_unique<Collider>(position, size, centerOffset);
+        player->setCollider(std::move(collider));
+    }
+
     return player;
 }
 
 
-std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const std::string& configPath)
+std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const json& config)
 {
-    std::ifstream file(configPath);
-    if (!file.is_open())
-    {
-        printf("Error: Could not open configuration file %s\n", configPath.c_str());
-        return {};
-    }
-
-    json config;
-    file >> config;
 
     std::vector<std::unique_ptr<Attack>> attacks;
 
@@ -95,4 +121,28 @@ std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const std::strin
     }
 
     return attacks;
+}
+
+std::unique_ptr<Collider> PlayerFactory::loadCollider(const json& config, Player* player, const sf::Vector2f& position)
+{
+    if (!config.contains("Collider"))
+    {
+        printf("Warning: No collider data found in config.\n");
+        return nullptr;
+    }
+
+    const auto& colliderData = config["Collider"];
+    sf::FloatRect spriteBounds = player->getSpriteBounds();
+
+    sf::Vector2f size{
+        colliderData["Size"]["Width"].get<float>(),
+        colliderData["Size"]["Height"].get<float>()
+    };
+    sf::Vector2f centerOffset{
+        colliderData["CenterOffset"]["X"].get<float>(),
+        colliderData["CenterOffset"]["Y"].get<float>()
+    };
+
+    // Align the collider relative to the center of the sprite
+    return std::make_unique<Collider>(position, size, centerOffset);
 }

@@ -1,10 +1,9 @@
+#include <Gameplay/Collider.h>
 #include <Gameplay/Player/Player.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Render/AnimationType.h>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Window/Keyboard.hpp>
 
 Player::~Player() {
     m_attacks.clear();
@@ -26,6 +25,7 @@ bool Player::init(const PlayerDescriptor& descriptor,
     if (m_animations.count(AnimationType::Idle))
     {
         m_currentAnimation = m_animations[AnimationType::Idle];
+        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
     }
     else
     {
@@ -33,8 +33,10 @@ bool Player::init(const PlayerDescriptor& descriptor,
         return false;
     }
 
+    m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
     setPosition(descriptor.position);
     m_sprite.setPosition(descriptor.position);
+
     m_speed = descriptor.speed;
     return true;
 }
@@ -65,6 +67,8 @@ void Player::render(sf::RenderWindow& window)
     {
         attack->render(window);
     }
+
+    m_collider->render(window);
 
     sf::FloatRect bounds = m_sprite.getGlobalBounds();
     sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
@@ -97,6 +101,7 @@ void Player::updatePlayerPosition(float deltaSeconds)
     m_position.y += m_verticalVelocity * deltaSeconds;
 
     m_sprite.setPosition(m_position);
+    m_collider->setPosition(m_position);
 }
 
 void Player::updateSpriteSelection(float deltaSeconds)
@@ -147,8 +152,6 @@ void Player::handleInput()
                 m_isAttacking = true;
                 sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
                 sf::Vector2f attackPosition = m_sprite.getPosition();
-                // Setting the projectile at 2/3 from the top to align with the wand
-                attackPosition.y += m_sprite.getOrigin().y - (m_sprite.getGlobalBounds().height * (2.f / 3.f));
 
                 m_attacks[m_currentAttackIndex]->attack(attackPosition, attackDirection); // To-Do: First attack for now
             }
@@ -186,7 +189,6 @@ void Player::handleInput()
 
     if (m_direction == sf::Vector2f(0.f, 0.f) && m_isGrounded)
     {
-        m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
         setAnimation(isRunning);
     }
 }
@@ -198,6 +200,21 @@ void Player::setGrounded(bool grounded) {
     {
         m_verticalVelocity = 0.0f;
     }
+}
+
+void Player::setCollider(std::unique_ptr<Collider> collider)
+{
+    m_collider = std::move(collider);
+}
+
+Collider* Player::getCollider() const
+{
+    return m_collider.get();
+}
+
+sf::FloatRect Player::getSpriteBounds() const
+{
+    return m_sprite.getGlobalBounds();
 }
 
 void Player::setAnimation(bool isRunning)

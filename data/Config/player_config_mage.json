@@ -1,4 +1,14 @@
 {
+    "Collider": {
+        "CenterOffset": {
+            "X": 0.0,
+            "Y": 0.0
+        },
+        "Size": {
+            "Width": 54.0,
+            "Height": 54.0
+        }
+    },
     "Animations": {
         "Idle": {
             "TexturePath": "../data/Images/Player/Mage/Idle/idle.png",
