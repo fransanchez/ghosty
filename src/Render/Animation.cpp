@@ -11,6 +11,11 @@ Animation::Animation(const Animation& baseAnimation)
     reset();
 }
 
+Animation::~Animation()
+{
+    m_frames.clear();
+}
+
 void Animation::addFrame(const sf::Texture* texture)
 {
     m_frames.push_back(texture);

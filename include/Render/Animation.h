@@ -12,6 +12,8 @@ public:
     Animation() = default;
     Animation(const Animation& baseAnimation);
 
+    ~Animation();
+
     void addFrame(const sf::Texture* texture);
     const sf::Texture* getCurrentFrame() const;
 
