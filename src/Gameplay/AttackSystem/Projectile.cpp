@@ -9,6 +9,8 @@ void Projectile::init(const sf::Vector2f& pos, const sf::Vector2f& dir, float pr
     m_animation = anim;
     // reset the copy of the animation
     m_animation.reset();
+    m_sprite.setTexture(*m_animation.getCurrentFrame());
+    m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
 }
 
 Projectile::~Projectile()
