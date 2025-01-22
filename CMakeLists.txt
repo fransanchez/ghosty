@@ -53,6 +53,8 @@ set(PROJECT_HEADERS
     include/Render/AnimationType.h
     include/Render/SFMLOrthogonalLayer.h
 
+    include/UI/UIManager.h
+    include/UI/UIScreen.h
     include/UI/UIScreenMainMenu.h
 )
 
@@ -72,6 +74,10 @@ set(PROJECT_SOURCES
 
     src/Render/Animation.cpp
     src/Render/AnimationLoader.cpp
+
+    src/UI/UIManager.cpp
+    src/UI/UIScreenMainMenu.cpp
+
 
     src/main.cpp
 )

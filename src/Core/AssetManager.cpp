@@ -42,6 +42,24 @@ sf::Texture* AssetManager::loadTexture(const char* assetPath)
 	}
 }
 
+void AssetManager::unloadTexture(sf::Texture* texture) {
+
+	if (!texture)
+	{
+		return;
+	}
+
+	for (auto it = m_texturePathToTexture.begin(); it != m_texturePathToTexture.end(); ++it)
+	{
+		if (it->second == texture)
+		{
+			delete it->second;
+			m_texturePathToTexture.erase(it);
+			return;
+		}
+	}
+}
+
 sf::Texture* AssetManager::getTexture(const char* assetPath) const
 {
 	const auto it = m_texturePathToTexture.find(assetPath);

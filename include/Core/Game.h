@@ -9,6 +9,8 @@ namespace sf
 }
 
 class World;
+class UIManager;
+class UIScreen;
 
 class Game
 {
@@ -33,6 +35,8 @@ class Game
 
 	private:
 
+		UIManager* m_uiManager{ nullptr } ;
+		UIScreen* m_mainMenu{ nullptr };
 		sf::RenderWindow* m_window{ nullptr };
 		World* m_world{ nullptr };
 };

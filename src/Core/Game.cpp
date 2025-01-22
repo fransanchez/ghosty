@@ -3,6 +3,9 @@
 #include <Core/World.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+#include <UI/UIManager.h>
+#include <UI/UIScreenMainMenu.h>
+
 
 bool Game::init(GameCreateInfo& createInfo)
 {
@@ -10,6 +13,12 @@ bool Game::init(GameCreateInfo& createInfo)
 
 	m_window = new sf::RenderWindow({ createInfo.screenWidth, createInfo.screenHeight }, createInfo.gameTitle);
 	m_window->setFramerateLimit(createInfo.frameRateLimit);
+
+	m_uiManager = new UIManager();
+	m_mainMenu = new UIScreenMainMenu();
+	m_mainMenu->init();
+	m_uiManager->show(*m_mainMenu);
+
 	m_world = new World();
 	const bool loadOk = m_world->load();
 
@@ -19,8 +28,9 @@ bool Game::init(GameCreateInfo& createInfo)
 Game::~Game()
 {
 	// To-Do: make sure m_world is unloaded()
-
 	delete m_world;
+	delete m_mainMenu;
+	delete m_uiManager;
 	delete m_window;
 }
 
@@ -43,6 +53,8 @@ void Game::update(uint32_t deltaMilliseconds)
 
 	// Update scene here
 	m_world->update(deltaMilliseconds);
+
+	m_uiManager->update(deltaMilliseconds);
 }
 
 void Game::render()
@@ -50,6 +62,8 @@ void Game::render()
 	m_window->clear();
 
 	m_world->render(*m_window);
+
+	m_uiManager->render(*m_window);
 
 	m_window->display();
 }
