@@ -65,7 +65,7 @@ void RangedAttack::render(sf::RenderWindow& window)
 {
     for (const auto& projectile : m_projectiles)
     {
-        projectile->getAnimation().render(window, projectile->getPosition());
+        projectile->render(window);
     }
 }
 

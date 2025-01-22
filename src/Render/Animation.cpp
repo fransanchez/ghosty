@@ -1,6 +1,5 @@
 #include <Render/Animation.h>
 
-
 Animation::Animation(const Animation& baseAnimation)
 {
     // Copy from the BaseAnimation
@@ -10,17 +9,6 @@ Animation::Animation(const Animation& baseAnimation)
 
     // Reset Animation
     reset();
-}
-
-void Animation::render(sf::RenderWindow& window, const sf::Vector2f& position) const
-{
-    if (const auto* frame = getCurrentFrame())
-    {
-        sf::Sprite sprite;
-        sprite.setTexture(*frame);
-        sprite.setPosition(position);
-        window.draw(sprite);
-    }
 }
 
 void Animation::addFrame(const sf::Texture* texture)
