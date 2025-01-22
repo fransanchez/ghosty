@@ -42,40 +42,9 @@ void Player::update(float deltaMilliseconds)
 
     float deltaSeconds = deltaMilliseconds / 1000.f;
 
-    if (!m_isGrounded)
-    {
-        m_verticalVelocity += m_gravity * deltaSeconds;
+    updatePlayerPosition(deltaSeconds);
 
-        const float maxFallSpeed = 1000.0f;
-        if (m_verticalVelocity > maxFallSpeed)
-        {
-            m_verticalVelocity = maxFallSpeed;
-        }
-    }
-    else
-    {
-        m_verticalVelocity = 0.0f;
-    }
-
-    m_position.x += m_direction.x * m_speed.x * deltaSeconds;
-    m_position.y += m_verticalVelocity * deltaSeconds;
-
-    m_sprite.setPosition(m_position);
-
-    if (m_currentAnimation && !m_currentAnimation->getFrames().empty())
-    {
-        m_currentAnimation->update(deltaSeconds);
-        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
-
-        if (m_isAttacking && m_currentAnimation->isFinished())
-        {
-            m_isAttacking = false;
-        }
-    }
-    else
-    {
-        printf("Error: Current animation is not set or has no frames\n");
-    }
+    updateSpriteSelection(deltaSeconds);
 
     for (auto& attack : m_attacks)
     {
@@ -103,6 +72,46 @@ void Player::render(sf::RenderWindow& window)
     window.draw(debugRect);
 }
 
+void Player::updatePlayerPosition(float deltaSeconds)
+{
+    if (!m_isGrounded)
+    {
+        m_verticalVelocity += m_gravity * deltaSeconds;
+
+        const float maxFallSpeed = 1000.0f;
+        if (m_verticalVelocity > maxFallSpeed)
+        {
+            m_verticalVelocity = maxFallSpeed;
+        }
+    }
+    else
+    {
+        m_verticalVelocity = 0.0f;
+    }
+
+    m_position.x += m_direction.x * m_speed.x * deltaSeconds;
+    m_position.y += m_verticalVelocity * deltaSeconds;
+
+    m_sprite.setPosition(m_position);
+}
+
+void Player::updateSpriteSelection(float deltaSeconds)
+{
+    if (m_currentAnimation && !m_currentAnimation->getFrames().empty())
+    {
+        m_currentAnimation->update(deltaSeconds);
+        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
+
+        if (m_isAttacking && m_currentAnimation->isFinished())
+        {
+            m_isAttacking = false;
+        }
+    }
+    else
+    {
+        printf("Error: Current animation is not set or has no frames\n");
+    }
+}
 
 void Player::handleInput()
 {

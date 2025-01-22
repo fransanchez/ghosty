@@ -57,6 +57,8 @@ class Player : public GameObject
         bool m_isAttacking{ false };
         bool m_attackKeyPressed{ false };
 
+        void updatePlayerPosition(float deltaSeconds);
+        void updateSpriteSelection(float deltaSeconds);
         void handleInput();
         void updateAnimation();
 };
