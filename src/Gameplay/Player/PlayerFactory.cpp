@@ -1,6 +1,7 @@
 #include <Core/AssetManager.h>
 #include <fstream>
 #include <Gameplay/Collider.h>
+#include <Gameplay/CollisionManager.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/Player/PlayerFactory.h>
@@ -13,7 +14,10 @@
 
 using json = nlohmann::json;
 
-Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vector2f& position, const sf::Vector2f& speed)
+Player* PlayerFactory::createPlayer(const std::string& configPath,
+                                    const sf::Vector2f& position,
+                                    const sf::Vector2f& speed,
+                                    CollisionManager* collisionManager)
 {
     std::ifstream file(configPath);
     if (!file.is_open())
@@ -61,24 +65,9 @@ Player* PlayerFactory::createPlayer(const std::string& configPath, const sf::Vec
     {
         player->setCollider(std::move(collider));
     }
-    if (config.contains("Collider"))
-    {
-        const auto& colliderData = config["Collider"];
-        sf::FloatRect spriteBounds = player->getSpriteBounds();
 
-        sf::Vector2f size{
-            colliderData["Size"]["Width"].get<float>(),
-            colliderData["Size"]["Height"].get<float>()
-        };
-        sf::Vector2f centerOffset{
-            colliderData["CenterOffset"]["X"].get<float>(),
-            colliderData["CenterOffset"]["Y"].get<float>()
-        };
-
-        // Alineamos el collider respecto al centro del sprite
-        auto collider = std::make_unique<Collider>(position, size, centerOffset);
-        player->setCollider(std::move(collider));
-    }
+    player->setCollisionManager(collisionManager);
+    collisionManager->registerCollider(player->getCollider());
 
     return player;
 }

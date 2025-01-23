@@ -10,7 +10,7 @@ class Collisionable : public GameObject
 {
 public:
     Collisionable() = default;
-    virtual ~Collisionable() = default;
+    virtual ~Collisionable();
 
     void setCollider(std::unique_ptr<Collider> collider);
     Collider* getCollider() const;

@@ -7,7 +7,7 @@
 class PlayerFactory
 {
     public:
-        static Player* createPlayer(const std::string& basePath, const sf::Vector2f& position, const sf::Vector2f& speed);
+        static Player* createPlayer(const std::string& basePath, const sf::Vector2f& position, const sf::Vector2f& speed, CollisionManager* collisionManager);
     
     private:
         static std::vector<std::unique_ptr<Attack>> loadAttacks(const nlohmann::json& config);

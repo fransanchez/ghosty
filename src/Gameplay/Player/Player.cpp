@@ -47,9 +47,9 @@ void Player::update(float deltaMilliseconds)
 
     handleInput();
 
-    float deltaSeconds = deltaMilliseconds / 1000.f;
-
     handleCollisions();
+
+    float deltaSeconds = deltaMilliseconds / 1000.f;
 
     updatePlayerPosition(deltaSeconds);
 
@@ -59,6 +59,8 @@ void Player::update(float deltaMilliseconds)
     {
         attack->update(deltaSeconds);
     }
+
+
 }
 
 void Player::render(sf::RenderWindow& window)
@@ -73,14 +75,14 @@ void Player::render(sf::RenderWindow& window)
 
     m_collider->render(window);
 
-    sf::FloatRect bounds = m_sprite.getGlobalBounds();
+ /*   sf::FloatRect bounds = m_sprite.getGlobalBounds();
     sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
     debugRect.setPosition(bounds.left, bounds.top);
     debugRect.setOutlineColor(sf::Color::Red);
     debugRect.setOutlineThickness(1.0f);
     debugRect.setFillColor(sf::Color::Transparent);
 
-    window.draw(debugRect);
+    window.draw(debugRect);*/
 }
 
 void Player::updatePlayerPosition(float deltaSeconds)
@@ -271,12 +273,26 @@ void Player::handleCollisions()
     if (!m_collider || !m_collisionManager)
         return;
 
-    // To-Do
+    if (m_verticalVelocity >= 0) {
+        m_isGrounded = m_collisionManager->checkIsGrounded(m_collider.get());
+    }
 
- /*   m_isGrounded = m_collisionManager->checkGround(m_collider.get());
+    auto wallCollision = m_collisionManager->checkWalls(m_collider.get());
 
-    if (m_collisionManager->checkWalls(m_collider.get()))
+    if (wallCollision.collided)
     {
-        m_direction.x = 0.f;
-    }*/
+        if (wallCollision.leftCollision && m_direction.x < 0.f)
+        {
+            m_direction.x = 0.f;
+        }
+        else if (wallCollision.rightCollision && m_direction.x > 0.f)
+        {
+            m_direction.x = 0.f;
+        }
+
+        if (wallCollision.topCollision && m_verticalVelocity < 0.f)
+        {
+            m_verticalVelocity = 0.f;
+        }
+    }
 }

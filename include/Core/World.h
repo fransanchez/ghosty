@@ -6,6 +6,7 @@
 #include <Gameplay/Player/Player.h>
 #include <Utils/ObjectPool.h>
 
+class CollisionsManager;
 class Enemy;
 
 namespace sf
@@ -34,6 +35,5 @@ class World
 		Enemy* m_enemy{ nullptr };
 		Level* m_level{};
 		Player* m_player{ nullptr };
-
-		void handleCollisions();
+		CollisionManager* m_collisionManager{ nullptr };
 };

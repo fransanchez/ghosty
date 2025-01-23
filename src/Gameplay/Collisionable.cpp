@@ -1,5 +1,10 @@
 #include <Gameplay/Collisionable.h>
 
+Collisionable::~Collisionable() {
+    m_collider.reset();
+    m_collisionManager = nullptr;
+}
+
 void Collisionable::setCollider(std::unique_ptr<Collider> collider)
 {
     m_collider = std::move(collider);

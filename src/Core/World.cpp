@@ -1,6 +1,7 @@
 #include <Core/World.h>
 #include <Core/AssetManager.h>
 #include <Gameplay/Collider.h>
+#include <Gameplay/CollisionManager.h>
 #include <Gameplay/Enemy/Zombie.h>
 #include <Gameplay/Player/PlayerFactory.h>
 
@@ -36,9 +37,13 @@ bool World::load()
 		return false;
 	}
 
+	// Create and initialize the CollisionManager
+	m_collisionManager = new CollisionManager();
+	m_collisionManager->setGroundShapes(m_level->getFloorsCollisionShapes());
+	m_collisionManager->setWallShapes(m_level->getWallsCollisionShapes());
+
 	sf::Vector2f playerSpawnPoint = m_level->getPlayerSpawnPoint();
-	printf("Player spawn position %f %f", playerSpawnPoint.x, playerSpawnPoint.y);
-	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, playerSpawnPoint, { 200.f, 150.f });
+	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, playerSpawnPoint, { 200.f, 150.f }, m_collisionManager);
 	if (!m_player)
 	{
 		return false;
@@ -51,9 +56,13 @@ void World::unload()
 {
 	//Zombie* z = dynamic_cast<Zombie*>(m_enemy);
 	//m_zombiesPool.release(*z);
+	delete m_collisionManager;
+	m_collisionManager = nullptr;
 	delete m_player;
 	m_player = nullptr;
+
 	m_level->unload();
+	delete m_level;
 	m_level = nullptr;
 }
 
@@ -66,8 +75,6 @@ void World::update(uint32_t deltaMilliseconds)
 
 	//m_enemy->update(deltaMilliseconds);
 
-	handleCollisions();
-
 }
 
 void World::render(sf::RenderWindow& window)
@@ -78,30 +85,4 @@ void World::render(sf::RenderWindow& window)
 	//m_enemy->render(window);
 }
 
-
-void World::handleCollisions()
-{
-	const auto& collisionShapes = m_level->getFloorsCollisionShapes();
-	sf::FloatRect playerCollider = m_player->getCollider()->getBounds();
-
-	bool isGrounded = false;
-
-	for (const auto* shape : collisionShapes)
-	{
-		sf::FloatRect groundBounds = shape->getGlobalBounds();
-
-		const float margin = 6.f;
-		sf::FloatRect playerBottom(playerCollider.left, playerCollider.top + playerCollider.height - 1.f, playerCollider.width, margin);
-		sf::FloatRect groundTop(groundBounds.left, groundBounds.top, groundBounds.width, margin);
-
-		if (playerBottom.intersects(groundTop))
-		{
-			isGrounded = true;
-
-		}
-	}
-
-	m_player->setGrounded(isGrounded);
-
-}
 
