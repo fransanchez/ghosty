@@ -1,7 +1,10 @@
 #include <Core/Level.h>
 #include <tmxlite/Map.hpp>
+#include <tmxlite/ImageLayer.hpp>
 #include <Render/SFMLOrthogonalLayer.h>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 Level::~Level()
 {
@@ -16,68 +19,126 @@ bool Level::load(const std::string& filePath)
         return false;
     }
 
-    m_layerZero = new MapLayer(*m_map, 0);
-    m_layerOne = new MapLayer(*m_map, 1);
-    m_layerTwo = new MapLayer(*m_map, 2);
+    // Load image layers manually
+    const auto& layers = m_map->getLayers();
+    for (const auto& layer : layers)
+    {
+        if (layer->getType() == tmx::Layer::Type::Image)
+        {
+            const auto& imageLayer = layer->getLayerAs<tmx::ImageLayer>();
+            const auto& imagePath = imageLayer.getImagePath();
 
-    m_collisionLayer = new ObjectLayer(*m_map, 3);
+            sf::Texture* texture = new sf::Texture();
+            if (!texture->loadFromFile(imagePath))
+            {
+                delete texture;
+                printf("Error: Could not load image for ImageLayer: %s\n", imagePath.c_str());
+                return false;
+            }
+
+            // Repeat background texture
+            texture->setRepeated(true);
+
+            auto mapBounds = m_map->getBounds();
+            sf::Vector2f mapSize(mapBounds.width, mapBounds.height);
+
+            // Create VertexArray to cover the full map
+            sf::VertexArray vertices(sf::Quads, 4);
+
+            vertices[0].position = sf::Vector2f(0.f, 0.f);
+            vertices[1].position = sf::Vector2f(mapSize.x, 0.f);
+            vertices[2].position = sf::Vector2f(mapSize.x, mapSize.y);
+            vertices[3].position = sf::Vector2f(0.f, mapSize.y);
+
+            vertices[0].texCoords = sf::Vector2f(0.f, 0.f);
+            vertices[1].texCoords = sf::Vector2f(mapSize.x, 0.f);
+            vertices[2].texCoords = sf::Vector2f(mapSize.x, mapSize.y);
+            vertices[3].texCoords = sf::Vector2f(0.f, mapSize.y);
+
+            m_imageLayers.emplace_back(vertices, texture);
+        }
+    }
+
+    m_decorations = new MapLayer(*m_map, 1);
+    m_fillers = new MapLayer(*m_map, 2);
+    m_ground = new MapLayer(*m_map, 3);
+    m_floorsCollisionLayer = new ObjectLayer(*m_map, 4);
+    m_wallsCollisionLayer = new ObjectLayer(*m_map, 5);
+    m_playerSpawnsLayer = new ObjectLayer(*m_map, 6);
+    m_enemySpawnsLayer = new ObjectLayer(*m_map, 7);
 
     return true;
 }
 
 void Level::unload()
 {
-    delete m_collisionLayer;
-    delete m_layerTwo;
-    delete m_layerOne;
-    delete m_layerZero;
+    for (auto& imageLayer : m_imageLayers)
+    {
+        delete imageLayer.second;
+    }
+    m_imageLayers.clear();
+    delete m_decorations;
+    delete m_fillers;
+    delete m_ground;
+    delete m_floorsCollisionLayer;
+    delete m_wallsCollisionLayer;
+    delete m_playerSpawnsLayer;
+    delete m_enemySpawnsLayer;
     delete m_map;
-    m_collisionLayer = nullptr;
-    m_layerTwo = nullptr;
-    m_layerOne = nullptr;
-    m_layerZero = nullptr;
+    m_decorations = nullptr;
+    m_fillers = nullptr;
+    m_ground = nullptr;
+    m_floorsCollisionLayer = nullptr;
+    m_wallsCollisionLayer = nullptr;
+    m_playerSpawnsLayer = nullptr;
+    m_enemySpawnsLayer = nullptr;
     m_map = nullptr;
 }
 
 void Level::update(uint32_t deltaMilliseconds)
 {
-    if (m_layerZero)
-        m_layerZero->update(sf::milliseconds(deltaMilliseconds));
+    // To-Do
 }
 
 void Level::render(sf::RenderWindow& window)
 {
-    if (m_layerZero)
-        window.draw(*m_layerZero);
-    if (m_layerOne)
-        window.draw(*m_layerOne);
-    if (m_layerTwo)
-        window.draw(*m_layerTwo);
-
-    if (m_collisionLayer)
-        window.draw(*m_collisionLayer);
-}
-
-const std::vector<sf::Shape*>& Level::getCollisionShapes() const
-{
-    return m_collisionLayer->getShapes();
-}
-
-bool Level::isGrounded(const sf::FloatRect& bounds) const
-{
-    for (const auto* shape : m_collisionLayer->getShapes())
+    for (const auto& imageLayer : m_imageLayers)
     {
-        sf::FloatRect groundBounds = shape->getGlobalBounds();
-
-        const float margin = 6.f;
-        sf::FloatRect playerBottom(bounds.left, bounds.top + bounds.height - 1.f, bounds.width, margin);
-        sf::FloatRect groundTop(groundBounds.left, groundBounds.top, groundBounds.width, margin);
-
-        if (playerBottom.intersects(groundTop))
-        {
-            return true;
-        }
+        sf::RenderStates states;
+        states.texture = imageLayer.second;
+        window.draw(imageLayer.first, states);
     }
+    if (m_decorations)
+        window.draw(*m_decorations);
+    if (m_fillers)
+        window.draw(*m_fillers);
+    if (m_ground)
+        window.draw(*m_ground);
+    if (m_floorsCollisionLayer)
+        window.draw(*m_floorsCollisionLayer);
+    if (m_wallsCollisionLayer)
+        window.draw(*m_wallsCollisionLayer);
+    if (m_playerSpawnsLayer)
+        window.draw(*m_playerSpawnsLayer);
+    if (m_enemySpawnsLayer)
+        window.draw(*m_enemySpawnsLayer);
+}
+const std::vector<sf::Shape*>& Level::getFloorsCollisionShapes() const
+{
+    return m_floorsCollisionLayer->getShapes();
+}
 
-    return false;
+const std::vector<sf::Shape*>& Level::getWallsCollisionShapes() const
+{
+    return m_wallsCollisionLayer->getShapes();
+}
+
+const std::vector<sf::Shape*>& Level::getPlayerSpawnPoints() const
+{
+    return m_playerSpawnsLayer->getShapes();
+}
+
+const std::vector<sf::Shape*>& Level::getEnemySpawnPoints() const
+{
+    return m_enemySpawnsLayer->getShapes();
 }

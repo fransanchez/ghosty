@@ -3,32 +3,85 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "data/Levels/demo.tmx",
+    "activeFile": "data/Levels/Level1/Level1.tmx",
     "expandedProjectPaths": [
         "data/Levels",
+        "build/_deps/json-src",
         "data/Levels/images/tilemap",
+        "data/Levels/Level1",
+        "build/_deps/json-subbuild/CMakeFiles/json-populate.dir",
+        "build/_deps/json-subbuild/CMakeFiles",
+        "build/_deps/json-src/docs",
         "data/Levels/images",
+        ".",
+        "build/_deps",
         "data",
-        "build",
-        "."
+        "build/_deps/json-src/tools/amalgamate",
+        "build/_deps/json-src/tools"
     ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1
+        },
+        "data/Levels/Level1/Background.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "data/Levels/Level1/FloorTiles.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "data/Levels/Level1/Level1.tmx": {
+            "expandedObjectLayers": [
+                7,
+                6,
+                9,
+                8
+            ],
+            "scale": 1,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 378.5,
+                "y": 241.5
+            }
+        },
+        "data/Levels/Level1/Objects.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "data/Levels/Level1/WaterTiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "data/Levels/Level1/groundTileSet.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "data/Levels/NES - Ghosts n Goblins - Stage 1.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "data/Levels/demo.tmx": {
-            "scale": 0.4077083333333333,
-            "selectedLayer": 3,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 0.75,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 415.7383750638734,
-                "y": -58.86561062851297
+                "x": 687.3333333333333,
+                "y": 459.33333333333326
             }
         },
+        "data/Levels/demo.tmx#FloorTiles": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
         "data/Levels/demo.tmx#tileset": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "data/Levels/fit a tileset in 64x64 pixels.tsx": {
@@ -50,8 +103,8 @@
             "scale": 0.963916015625,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 511.97406413049,
-                "y": 256.2463907603465
+                "x": 512.4927815206929,
+                "y": 439.35362950205155
             }
         },
         "data/Levels/test.tmx#testtileset": {
@@ -74,30 +127,39 @@
         }
     },
     "last.externalTilesetPath": "C:/Users/frans/Downloads",
-    "last.imagePath": "D:/SFMLProject/Ghosty/data/tilesets",
-    "map.height": 16,
+    "last.imagePath": "D:/SFMLProject/Ghosty/data/Levels/Level1/Background",
+    "map.height": 10,
     "map.lastUsedFormat": "tmx",
-    "map.width": 32,
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "map.width": 100,
     "openFiles": [
-        "data/Levels/test.tmx",
-        "data/Levels/NES - Ghosts n Goblins - Stage 1.tsx",
-        "data/Levels/demo.tmx"
+        "data/Levels/Level1/FloorTiles.tsx",
+        "data/Levels/Level1/Level1.tmx",
+        "data/Levels/demo.tmx",
+        "data/Levels/Level1/groundTileSet.tsx",
+        "data/Levels/Level1/Background.tsx"
     ],
     "project": "Ghostylevel.tiled-project",
     "recentFiles": [
+        "data/Levels/Level1/FloorTiles.tsx",
+        "data/Levels/Level1/Level1.tmx",
+        "data/Levels/Level1/Background.tsx",
+        "data/Levels/Level1/groundTileSet.tsx",
+        "data/Levels/demo.tmx",
+        "data/Levels/Level1/Objects.tsx",
+        "data/Levels/Level1/WaterTiles.tsx",
+        "data/Levels/NES - Ghosts n Goblins - Stage 1.tsx",
+        "data/Levels/test.tmx",
         "data/Levels/testtileset2.tsx",
         "data/Levels/testtileset.tsx",
-        "data/Levels/fit a tileset in 64x64 pixels.tsx",
-        "data/Levels/troid_spritesheet16.tsx",
-        "data/Levels/test.tmx",
-        "data/Levels/NES - Ghosts n Goblins - Stage 1.tsx",
-        "data/Levels/demo.tmx",
-        "data/Levels/platform.tmx"
+        "data/Levels/fit a tileset in 64x64 pixels.tsx"
     ],
     "tileset.lastUsedFilter": "Todos los archivos (*)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 32,
-        "width": 32
-    }
+        "height": 64,
+        "width": 64
+    },
+    "tileset.type": 0
 }
