@@ -32,8 +32,6 @@ class Player : public Collisionable
         void setGrounded(bool grounded);
         bool isGrounded() const { return m_isGrounded; }
 
-        void setCollider(std::unique_ptr<Collider> collider);
-        Collider* getCollider() const;
         sf::FloatRect getSpriteBounds() const;
 
         void update(float deltaMilliseconds) override; // From GameObject

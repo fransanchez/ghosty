@@ -69,7 +69,7 @@ bool Level::isGrounded(const sf::FloatRect& bounds) const
     {
         sf::FloatRect groundBounds = shape->getGlobalBounds();
 
-        const float margin = 4.f;
+        const float margin = 6.f;
         sf::FloatRect playerBottom(bounds.left, bounds.top + bounds.height - 1.f, bounds.width, margin);
         sf::FloatRect groundTop(groundBounds.left, groundBounds.top, groundBounds.width, margin);
 
