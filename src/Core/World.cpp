@@ -31,16 +31,14 @@ bool World::load()
 	//zombie.setPosition({ .0f, 50.f });
 
 
-	m_player = PlayerFactory::createPlayer("../data/Config/player_config_mage.json", { 100.f, 100.f }, { 200.f, 150.f });
+	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, { 100.f, 100.f }, { 200.f, 150.f });
 	if (!m_player)
 	{
 		return false;
 	}
 
-	const std::string mapFile = "../Data/Levels/Level1/Level1.tmx";
-
 	m_level = new Level();
-	if (!m_level->load(mapFile))
+	if (!m_level->load(LEVEL_MAP_PATH))
 	{
 		return false;
 	}
