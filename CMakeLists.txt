@@ -47,6 +47,8 @@ set(PROJECT_HEADERS
     include/Gameplay/Player/PlayerFactory.h
 
     include/Gameplay/Collider.h
+    include/Gameplay/Collisionable.h
+    include/Gameplay/CollisionManager.h
     include/Gameplay/GameObject.h
 
     include/Render/Animation.h
@@ -74,6 +76,8 @@ set(PROJECT_SOURCES
     src/Gameplay/Player/PlayerFactory.cpp
 
     src/Gameplay/Collider.cpp
+    src/Gameplay/Collisionable.cpp
+    src/Gameplay/CollisionManager.cpp
 
     src/Render/Animation.cpp
     src/Render/AnimationLoader.cpp

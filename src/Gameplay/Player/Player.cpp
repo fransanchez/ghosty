@@ -1,4 +1,5 @@
 #include <Gameplay/Collider.h>
+#include <Gameplay/CollisionManager.h>
 #include <Gameplay/Player/Player.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Render/AnimationType.h>
@@ -47,6 +48,8 @@ void Player::update(float deltaMilliseconds)
     handleInput();
 
     float deltaSeconds = deltaMilliseconds / 1000.f;
+
+    handleCollisions();
 
     updatePlayerPosition(deltaSeconds);
 
@@ -202,16 +205,6 @@ void Player::setGrounded(bool grounded) {
     }
 }
 
-void Player::setCollider(std::unique_ptr<Collider> collider)
-{
-    m_collider = std::move(collider);
-}
-
-Collider* Player::getCollider() const
-{
-    return m_collider.get();
-}
-
 sf::FloatRect Player::getSpriteBounds() const
 {
     return m_sprite.getGlobalBounds();
@@ -271,4 +264,19 @@ void Player::setAnimation(bool isRunning)
         printf("Animation not found\n");
         m_currentAnimation = nullptr;
     }
+}
+
+void Player::handleCollisions()
+{
+    if (!m_collider || !m_collisionManager)
+        return;
+
+    // To-Do
+
+ /*   m_isGrounded = m_collisionManager->checkGround(m_collider.get());
+
+    if (m_collisionManager->checkWalls(m_collider.get()))
+    {
+        m_direction.x = 0.f;
+    }*/
 }

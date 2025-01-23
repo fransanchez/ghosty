@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Utils/Constants.h>
-#include <Gameplay/GameObject.h>
+#include <Gameplay/Collisionable.h>
 #include <memory>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
@@ -11,7 +11,7 @@
 class Attack;
 class Collider;
 
-class Player : public GameObject
+class Player : public Collisionable
 {
     public:
         struct PlayerDescriptor
@@ -36,8 +36,9 @@ class Player : public GameObject
         Collider* getCollider() const;
         sf::FloatRect getSpriteBounds() const;
 
-        void update(float deltaMilliseconds) override;
-        void render(sf::RenderWindow& window) override;
+        void update(float deltaMilliseconds) override; // From GameObject
+        void render(sf::RenderWindow& window) override; // From GameObject
+        void handleCollisions() override; // From Collisionable
 
     private:
 
@@ -50,8 +51,6 @@ class Player : public GameObject
 
         std::unordered_map<AnimationType, Animation*> m_animations;
         Animation* m_currentAnimation{ nullptr };
-
-        std::unique_ptr<Collider> m_collider;
 
         int m_currentAttackIndex{ 0 };
 
