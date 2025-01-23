@@ -30,19 +30,19 @@ bool World::load()
 	//m_enemy = &zombie;
 	//zombie.setPosition({ .0f, 50.f });
 
-
-	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, { 100.f, 100.f }, { 200.f, 150.f });
-	if (!m_player)
-	{
-		return false;
-	}
-
 	m_level = new Level();
 	if (!m_level->load(LEVEL_MAP_PATH))
 	{
 		return false;
 	}
 
+	sf::Vector2f playerSpawnPoint = m_level->getPlayerSpawnPoint();
+	printf("Player spawn position %f %f", playerSpawnPoint.x, playerSpawnPoint.y);
+	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, playerSpawnPoint, { 200.f, 150.f });
+	if (!m_player)
+	{
+		return false;
+	}
 
 	return true;
 }

@@ -133,12 +133,23 @@ const std::vector<sf::Shape*>& Level::getWallsCollisionShapes() const
     return m_wallsCollisionLayer->getShapes();
 }
 
-const std::vector<sf::Shape*>& Level::getPlayerSpawnPoints() const
+const std::vector<sf::Vector2f>& Level::getPlayerSpawnPoints() const
 {
-    return m_playerSpawnsLayer->getShapes();
+    return m_playerSpawnsLayer->getPoints();
 }
 
-const std::vector<sf::Shape*>& Level::getEnemySpawnPoints() const
+const std::vector<sf::Vector2f>& Level::getEnemySpawnPoints() const
 {
-    return m_enemySpawnsLayer->getShapes();
+    return m_enemySpawnsLayer->getPoints();
+}
+
+sf::Vector2f Level::getPlayerSpawnPoint() const
+{
+    if (!m_playerSpawnsLayer || m_playerSpawnsLayer->getPoints().empty())
+    {
+        printf("Warning: No player spawn points found!\n");
+        return sf::Vector2f(94.f, 490.f);
+    }
+
+    return m_playerSpawnsLayer->getPoints().front();
 }

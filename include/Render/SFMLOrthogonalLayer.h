@@ -662,12 +662,17 @@ public:
     {
         return m_shapes;
     }
+    const std::vector<sf::Vector2f>& getPoints() const
+    {
+        return m_points;
+    }
 
 private:
 
     sf::Shape* createShape(const tmx::Object& object);
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    std::vector<sf::Vector2f> m_points;
     std::vector<sf::Shape*> m_shapes;
 };
 
@@ -697,6 +702,9 @@ sf::Shape* ObjectLayer::createShape(const tmx::Object& object)
     // Handle different object types
     switch (object.getShape())
     {
+    case tmx::Object::Shape::Point:
+        m_points.emplace_back(object.getPosition().x, object.getPosition().y);
+        break;
     case tmx::Object::Shape::Rectangle:
         shape = new sf::RectangleShape({ object.getAABB().width, object.getAABB().height });
         shape->setPosition(sf::Vector2f(object.getPosition().x, object.getPosition().y));
@@ -747,6 +755,14 @@ void ObjectLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
     for (const auto& shape : m_shapes)
     {
         target.draw(*shape, states);
+    }
+
+    for (const auto& point : m_points)
+    {
+        sf::CircleShape pointVisual(3.f); // Radio del punto visual
+        pointVisual.setFillColor(sf::Color::Green);
+        pointVisual.setPosition(point.x - pointVisual.getRadius(), point.y - pointVisual.getRadius());
+        target.draw(pointVisual, states);
     }
 }
 

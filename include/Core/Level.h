@@ -35,8 +35,9 @@ class Level
 
         const std::vector<sf::Shape*>& getFloorsCollisionShapes() const;
         const std::vector<sf::Shape*>& getWallsCollisionShapes() const;
-        const std::vector<sf::Shape*>& getPlayerSpawnPoints() const;
-        const std::vector<sf::Shape*>& getEnemySpawnPoints() const;
+        const std::vector<sf::Vector2f>& getPlayerSpawnPoints() const;
+        const std::vector<sf::Vector2f>& getEnemySpawnPoints() const;
+        sf::Vector2f getPlayerSpawnPoint() const;
 
     private:
         tmx::Map* m_map{ nullptr };

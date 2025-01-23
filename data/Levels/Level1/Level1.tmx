@@ -72,7 +72,7 @@
   <object id="21" name="Wall9" x="2311.33" y="392.667" width="179.333" height="247.333"/>
  </objectgroup>
  <objectgroup id="8" name="PlayerSpawns">
-  <object id="22" name="Spawn1" x="94" y="505">
+  <object id="22" name="Spawn1" x="94" y="490">
    <point/>
   </object>
  </objectgroup>
