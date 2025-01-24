@@ -167,7 +167,7 @@ void Player::handleInput()
                 sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
                 sf::Vector2f attackPosition = m_sprite.getPosition();
 
-                m_attacks[m_currentAttackIndex]->attack(attackPosition, attackDirection); // To-Do: First attack for now
+                m_attacks[m_currentAttackIndex]->attack(attackPosition, attackDirection, m_collisionManager); // To-Do: First attack for now
             }
         }
     }

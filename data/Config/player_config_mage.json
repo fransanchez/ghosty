@@ -74,6 +74,16 @@
                     "Loop": true,
                     "FrameDuration": 0.05
                 }
+            },
+            "Collider": {
+                "CenterOffset": {
+                    "X": 0.0,
+                    "Y": 0.0
+                },
+                "Size": {
+                    "Width": 25.0,
+                    "Height": 25.0
+                }
             }
         },
         "Fireball": {
@@ -89,6 +99,16 @@
                     "Loop": true,
                     "FrameDuration": 0.05
                 }
+            },
+            "Collider": {
+                "CenterOffset": {
+                    "X": 0.0,
+                    "Y": 0.0
+                },
+                "Size": {
+                    "Width": 25.0,
+                    "Height": 25.0
+                }
             }
         },
         "IceSpike": {
@@ -103,6 +123,16 @@
                     "FrameCountColumns": 9,
                     "Loop": false,
                     "FrameDuration": 0.05
+                }
+            },
+            "Collider": {
+                "CenterOffset": {
+                    "X": -10.0,
+                    "Y": 0.0
+                },
+                "Size": {
+                    "Width": 65.0,
+                    "Height": 70.0
                 }
             }
         }

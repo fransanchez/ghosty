@@ -1,24 +1,37 @@
 #pragma once
 
+#include <Gameplay/Collisionable.h>
 #include <Gameplay/GameObject.h>
 #include <SFML/Graphics.hpp>
 #include <Render/Animation.h>
 #include <cstdio>
 
-class Projectile : public GameObject
+class Projectile : public Collisionable
 {
     public:
-        Projectile() = default;
+        struct ProjectileDescriptor
+        {
+            sf::Vector2f position;
+            sf::Vector2f direction{ .0f, .0f };
+            float projectileSpeed;
+            float projectileLife;
+        };
+
+        Projectile() : m_animation(nullptr) {};
 
         ~Projectile() override;
 
-        void init(const sf::Vector2f& pos, const sf::Vector2f& dir, float projectile_speed, float life, const Animation& anim);
+        void init(ProjectileDescriptor descriptor,
+            const Animation* anim,
+            Collider* collider,
+            CollisionManager* collisionManager);
 
         sf::Vector2f getPosition() const;
-        const Animation& getAnimation() const;
+        const Animation* getAnimation() const;
 
-        void update(float deltaMilliseconds) override;
-        void render(sf::RenderWindow& window) override;
+        void update(float deltaMilliseconds) override; // From GameObject
+        void render(sf::RenderWindow& window) override; // From GameObject
+        void handleCollisions() override; // From Collisionable
 
         bool isExpired() const;
 
@@ -28,5 +41,5 @@ class Projectile : public GameObject
         float m_lifetime{ 0.0f };
         float m_projectileSpeed{ 0.0f };
         // We want a copy of the animation, not a pointer to the base one
-        Animation m_animation;
+        Animation* m_animation;
 };

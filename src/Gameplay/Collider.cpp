@@ -9,6 +9,10 @@ Collider::Collider(const sf::Vector2f& position, const sf::Vector2f& size, const
     m_position = position + centerOffset;
 }
 
+void Collider::setPosition(const sf::Vector2f& position) {
+    m_position = position + m_centerOffset;
+}
+
 sf::Vector2f Collider::getCenterOffset() const
 {
     return m_centerOffset;

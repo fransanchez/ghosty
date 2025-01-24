@@ -84,12 +84,16 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
                 const auto& animationData = attackData["Animation"].begin().value();
                 Animation* attackAnimation = AnimationLoader::LoadSingleAttackAnimation(animationData);
 
+                // Load Collider for the attack
+                Collider* collider = loadCollider(attackData, { 0.f, 0.f });
+
                 Attack* rangedAttack = new RangedAttack(
                     damage,
                     attackAnimation,
                     lifetime,
                     speed,
-                    fireRate
+                    fireRate,
+                    collider
                 );
 
                 attacks.push_back(rangedAttack);
@@ -104,15 +108,16 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
     return attacks;
 }
 
-Collider* PlayerFactory::loadCollider(const json& config, const sf::Vector2f& position)
+Collider* PlayerFactory::loadCollider(const json& parentData, const sf::Vector2f& position)
 {
-    if (!config.contains("Collider"))
+
+    if (!parentData.contains("Collider"))
     {
-        printf("Warning: No collider data found in config.\n");
+        printf("Warning: No collider data found in parent.\n");
         return nullptr;
     }
 
-    const auto& colliderData = config["Collider"];
+    const auto& colliderData = parentData["Collider"];
 
     sf::Vector2f size{
         colliderData["Size"]["Width"].get<float>(),

@@ -17,7 +17,7 @@ public:
     sf::Vector2f getSize() const;
 
     sf::FloatRect getBounds() const;
-
+    void setPosition(const sf::Vector2f& newPosition) override;
     void update(float delta) override;
     void render(sf::RenderWindow& window) override;
 

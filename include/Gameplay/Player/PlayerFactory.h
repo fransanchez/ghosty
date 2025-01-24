@@ -11,5 +11,5 @@ class PlayerFactory
     
     private:
         static std::vector<Attack*> loadAttacks(const nlohmann::json& config);
-        static Collider* PlayerFactory::loadCollider(const nlohmann::json& config, const sf::Vector2f& position);
+        static Collider* PlayerFactory::loadCollider(const nlohmann::json& parentData, const sf::Vector2f& position);
 };

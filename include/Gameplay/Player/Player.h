@@ -52,7 +52,7 @@ class Player : public Collisionable
         std::unordered_map<AnimationType, Animation*> m_animations;
         Animation* m_currentAnimation{ nullptr };
 
-        int m_currentAttackIndex{ 0 };
+        int m_currentAttackIndex{ 1 };
 
         float m_gravity{ GRAVITY };
         float m_verticalVelocity{ 0.0f };

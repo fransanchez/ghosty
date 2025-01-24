@@ -37,6 +37,5 @@ private:
     float m_frameDuration{ 0.1f };
     float m_elapsedTime{ 0.f };
     size_t m_currentFrame{ 0 };
-    int counter = 0;
     bool m_loop{ true };
 };
