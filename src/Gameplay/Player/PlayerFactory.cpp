@@ -39,7 +39,7 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
     }
 
     // Load Player Attacks
-    std::vector<std::unique_ptr<Attack>> attacks = loadAttacks(config);
+    std::vector<Attack*> attacks = loadAttacks(config);
 
     if (attacks.empty())
     {
@@ -52,31 +52,23 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
     descriptor.position = position;
     descriptor.speed = speed;
 
+    Collider* collider = loadCollider(config, position);
+
     Player* player = new Player();
-    if (!player->init(descriptor, playerAnimations, std::move(attacks)))
+    if (!player->init(descriptor, playerAnimations, attacks, collider, collisionManager))
     {
         printf("Error: Could not initialize player.\n");
         delete player;
         return nullptr;
     }
 
-    std::unique_ptr<Collider> collider = loadCollider(config, player, position);
-    if (collider)
-    {
-        player->setCollider(std::move(collider));
-    }
-
-    player->setCollisionManager(collisionManager);
-    collisionManager->registerCollider(player->getCollider());
-
     return player;
 }
 
-
-std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const json& config)
+std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
 {
 
-    std::vector<std::unique_ptr<Attack>> attacks;
+    std::vector<Attack*> attacks;
 
     if (config.contains("Attacks"))
     {
@@ -92,7 +84,7 @@ std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const json& conf
                 const auto& animationData = attackData["Animation"].begin().value();
                 Animation* attackAnimation = AnimationLoader::LoadSingleAttackAnimation(animationData);
 
-                auto rangedAttack = std::make_unique<RangedAttack>(
+                Attack* rangedAttack = new RangedAttack(
                     damage,
                     attackAnimation,
                     lifetime,
@@ -100,7 +92,7 @@ std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const json& conf
                     fireRate
                 );
 
-                attacks.push_back(std::move(rangedAttack));
+                attacks.push_back(rangedAttack);
             }
             else
             {
@@ -112,7 +104,7 @@ std::vector<std::unique_ptr<Attack>> PlayerFactory::loadAttacks(const json& conf
     return attacks;
 }
 
-std::unique_ptr<Collider> PlayerFactory::loadCollider(const json& config, Player* player, const sf::Vector2f& position)
+Collider* PlayerFactory::loadCollider(const json& config, const sf::Vector2f& position)
 {
     if (!config.contains("Collider"))
     {
@@ -121,7 +113,6 @@ std::unique_ptr<Collider> PlayerFactory::loadCollider(const json& config, Player
     }
 
     const auto& colliderData = config["Collider"];
-    sf::FloatRect spriteBounds = player->getSpriteBounds();
 
     sf::Vector2f size{
         colliderData["Size"]["Width"].get<float>(),
@@ -133,5 +124,5 @@ std::unique_ptr<Collider> PlayerFactory::loadCollider(const json& config, Player
     };
 
     // Align the collider relative to the center of the sprite
-    return std::make_unique<Collider>(position, size, centerOffset);
+    return new Collider(position, size, centerOffset);
 }

@@ -7,6 +7,11 @@
 #include <SFML/Window/Keyboard.hpp>
 
 Player::~Player() {
+    m_collisionManager->unregisterCollider(m_collider);
+
+    for (auto& attack : m_attacks) {
+        delete attack;
+    }
     m_attacks.clear();
     for (auto& [type, animation] : m_animations)
     {
@@ -18,10 +23,14 @@ Player::~Player() {
 
 bool Player::init(const PlayerDescriptor& descriptor,
     std::unordered_map<AnimationType, Animation*>& animations,
-    std::vector<std::unique_ptr<Attack>> attacks)
+    std::vector<Attack*> attacks,
+    Collider* collider,
+    CollisionManager* collisionManager)
 {
-    m_animations = move(animations);
-    m_attacks = std::move(attacks);
+    m_animations = animations;
+    m_attacks = attacks;
+    m_collider = collider;
+    m_collisionManager = collisionManager;
 
     if (m_animations.count(AnimationType::Idle))
     {
@@ -274,10 +283,10 @@ void Player::handleCollisions()
         return;
 
     if (m_verticalVelocity >= 0) {
-        m_isGrounded = m_collisionManager->checkIsGrounded(m_collider.get());
+        m_isGrounded = m_collisionManager->checkIsGrounded(m_collider);
     }
 
-    auto wallCollision = m_collisionManager->checkWalls(m_collider.get());
+    auto wallCollision = m_collisionManager->checkWalls(m_collider);
 
     if (wallCollision.collided)
     {

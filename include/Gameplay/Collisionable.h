@@ -10,16 +10,15 @@ class Collisionable : public GameObject
 {
 public:
     Collisionable() = default;
+    Collisionable(Collider* collider, CollisionManager* manager);
     virtual ~Collisionable();
 
-    void setCollider(std::unique_ptr<Collider> collider);
     Collider* getCollider() const;
 
-    void setCollisionManager(CollisionManager* manager);
     CollisionManager* getCollisionManager() const;
 
     virtual void handleCollisions() = 0;
 protected:
-    std::unique_ptr<Collider> m_collider;
+    Collider* m_collider;
     CollisionManager* m_collisionManager = nullptr;
 };

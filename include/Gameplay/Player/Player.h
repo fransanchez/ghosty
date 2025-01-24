@@ -24,7 +24,9 @@ class Player : public Collisionable
 
         bool init(const PlayerDescriptor& descriptor,
             std::unordered_map<AnimationType, Animation*>& animations,
-            std::vector<std::unique_ptr<Attack>> attacks);
+            std::vector<Attack*> attacks,
+            Collider* collider,
+            CollisionManager* collisionManager);
 
         void setAnimation(bool isRunning);
 
@@ -40,7 +42,7 @@ class Player : public Collisionable
 
     private:
 
-        std::vector<std::unique_ptr<Attack>> m_attacks;
+        std::vector<Attack*> m_attacks;
 
         sf::Sprite m_sprite;
         sf::Vector2f m_direction{ .0f, .0f };

@@ -1,23 +1,22 @@
 #include <Gameplay/Collisionable.h>
+#include <Gameplay/CollisionManager.h>
 
-Collisionable::~Collisionable() {
-    m_collider.reset();
-    m_collisionManager = nullptr;
+Collisionable::Collisionable(Collider* collider, CollisionManager* manager) {
+
+    m_collider = collider;
+    m_collisionManager = manager;
+    m_collisionManager->registerCollider(m_collider);
 }
 
-void Collisionable::setCollider(std::unique_ptr<Collider> collider)
-{
-    m_collider = std::move(collider);
+Collisionable::~Collisionable() {
+    delete(m_collider);
+    m_collider = nullptr;
+    m_collisionManager = nullptr;
 }
 
 Collider* Collisionable::getCollider() const
 {
-    return m_collider.get();
-}
-
-void Collisionable::setCollisionManager(CollisionManager* manager)
-{
-    m_collisionManager = manager;
+    return m_collider;
 }
 
 CollisionManager* Collisionable::getCollisionManager() const

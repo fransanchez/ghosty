@@ -11,12 +11,17 @@ CollisionManager::~CollisionManager()
 
 void CollisionManager::registerCollider(Collider* collider)
 {
-    m_colliders.push_back(collider);
+    if (std::find(m_colliders.begin(), m_colliders.end(), collider) == m_colliders.end()) {
+        m_colliders.push_back(collider);
+    }
 }
 
 void CollisionManager::unregisterCollider(Collider* collider)
 {
-    m_colliders.erase(std::remove(m_colliders.begin(), m_colliders.end(), collider), m_colliders.end());
+    auto it = std::find(m_colliders.begin(), m_colliders.end(), collider);
+    if (it != m_colliders.end()) {
+        m_colliders.erase(it);
+    }
 }
 
 void CollisionManager::setGroundShapes(const std::vector<sf::Shape*>& groundShapes)
