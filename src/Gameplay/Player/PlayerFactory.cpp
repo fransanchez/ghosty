@@ -51,11 +51,14 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
     Player::PlayerDescriptor descriptor;
     descriptor.position = position;
     descriptor.speed = speed;
+    descriptor.animations = new std::unordered_map<AnimationType, Animation*>(std::move(playerAnimations));
+    descriptor.attacks = attacks;
 
     Collider* collider = loadCollider(config, position);
+ 
 
     Player* player = new Player();
-    if (!player->init(descriptor, playerAnimations, attacks, collider, collisionManager))
+    if (!player->init(descriptor, collider, collisionManager))
     {
         printf("Error: Could not initialize player.\n");
         delete player;

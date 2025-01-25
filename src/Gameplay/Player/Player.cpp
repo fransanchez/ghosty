@@ -13,28 +13,30 @@ Player::~Player() {
         delete attack;
     }
     m_attacks.clear();
-    for (auto& [type, animation] : m_animations)
+    if (m_animations)
     {
-        delete animation;
+        for (auto& [type, animation] : *m_animations)
+        {
+            delete animation;
+        }
+        delete m_animations;
+        m_animations = nullptr;
     }
-    m_animations.clear();
     m_currentAnimation = nullptr;
 }
 
 bool Player::init(const PlayerDescriptor& descriptor,
-    std::unordered_map<AnimationType, Animation*>& animations,
-    std::vector<Attack*> attacks,
     Collider* collider,
     CollisionManager* collisionManager)
 {
-    m_animations = animations;
-    m_attacks = attacks;
+    m_animations = descriptor.animations;
+    m_attacks = descriptor.attacks;
     m_collider = collider;
     m_collisionManager = collisionManager;
 
-    if (m_animations.count(AnimationType::Idle))
+    if (m_animations->count(AnimationType::Idle))
     {
-        m_currentAnimation = m_animations[AnimationType::Idle];
+        m_currentAnimation = (*m_animations)[AnimationType::Idle];
         m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
     }
     else
@@ -252,14 +254,14 @@ void Player::setAnimation(bool isRunning)
     }
 
     // Check if it's not the same as the one desired, otherwise return
-    if (m_currentAnimation && m_currentAnimation == m_animations[desiredAnimationType])
+    if (m_currentAnimation && m_currentAnimation == (*m_animations)[desiredAnimationType])
     {
         return;
     }
 
-    if (m_animations.count(desiredAnimationType))
+    if (m_animations->count(desiredAnimationType))
     {
-        m_currentAnimation = m_animations[desiredAnimationType];
+        m_currentAnimation = (*m_animations)[desiredAnimationType];
         if (m_currentAnimation->getFrames().empty())
         {
             printf("Animation has no frames\n");

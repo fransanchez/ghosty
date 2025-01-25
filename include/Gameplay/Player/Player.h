@@ -18,13 +18,13 @@ class Player : public Collisionable
         {
             sf::Vector2f position;
             sf::Vector2f speed{ .0f, .0f };
+            std::unordered_map<AnimationType, Animation*>* animations;
+            std::vector<Attack*> attacks;
         };
 
         ~Player() override;
 
         bool init(const PlayerDescriptor& descriptor,
-            std::unordered_map<AnimationType, Animation*>& animations,
-            std::vector<Attack*> attacks,
             Collider* collider,
             CollisionManager* collisionManager);
 
@@ -49,7 +49,7 @@ class Player : public Collisionable
         sf::Vector2f m_speed{ 0.f, 0.f };
         bool m_isGrounded{ false };
 
-        std::unordered_map<AnimationType, Animation*> m_animations;
+        std::unordered_map<AnimationType, Animation*>* m_animations;
         Animation* m_currentAnimation{ nullptr };
 
         int m_currentAttackIndex{ 1 };
