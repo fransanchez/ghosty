@@ -11,6 +11,7 @@ class AnimationLoader
 {
 public:
     static std::unordered_map<AnimationType, Animation*> LoadPlayerAnimations(const nlohmann::json& configFile);
+    static std::unordered_map<AnimationType, Animation*> LoadAnimations(const nlohmann::json& animationsJson);
     static Animation* LoadSingleAttackAnimation(const nlohmann::json& animationData);
 
 private:

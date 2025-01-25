@@ -39,10 +39,11 @@ set(PROJECT_HEADERS
     include/Core/Level.h
 
     include/Gameplay/AttackSystem/Attack.h
+    include/Gameplay/AttackSystem/MeleeAttack.h
     include/Gameplay/AttackSystem/Projectile.h
     include/Gameplay/AttackSystem/RangedAttack.h
     include/Gameplay/Enemy/Enemy.h
-    include/Gameplay/Enemy/Zombie.h
+    include/Gameplay/Enemy/EnemyFactory.h
     include/Gameplay/Player/Player.h
     include/Gameplay/Player/PlayerFactory.h
 
@@ -68,10 +69,11 @@ set(PROJECT_SOURCES
     src/Core/World.cpp
     src/Core/Level.cpp
 
+    src/Gameplay/AttackSystem/MeleeAttack.cpp
     src/Gameplay/AttackSystem/Projectile.cpp
     src/Gameplay/AttackSystem/RangedAttack.cpp
     src/Gameplay/Enemy/Enemy.cpp
-    src/Gameplay/Enemy/Zombie.cpp
+    src/Gameplay/Enemy/EnemyFactory.cpp
     src/Gameplay/Player/Player.cpp
     src/Gameplay/Player/PlayerFactory.cpp
 

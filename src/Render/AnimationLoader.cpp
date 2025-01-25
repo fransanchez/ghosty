@@ -7,10 +7,14 @@ using json = nlohmann::json;
 
 std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadPlayerAnimations(const json& config)
 {
+    return LoadAnimations(config["Animations"]);
+}
 
+std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadAnimations(const json& animationsJson)
+{
     std::unordered_map<AnimationType, Animation*> animations;
 
-    for (const auto& [key, animationData] : config["Animations"].items())
+    for (const auto& [key, animationData] : animationsJson.items())
     {
         AnimationType type = parseAnimationType(key);
         animations[type] = LoadAnimation(
@@ -25,7 +29,7 @@ std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadPlayerAnimati
     return animations;
 }
 
-Animation* AnimationLoader::LoadSingleAttackAnimation(const nlohmann::json& animationData)
+Animation* AnimationLoader::LoadSingleAttackAnimation(const json& animationData)
 {
     return LoadAnimation(
         animationData["TexturePath"].get<std::string>(),
