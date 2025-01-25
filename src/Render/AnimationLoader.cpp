@@ -57,6 +57,8 @@ Animation* AnimationLoader::LoadAnimation(const std::string& texturePath, int fr
                 texture->copyToImage(),
                 sf::IntRect(col * frameWidth, row * frameHeight, frameWidth, frameHeight)))
             {
+                frameTexture->setSmooth(true);
+                frameTexture->setRepeated(false);
                 animation->addFrame(frameTexture);
             }
             else
