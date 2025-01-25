@@ -34,8 +34,6 @@ class Player : public Collisionable
         void setGrounded(bool grounded);
         bool isGrounded() const { return m_isGrounded; }
 
-        sf::FloatRect getSpriteBounds() const;
-
         void update(float deltaMilliseconds) override; // From GameObject
         void render(sf::RenderWindow& window) override; // From GameObject
         void handleCollisions() override; // From Collisionable
@@ -55,7 +53,6 @@ class Player : public Collisionable
 
         int m_currentAttackIndex{ 1 };
 
-        float m_gravity{ GRAVITY };
         float m_verticalVelocity{ 0.0f };
 
         bool m_isAttacking{ false };

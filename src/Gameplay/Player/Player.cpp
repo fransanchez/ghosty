@@ -100,7 +100,7 @@ void Player::updatePlayerPosition(float deltaSeconds)
 {
     if (!m_isGrounded)
     {
-        m_verticalVelocity += m_gravity * deltaSeconds;
+        m_verticalVelocity += GRAVITY * deltaSeconds;
 
         const float maxFallSpeed = 1000.0f;
         if (m_verticalVelocity > maxFallSpeed)
@@ -216,11 +216,6 @@ void Player::setGrounded(bool grounded) {
     {
         m_verticalVelocity = 0.0f;
     }
-}
-
-sf::FloatRect Player::getSpriteBounds() const
-{
-    return m_sprite.getGlobalBounds();
 }
 
 void Player::setAnimation()
