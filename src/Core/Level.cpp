@@ -66,6 +66,8 @@ bool Level::load(const std::string& filePath)
     m_wallsCollisionLayer = new ObjectLayer(*m_map, 5);
     m_playerSpawnsLayer = new ObjectLayer(*m_map, 6);
     m_enemySpawnsLayer = new ObjectLayer(*m_map, 7);
+    m_enemyPatrolAreasLayer = new ObjectLayer(*m_map, 8);
+
 
     return true;
 }
@@ -84,6 +86,7 @@ void Level::unload()
     delete m_wallsCollisionLayer;
     delete m_playerSpawnsLayer;
     delete m_enemySpawnsLayer;
+    delete m_enemyPatrolAreasLayer;
     delete m_map;
     m_decorations = nullptr;
     m_fillers = nullptr;
@@ -92,6 +95,7 @@ void Level::unload()
     m_wallsCollisionLayer = nullptr;
     m_playerSpawnsLayer = nullptr;
     m_enemySpawnsLayer = nullptr;
+    m_enemyPatrolAreasLayer = nullptr;
     m_map = nullptr;
 }
 
@@ -114,14 +118,16 @@ void Level::render(sf::RenderWindow& window)
         window.draw(*m_fillers);
     if (m_ground)
         window.draw(*m_ground);
-    if (m_floorsCollisionLayer)
-        window.draw(*m_floorsCollisionLayer);
-    if (m_wallsCollisionLayer)
-        window.draw(*m_wallsCollisionLayer);
+    //if (m_floorsCollisionLayer)
+    //    window.draw(*m_floorsCollisionLayer);
+    //if (m_wallsCollisionLayer)
+    //    window.draw(*m_wallsCollisionLayer);
     if (m_playerSpawnsLayer)
         window.draw(*m_playerSpawnsLayer);
     if (m_enemySpawnsLayer)
         window.draw(*m_enemySpawnsLayer);
+    if (m_enemyPatrolAreasLayer)
+        window.draw(*m_enemyPatrolAreasLayer);
 }
 const std::vector<sf::Shape*>& Level::getFloorsCollisionShapes() const
 {
@@ -131,6 +137,11 @@ const std::vector<sf::Shape*>& Level::getFloorsCollisionShapes() const
 const std::vector<sf::Shape*>& Level::getWallsCollisionShapes() const
 {
     return m_wallsCollisionLayer->getShapes();
+}
+
+const std::vector<sf::Shape*>& Level::getEnemyPatrolAreasShapes() const
+{
+    return m_enemyPatrolAreasLayer->getShapes();
 }
 
 const std::vector<sf::Vector2f>& Level::getPlayerSpawnPoints() const
@@ -153,3 +164,4 @@ sf::Vector2f Level::getPlayerSpawnPoint() const
 
     return m_playerSpawnsLayer->getPoints().front();
 }
+

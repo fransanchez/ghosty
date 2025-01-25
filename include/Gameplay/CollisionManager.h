@@ -18,6 +18,13 @@ struct WallCollision
     bool topCollision = false;
 };
 
+struct PatrolAreaCollision
+{
+    bool inside = false;
+    bool leftEdge = false;
+    bool rightEdge = false;
+};
+
 class CollisionManager
 {
 public:
@@ -28,10 +35,12 @@ public:
 
     void setGroundShapes(const std::vector<sf::Shape*>& groundShapes);
     void setWallShapes(const std::vector<sf::Shape*>& wallShapes);
+    void setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& patrolAreasShapes);
+
 
     bool checkIsGrounded(const Collider* collider) const;
     WallCollision checkWalls(const Collider* collider) const;
-
+    PatrolAreaCollision checkPatrolArea(const Collider* collider) const;
     std::vector<Collider*> checkCollisionsWith(const Collider* collider) const;
 
 private:
@@ -40,4 +49,5 @@ private:
     std::vector<Collider*> m_colliders;
     std::vector<sf::Shape*> m_groundShapes;
     std::vector<sf::Shape*> m_wallShapes;
+    std::vector<sf::Shape*> m_enemyPatrolAreasShapes;
 };

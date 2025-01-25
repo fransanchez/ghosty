@@ -26,6 +26,7 @@ bool World::load()
 	m_collisionManager = new CollisionManager();
 	m_collisionManager->setGroundShapes(m_level->getFloorsCollisionShapes());
 	m_collisionManager->setWallShapes(m_level->getWallsCollisionShapes());
+	m_collisionManager->setEnemyPatrolAreasShapes(m_level->getEnemyPatrolAreasShapes());
 
 	sf::Vector2f playerSpawnPoint = m_level->getPlayerSpawnPoint();
 	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, playerSpawnPoint, { 200.f, 150.f }, m_collisionManager);

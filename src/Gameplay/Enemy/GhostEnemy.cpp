@@ -1,3 +1,4 @@
+#include <Gameplay/CollisionManager.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/Enemy/GhostEnemy.h>
 #include <cmath>
@@ -9,6 +10,29 @@ void GhostEnemy::update(float deltaMilliseconds)
     handleState(deltaMilliseconds);
 
     float deltaSeconds = deltaMilliseconds / 1000.f;
+
+    if (m_currentState == EnemyState::Patrol)
+    {
+        PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
+
+        if (!patrolCollision.inside)
+        {
+            printf("Warning: GhostEnemy is outside its patrol area.\n");
+            return; // Prevent movement if outside patrol area
+        }
+
+        // Reverse direction if touching edges
+        if (patrolCollision.leftEdge)
+        {
+            m_movingRight = true;
+        }
+        else if (patrolCollision.rightEdge)
+        {
+            m_movingRight = false;
+        }
+        m_direction.x = m_movingRight ? 1.0f : -1.0f;
+    }
+
     // Move based on direction and speed
     m_position.x += m_direction.x * m_speed.x * deltaSeconds;
 
@@ -18,7 +42,12 @@ void GhostEnemy::update(float deltaMilliseconds)
         m_currentAnimation->update(deltaSeconds);
         m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
     }
-
+    if (m_movingRight) {
+        m_sprite.setScale(1.0f, 1.0f);
+    }
+    else {
+        m_sprite.setScale(-1.0f, 1.0f);
+    }
     m_sprite.setPosition(m_position);
     // Sync collider position
     m_collider->setPosition(m_position);

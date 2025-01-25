@@ -7,6 +7,7 @@ CollisionManager::~CollisionManager()
     m_colliders.clear();
     m_groundShapes.clear();
     m_wallShapes.clear();
+    m_enemyPatrolAreasShapes.clear();
 }
 
 void CollisionManager::registerCollider(Collider* collider)
@@ -33,6 +34,12 @@ void CollisionManager::setWallShapes(const std::vector<sf::Shape*>& wallShapes)
 {
     m_wallShapes = wallShapes;
 }
+
+void CollisionManager::setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& patrolAreasShapes)
+{
+    m_enemyPatrolAreasShapes = patrolAreasShapes;
+}
+
 
 bool CollisionManager::checkIsGrounded(const Collider* collider) const
 {
@@ -110,4 +117,32 @@ std::vector<Collider*> CollisionManager::checkCollisionsWith(const Collider* col
     }
 
     return collisions;
+}
+
+PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider) const
+{
+    PatrolAreaCollision result;
+    sf::FloatRect colliderBounds = collider->getBounds();
+
+    for (const auto* patrolShape : m_enemyPatrolAreasShapes)
+    {
+        sf::FloatRect patrolBounds = patrolShape->getGlobalBounds();
+
+        if (colliderBounds.intersects(patrolBounds))
+        {
+            result.inside = true;
+
+            if (colliderBounds.left <= patrolBounds.left)
+            {
+                result.leftEdge = true;
+            }
+            if (colliderBounds.left + colliderBounds.width >= patrolBounds.left + patrolBounds.width)
+            {
+                result.rightEdge = true;
+            }
+            break; // Assume only one patrol area per enemy
+        }
+    }
+
+    return result;
 }
