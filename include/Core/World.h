@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <Core/Level.h>
-#include <Gameplay/Enemy/Zombie.h>
 #include <Gameplay/Player/Player.h>
 #include <Utils/ObjectPool.h>
 
@@ -29,7 +28,7 @@ class World
 
 	private:
 
-		ObjectPool<Zombie, 10> m_zombiesPool;
+	//	ObjectPool<Zombie, 10> m_zombiesPool;
 
 		// This is just an example. Think a good way to group the actors of your game. If they need any type of manager, etc...
 		Enemy* m_enemy{ nullptr };

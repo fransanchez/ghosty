@@ -4,6 +4,7 @@
 #include <Gameplay/CollisionManager.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
+#include <Gameplay/Enemy/GhostEnemy.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/AttackSystem/MeleeAttack.h>
@@ -26,6 +27,8 @@ Enemy* EnemyFactory::createEnemy(const std::string& configPath, const sf::Vector
 
     json config;
     file >> config;
+
+    std::string enemyType = config["EnemyType"].get<std::string>();
 
     // Load animations
     auto animations = loadAnimations(config);
@@ -54,11 +57,32 @@ Enemy* EnemyFactory::createEnemy(const std::string& configPath, const sf::Vector
         return nullptr;
     }
 
-    // Create and initialize the enemy
-    Enemy* enemy = new Enemy();
+    sf::Vector2f speed = { 0.f, 0.f }; // Default speed
+    if (config.contains("Speed"))
+    {
+        speed.x = config["Speed"]["X"].get<float>();
+        speed.y = config["Speed"]["Y"].get<float>();
+    }
+
+    // Create enemy based on type
+    Enemy* enemy = nullptr;
+    if (enemyType == "Ghost")
+    {
+        enemy = new GhostEnemy();
+    }
+    else
+    {
+        printf("Error: Unsupported EnemyType %s\n", enemyType.c_str());
+        delete collider;
+        for (auto& [type, animation] : animations)
+            delete animation;
+        for (auto& attack : attacks)
+            delete attack;
+        return nullptr;
+    }
     Enemy::EnemyDescriptor descriptor;
     descriptor.position = position;
-    descriptor.speed = { 0.f, 0.f }; // Default to 0 speed for now
+    descriptor.speed = speed;
     descriptor.animations = new std::unordered_map<AnimationType, Animation*>(std::move(animations));
     descriptor.attacks = attacks;
 

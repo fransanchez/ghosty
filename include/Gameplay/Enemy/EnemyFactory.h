@@ -1,11 +1,11 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
+#include <Render/AnimationType.h>
+#include <SFML/System/Vector2.hpp>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <SFML/System/Vector2.hpp>
-#include <Render/AnimationType.h>
-#include <nlohmann/json.hpp>
 
 class Enemy;
 class Collider;

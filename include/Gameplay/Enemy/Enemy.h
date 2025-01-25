@@ -13,6 +13,14 @@ class Enemy : public Collisionable
 {
 	public:
 
+		enum class EnemyState
+		{
+			Idle,
+			Patrol,
+			Chase,
+			Attack
+		};
+
 		struct EnemyDescriptor
 		{
 			sf::Vector2f position;
@@ -21,17 +29,18 @@ class Enemy : public Collisionable
 			std::vector<Attack*> attacks;
 		};
 
-		~Enemy() override = default;
+		virtual ~Enemy() override;
 
 		bool init(const EnemyDescriptor& enemyDescriptor, Collider* collider, CollisionManager* collisionManager);
 
 		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
 
-		void update(float deltaMilliseconds) override; // From GameObject
 		void render(sf::RenderWindow& window) override; // From GameObject
-		void handleCollisions() override; // From Collisionable
 
 	protected:
+		virtual void handleState(float deltaMilliseconds) = 0;
+		void changeState(EnemyState newState);
+		void updateAnimation();
 
 		sf::Sprite m_sprite;
 		sf::Vector2f m_direction{ .0f, .0f };
@@ -41,4 +50,5 @@ class Enemy : public Collisionable
 
 		Animation* m_currentAnimation{ nullptr };
 		int m_currentAttackIndex{ 0 };
+		EnemyState m_currentState{ EnemyState::Idle };
 };

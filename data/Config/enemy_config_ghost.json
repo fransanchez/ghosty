@@ -1,4 +1,5 @@
 {
+    "EnemyType": "Ghost",
     "Collider": {
         "CenterOffset": {
             "X": 0.0,
@@ -8,6 +9,10 @@
             "Width": 64.0,
             "Height": 72.0
         }
+    },
+    "Speed": {
+        "X": 100.0,
+        "Y": 0.0
     },
     "Animations": {
         "Idle": {
@@ -22,28 +27,28 @@
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": true,
-            "FrameDuration": 0.1
+            "FrameDuration": 0.2
         },
         "Attack": {
             "TexturePath": "../data/Images/Enemies/Ghost/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": false,
-            "FrameDuration": 0.1
+            "FrameDuration": 0.2
         },
         "Hurt": {
             "TexturePath": "../data/Images/Enemies/Ghost/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 2,
             "Loop": false,
-            "FrameDuration": 0.15
+            "FrameDuration": 0.4
         },
         "Death": {
             "TexturePath": "../data/Images/Enemies/Ghost/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 5,
             "Loop": false,
-            "FrameDuration": 0.09
+            "FrameDuration": 0.2
         }
     },
     "Attacks": {
