@@ -28,7 +28,7 @@ class Player : public Collisionable
             Collider* collider,
             CollisionManager* collisionManager);
 
-        void setAnimation(bool isRunning);
+        void setAnimation();
 
         sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
         void setGrounded(bool grounded);
@@ -48,6 +48,7 @@ class Player : public Collisionable
         sf::Vector2f m_direction{ .0f, .0f };
         sf::Vector2f m_speed{ 0.f, 0.f };
         bool m_isGrounded{ false };
+        bool m_isRunning{ false };
 
         std::unordered_map<AnimationType, Animation*>* m_animations;
         Animation* m_currentAnimation{ nullptr };

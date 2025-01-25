@@ -142,9 +142,9 @@ void Player::handleInput()
 {
     m_direction = { 0.f, 0.f };
 
-    bool isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
+    m_isRunning = sf::Keyboard::isKeyPressed(sf::Keyboard::LShift);
 
-    float horizontalVelocity = isRunning ? RUN_VELOCITY : WALK_VELOCITY;
+    float horizontalVelocity = m_isRunning ? RUN_VELOCITY : WALK_VELOCITY;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
@@ -152,7 +152,7 @@ void Player::handleInput()
         {
             m_verticalVelocity = JUMP_INITIAL_VELOCITY;
             m_isGrounded = false;
-            setAnimation(isRunning);
+            setAnimation();
         }
     }
 
@@ -180,32 +180,32 @@ void Player::handleInput()
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         //m_direction.y = -1.f * horizontalVelocity;
-        //setAnimation(isRunning);
+        //setAnimation();
 
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
         //m_direction.y = 1.f * horizontalVelocity;
-        //setAnimation(isRunning);
+        //setAnimation();
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         m_direction.x = -1.f * horizontalVelocity;
         m_sprite.setScale(-1.0f, 1.0f);
-        setAnimation(isRunning);
+        setAnimation();
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
 
         m_direction.x = 1.f * horizontalVelocity;
         m_sprite.setScale(1.0f, 1.0f);
-        setAnimation(isRunning);
+        setAnimation();
     }
 
     if (m_direction == sf::Vector2f(0.f, 0.f) && m_isGrounded)
     {
-        setAnimation(isRunning);
+        setAnimation();
     }
 }
 
@@ -223,7 +223,7 @@ sf::FloatRect Player::getSpriteBounds() const
     return m_sprite.getGlobalBounds();
 }
 
-void Player::setAnimation(bool isRunning)
+void Player::setAnimation()
 {
 
     AnimationType desiredAnimationType = AnimationType::Idle;
@@ -245,11 +245,11 @@ void Player::setAnimation(bool isRunning)
     else {
         // Movement
         if (m_isAttacking) {
-            desiredAnimationType = isRunning ? AnimationType::RunAttack : AnimationType::WalkAttack;
+            desiredAnimationType = m_isRunning ? AnimationType::RunAttack : AnimationType::WalkAttack;
         }
         else
         {
-            desiredAnimationType = isRunning ? AnimationType::Run : AnimationType::Walk;
+            desiredAnimationType = m_isRunning ? AnimationType::Run : AnimationType::Walk;
         }
     }
 
