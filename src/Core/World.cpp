@@ -37,7 +37,7 @@ bool World::load()
 
 	// Load Enemy
 	sf::Vector2f enemySpawnPoint = m_level->getEnemySpawnPoints().empty() ? sf::Vector2f(300.f, 300.f) : m_level->getEnemySpawnPoints()[0];
-	m_enemy = EnemyFactory::createEnemy(GHOST_ENEMY_CONFIG_PATH, enemySpawnPoint, m_collisionManager);
+	m_enemy = EnemyFactory::createEnemy(SKELETON_ENEMY_CONFIG_PATH, enemySpawnPoint, m_collisionManager);
 	if (!m_enemy)
 	{
 		return false;

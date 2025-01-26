@@ -5,6 +5,7 @@
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
 #include <Gameplay/Enemy/GhostEnemy.h>
+#include <Gameplay/Enemy/SkeletonEnemy.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/AttackSystem/MeleeAttack.h>
@@ -75,6 +76,10 @@ Enemy* EnemyFactory::createEnemy(const std::string& configPath, const sf::Vector
     if (enemyType == "Ghost")
     {
         enemy = new GhostEnemy();
+    }
+    else if (enemyType == "Skeleton")
+    {
+        enemy = new SkeletonEnemy();
     }
     else
     {

@@ -73,7 +73,7 @@
   </object>
  </objectgroup>
  <objectgroup id="9" name="EnemySpawns">
-  <object id="23" name="Enemy1" x="1053.33" y="470">
+  <object id="23" name="Enemy1" x="1053" y="485">
    <point/>
   </object>
   <object id="24" name="Enemy2" x="1517.33" y="242.667">
@@ -84,6 +84,6 @@
   </object>
  </objectgroup>
  <objectgroup id="16" name="EnemyAreas">
-  <object id="28" name="EnemyArea1" x="637.333" y="437.333" width="1005.33" height="80"/>
+  <object id="28" name="EnemyArea1" x="580" y="364" width="1142" height="166"/>
  </objectgroup>
 </map>

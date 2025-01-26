@@ -13,6 +13,6 @@ constexpr float GRAVITY = 981.0f;
 constexpr char* PLAYER_CONFIG_PATH = "../data/Config/player_config_mage.json";
 
 constexpr char* GHOST_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_ghost.json";
-
+constexpr char* SKELETON_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_skeleton.json";
 
 constexpr char* LEVEL_MAP_PATH = "../Data/Levels/Level1/Level1.tmx";
