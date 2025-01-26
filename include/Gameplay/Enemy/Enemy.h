@@ -19,6 +19,7 @@ class Enemy : public Collisionable
 			Patrol,
 			Chase,
 			TargetLocked,
+			ReturnToOrigin,
 			Attack
 		};
 
@@ -47,9 +48,9 @@ class Enemy : public Collisionable
 		virtual void handlePatrolState() = 0;
 		virtual void handleChaseState() = 0;
 		virtual void handleTargetLockedState() = 0;
+		virtual void handleReturnToOriginState() = 0;
 		virtual void handleAttackState() = 0;
 		virtual bool isPlayerInRange() = 0;
-		virtual bool canReachPlayer() = 0;
 
 		void changeState(EnemyState newState);
 		void updateAnimation();
@@ -60,11 +61,13 @@ class Enemy : public Collisionable
 		void updateSight();
 		void handleState(float deltaMilliseconds);
 		bool isPlayerInSight();
+		bool isPlayerInArea();
 
 		sf::Sprite m_sprite;
 		sf::Vector2f m_speed{ 0.f, 0.f };
 		sf::Vector2f m_patrolSpeed;
 		sf::Vector2f m_chaseSpeed;
+		sf::Vector2f m_originalPosition;
 		std::unordered_map<AnimationType, Animation*>* m_animations;
 		std::vector<Attack*> m_attacks;
 

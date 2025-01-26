@@ -88,6 +88,6 @@
  </objectgroup>
  <objectgroup id="16" name="EnemyAreas">
   <object id="28" name="EnemyArea1" x="580" y="364" width="1142" height="166"/>
-  <object id="29" name="EnemyArea2" x="48" y="56" width="2000" height="474"/>
+  <object id="29" name="EnemyArea2" x="48" y="56" width="2000" height="542"/>
  </objectgroup>
 </map>

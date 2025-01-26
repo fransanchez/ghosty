@@ -10,11 +10,11 @@
         }
     },
     "Speed": {
-        "X": 100.0,
-        "Y": 100.0
+        "X": 70.0,
+        "Y": 70.0
     },
     "SightArea": {
-        "Width": 700.0,
+        "Width": 400.0,
         "Height": 800.0
     },
     "Animations": {

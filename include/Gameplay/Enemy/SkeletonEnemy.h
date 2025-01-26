@@ -14,8 +14,8 @@ private:
     void handlePatrolState() override;
     void handleChaseState() override;
     void handleTargetLockedState() override;
+    void handleReturnToOriginState() override;
     void handleAttackState() override;
-    bool canReachPlayer() override;
     bool isPlayerInRange() override;
 
     float m_stateTimer{ 0.0f }; // Time spent in the current state

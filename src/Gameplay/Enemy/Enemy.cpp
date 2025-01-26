@@ -47,6 +47,7 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
 
     m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
     setPosition(enemyDescriptor.position);
+    m_originalPosition = enemyDescriptor.position;
     m_sprite.setPosition(enemyDescriptor.position);
 
     m_enemySight.setSize({ m_sightArea.x, m_sightArea.y });
@@ -122,6 +123,9 @@ void Enemy::handleState(float deltaMilliseconds)
     case EnemyState::TargetLocked:
         handleTargetLockedState();
         break;
+    case EnemyState::ReturnToOrigin:
+        handleReturnToOriginState();
+        break;
     case EnemyState::Attack:
         handleAttackState();
         break;
@@ -158,6 +162,9 @@ void Enemy::updateAnimation()
     case EnemyState::TargetLocked:
         animationType = AnimationType::Idle;
         break;
+    case EnemyState::ReturnToOrigin:
+        animationType = AnimationType::Walk;
+        break;
     case EnemyState::Attack:
         animationType = AnimationType::Attack;
         break;
@@ -179,6 +186,9 @@ void Enemy::setSpeedForState()
         break;
     case EnemyState::Chase:
         m_speed = m_chaseSpeed;
+        break;
+    case EnemyState::ReturnToOrigin:
+        m_speed = m_patrolSpeed;
         break;
     default:
         m_speed = { 0.0f, 0.0f };
@@ -232,4 +242,8 @@ void Enemy::updateSight()
 
 bool Enemy::isPlayerInSight() {
     return m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds());
+}
+
+bool Enemy::isPlayerInArea() {
+    return m_collisionManager->isPlayerInsideArea(m_patrolArea->getGlobalBounds());
 }

@@ -1,7 +1,8 @@
+#include <cassert>
+#include <cmath>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/CollisionManager.h>
 #include <Gameplay/Enemy/SkeletonEnemy.h>
-#include <cmath>
 
 void SkeletonEnemy::update(float deltaMilliseconds)
 {
@@ -13,7 +14,7 @@ void SkeletonEnemy::update(float deltaMilliseconds)
 
 void SkeletonEnemy::handleIdleState()
 {
-    if (canReachPlayer() && isPlayerInSight()) {
+    if (isPlayerInArea() && isPlayerInSight()) {
         changeState(EnemyState::TargetLocked);
         return;
     }
@@ -28,7 +29,7 @@ void SkeletonEnemy::handleIdleState()
 
 void SkeletonEnemy::handlePatrolState()
 {
-    if (canReachPlayer() && isPlayerInSight()) {
+    if (isPlayerInArea() && isPlayerInSight()) {
         changeState(EnemyState::TargetLocked);
         return;
     }
@@ -66,7 +67,7 @@ void SkeletonEnemy::handleChaseState()
     sf::Vector2f playerPosition = m_collisionManager->getPlayerPosition();
     bool canSeePlayer = m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds());
 
-    bool playerReachable = canReachPlayer();
+    bool playerReachable = isPlayerInArea();
 
     // If we already caught the player, return or attack
     if (playerReachable && isPlayerInRange())
@@ -159,12 +160,13 @@ void SkeletonEnemy::handleTargetLockedState()
         changeState(EnemyState::Chase);
     }
 }
+void SkeletonEnemy::handleReturnToOriginState()
+{
+    // We should never enter this state, but if for any reason we do, throw an exception
+    assert(false && "ReturnToOriginState should be unreachable for Skeleton enemy");
+}
 
 bool SkeletonEnemy::isPlayerInRange() {
     return m_collisionManager->isPlayerInsideArea(m_collider->getBounds());
     // To-Do, add range of weapon for ranged attacks.
-}
-
-bool SkeletonEnemy::canReachPlayer() {
-    return m_collisionManager->isPlayerInsideArea(m_patrolArea->getGlobalBounds());
 }
