@@ -20,7 +20,6 @@ class FlyingEnemy : public Enemy
         virtual bool isPlayerInRange() = 0;
 
         void applyOscillation();
-        void moveWithinAreaEdges();
 
         float m_oscillationTimer = 0;
 };

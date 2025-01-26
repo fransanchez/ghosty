@@ -59,6 +59,7 @@ class Enemy : public Collisionable
 		void updateEnemySprite(float deltaSeconds);
 		void updateSight();
 		void handleState(float deltaMilliseconds);
+		void moveWithinAreaEdges();
 		bool isPlayerInSight();
 		bool isPlayerInArea();
 

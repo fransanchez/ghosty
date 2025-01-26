@@ -240,6 +240,27 @@ void Enemy::updateSight()
     }
 }
 
+void Enemy::moveWithinAreaEdges() {
+
+    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider, m_patrolArea);
+    if (!patrolCollision.inside)
+    {
+        printf("Warning: Enemy is outside its patrol area.\n");
+        return;
+    }
+
+    // Reverse direction if touching edges
+    if (patrolCollision.leftEdge)
+    {
+        m_movingRight = true;
+    }
+    else if (patrolCollision.rightEdge)
+    {
+        m_movingRight = false;
+    }
+    m_direction.x = m_movingRight ? 1.0f : -1.0f;
+}
+
 bool Enemy::isPlayerInSight() {
     return m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds());
 }

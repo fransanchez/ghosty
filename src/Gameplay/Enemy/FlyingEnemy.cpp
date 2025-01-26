@@ -92,7 +92,16 @@ void FlyingEnemy::handleAttackState()
 {
     if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
     {
-        sf::Vector2f attackDirection = m_direction;
+        sf::Vector2f playerPosition = m_collisionManager->getPlayerPosition();
+        sf::Vector2f attackDirection = playerPosition - m_position;
+
+        // Normalize direction
+        float magnitude = std::sqrt(attackDirection.x * attackDirection.x + attackDirection.y * attackDirection.y);
+        if (magnitude != 0.0f) {
+            attackDirection.x /= magnitude;
+            attackDirection.y /= magnitude;
+        }
+
         m_attacks[m_currentAttackIndex]->attack(m_position, attackDirection, m_collisionManager);
     }
 
@@ -148,25 +157,4 @@ void FlyingEnemy::applyOscillation()
     else {
         m_direction.y = 1.f;
     }
-}
-
-void FlyingEnemy::moveWithinAreaEdges() {
-
-    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider, m_patrolArea);
-    if (!patrolCollision.inside)
-    {
-        printf("Warning: GhostEnemy is outside its patrol area.\n");
-        return;
-    }
-
-    // Reverse direction if touching edges
-    if (patrolCollision.leftEdge)
-    {
-        m_movingRight = true;
-    }
-    else if (patrolCollision.rightEdge)
-    {
-        m_movingRight = false;
-    }
-    m_direction.x = m_movingRight ? 1.0f : -1.0f;
 }
