@@ -3,6 +3,7 @@
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/CollisionManager.h>
 #include <Gameplay/Enemy/WalkingEnemy.h>
+#include <Utils/Constants.h>
 
 void WalkingEnemy::update(float deltaMilliseconds)
 {
@@ -19,7 +20,7 @@ void WalkingEnemy::handleIdleState()
         return;
     }
 
-    if (m_stateTimer >= IDLE_DURATION)
+    if (m_stateTimer >= WALKING_ENEMY_IDLE_DURATION)
     {
         changeState(EnemyState::Patrol);
         m_stateTimer = 0.0f;
@@ -34,7 +35,7 @@ void WalkingEnemy::handlePatrolState()
         return;
     }
 
-    if (m_stateTimer >= PATROL_DURATION)
+    if (m_stateTimer >= WALKING_ENEMY_PATROL_DURATION)
     {
         m_stateTimer = 0.0f;
         changeState(EnemyState::Idle);
