@@ -1,24 +1,14 @@
 #pragma once
 
-#include <Gameplay/Enemy/Enemy.h>
+#include <Gameplay/Enemy/FlyingEnemy.h>
 
-class GhostEnemy : public Enemy
+class GhostEnemy : public FlyingEnemy
 {
-public:
-    GhostEnemy() = default;
-    ~GhostEnemy() override = default;
+    public:
+        GhostEnemy() = default;
+        ~GhostEnemy() override = default;
 
-    void GhostEnemy::update(float deltaMilliseconds) override;
-private:
-    void handleIdleState() override;
-    void handlePatrolState() override;
-    void handleChaseState() override;
-    void handleTargetLockedState() override;
-    void handleReturnToOriginState() override;
-    void handleAttackState() override;
-    bool isPlayerInRange() override;
+    private:
+        bool isPlayerInRange() override;
 
-    void applyOscillation();
-
-    float m_oscillationTimer = 0;
 };

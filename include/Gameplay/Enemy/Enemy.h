@@ -50,7 +50,6 @@ class Enemy : public Collisionable
 		virtual void handleTargetLockedState() = 0;
 		virtual void handleReturnToOriginState() = 0;
 		virtual void handleAttackState() = 0;
-		virtual bool isPlayerInRange() = 0;
 
 		void changeState(EnemyState newState);
 		void updateAnimation();
