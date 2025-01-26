@@ -13,7 +13,10 @@ void GhostEnemy::update(float deltaMilliseconds)
 
 void GhostEnemy::handleIdleState()
 {
-    m_direction = { 0.f, 0.f };
+    if (canReachPlayer() && isPlayerInSight()) {
+        changeState(EnemyState::TargetLocked);
+        return;
+    }
 
     if (m_stateTimer >= IDLE_DURATION)
     {
@@ -25,13 +28,17 @@ void GhostEnemy::handleIdleState()
 
 void GhostEnemy::handlePatrolState()
 {
+    if (canReachPlayer() && isPlayerInSight()) {
+        changeState(EnemyState::TargetLocked);
+        return;
+    }
+
     if (m_stateTimer >= PATROL_DURATION)
     {
         m_stateTimer = 0.0f;
         changeState(EnemyState::Idle);
-        m_direction = { 0.0f, 0.0f }; // Stop moving
     }
-    else 
+    else
     {
         // Continue patrolling
         PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
@@ -57,19 +64,19 @@ void GhostEnemy::handlePatrolState()
 void GhostEnemy::handleChaseState()
 {
     sf::Vector2f playerPosition = m_collisionManager->getPlayerPosition();
-    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
     bool canSeePlayer = m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds());
-    sf::FloatRect patrolArea = patrolCollision.areaBounds;
-    bool isPlayerInsidePatrolArea = m_collisionManager->isPlayerInsideArea(patrolArea);
+
+    bool playerReachable = canReachPlayer();
 
     // If we already caught the player, return or attack
-    if (m_collisionManager->isPlayerInsideArea(m_collider->getBounds()))
+    if (playerReachable && isPlayerInRange())
     {
-        m_direction = { 0.0f, 0.0f };
-
         if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
         {
             changeState(EnemyState::Attack);
+        }
+        else {
+            changeState(EnemyState::TargetLocked);
         }
         return;
     }
@@ -89,19 +96,21 @@ void GhostEnemy::handleChaseState()
         }
 
         // Stop at patrol area edges
-        if (!isPlayerInsidePatrolArea)
+        if (!playerReachable)
         {
+            PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
             if ((m_direction.x < 0 && patrolCollision.leftEdge) ||
                 (m_direction.x > 0 && patrolCollision.rightEdge))
             {
-                m_direction.x = 0.0f;
+                //m_speed.x = 0.0f;
+                changeState(EnemyState::Idle);
             }
         }
     }
     else
     {
         // If the player is in the patrol area but not visible, move toward them
-        if (isPlayerInsidePatrolArea)
+        if (playerReachable)
         {
             if (playerPosition.x < m_position.x)
             {
@@ -118,12 +127,11 @@ void GhostEnemy::handleChaseState()
         {
             // If the player is not in sight and outside the patrol area, return to idle
             changeState(EnemyState::Idle);
-            m_direction = { 0.0f, 0.0f };
         }
     }
 }
 
-void GhostEnemy::handleAttackState() 
+void GhostEnemy::handleAttackState()
 {
     if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
     {
@@ -139,11 +147,22 @@ void GhostEnemy::handleAttackState()
 
 void GhostEnemy::handleTargetLockedState()
 {
-
+    if (isPlayerInRange())
+    {
+        if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
+        {
+            changeState(EnemyState::Attack);
+        }
+    }
+    else
+    {
+        changeState(EnemyState::Chase);
+    }
 }
 
 bool GhostEnemy::isPlayerInRange() {
-    return false;
+    return m_collisionManager->isPlayerInsideArea(m_collider->getBounds());
+    // To-Do, add range of weapon for ranged attacks.
 }
 
 bool GhostEnemy::canReachPlayer() {

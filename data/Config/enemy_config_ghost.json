@@ -3,7 +3,7 @@
     "Collider": {
         "CenterOffset": {
             "X": 0.0,
-            "Y": 10.0
+            "Y": 0.0
         },
         "Size": {
             "Width": 64.0,
