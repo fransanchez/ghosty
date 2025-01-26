@@ -44,6 +44,7 @@ set(PROJECT_HEADERS
     include/Gameplay/AttackSystem/RangedAttack.h
     include/Gameplay/Enemy/Enemy.h
     include/Gameplay/Enemy/EnemyFactory.h
+    include/Gameplay/Enemy/EnemyType.h
     include/Gameplay/Enemy/GhostEnemy.h
     include/Gameplay/Enemy/SkeletonEnemy.h
     include/Gameplay/Player/Player.h

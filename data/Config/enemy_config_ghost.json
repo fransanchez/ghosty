@@ -1,5 +1,4 @@
 {
-    "EnemyType": "Ghost",
     "Collider": {
         "CenterOffset": {
             "X": 0.0,

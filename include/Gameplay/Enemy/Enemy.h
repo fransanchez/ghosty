@@ -13,7 +13,6 @@ class Collider;
 class Enemy : public Collisionable
 {
 	public:
-
 		enum class EnemyState
 		{
 			Idle,

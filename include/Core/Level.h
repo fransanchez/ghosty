@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 #include <SFML/Graphics/Shape.hpp>
+#include <unordered_map>
 
 namespace sf
 {
@@ -36,9 +37,9 @@ class Level
         const std::vector<sf::Shape*>& getFloorsCollisionShapes() const;
         const std::vector<sf::Shape*>& getWallsCollisionShapes() const;
         const std::vector<sf::Shape*>& getEnemyPatrolAreasShapes() const;
-        const std::vector<sf::Vector2f>& getPlayerSpawnPoints() const;
-        const std::vector<sf::Vector2f>& getEnemySpawnPoints() const;
-        sf::Vector2f getPlayerSpawnPoint() const;
+        const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getPlayerSpawnPoints() const;
+        const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getEnemySpawnPoints() const;
+        std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> getPlayerSpawnPoint() const;
 
     private:
         tmx::Map* m_map{ nullptr };

@@ -4,6 +4,7 @@
 #include <Gameplay/CollisionManager.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
+#include <Gameplay/Enemy/EnemyType.h>
 #include <Gameplay/Enemy/GhostEnemy.h>
 #include <Gameplay/Enemy/SkeletonEnemy.h>
 #include <Gameplay/AttackSystem/Attack.h>
@@ -14,11 +15,26 @@
 #include <Render/AnimationLoader.h>
 #include <Render/AnimationType.h>
 #include <sstream>
+#include <Utils/Constants.h>
 
 using json = nlohmann::json;
 
-Enemy* EnemyFactory::createEnemy(const std::string& configPath, const sf::Vector2f& position, CollisionManager* collisionManager)
+Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& position, CollisionManager* collisionManager)
 {
+    static const std::unordered_map<EnemyType, std::string> enemyConfigPaths = {
+    { EnemyType::Ghost, GHOST_ENEMY_CONFIG_PATH },
+    { EnemyType::Skeleton, SKELETON_ENEMY_CONFIG_PATH }
+    };
+
+    auto it = enemyConfigPaths.find(enemyType);
+    if (it == enemyConfigPaths.end())
+    {
+        printf("Error: Unsupported EnemyType\n");
+        return nullptr;
+    }
+
+    const std::string& configPath = it->second;
+
     std::ifstream file(configPath);
     if (!file.is_open())
     {
@@ -28,8 +44,6 @@ Enemy* EnemyFactory::createEnemy(const std::string& configPath, const sf::Vector
 
     json config;
     file >> config;
-
-    std::string enemyType = config["EnemyType"].get<std::string>();
 
     // Load animations
     auto animations = loadAnimations(config);
@@ -73,24 +87,20 @@ Enemy* EnemyFactory::createEnemy(const std::string& configPath, const sf::Vector
 
     // Create enemy based on type
     Enemy* enemy = nullptr;
-    if (enemyType == "Ghost")
+    switch (enemyType)
     {
+    case EnemyType::Ghost:
         enemy = new GhostEnemy();
-    }
-    else if (enemyType == "Skeleton")
-    {
+        break;
+    case EnemyType::Skeleton:
         enemy = new SkeletonEnemy();
-    }
-    else
-    {
-        printf("Error: Unsupported EnemyType %s\n", enemyType.c_str());
+        break;
+    default:
+        printf("Error: Unsupported EnemyType\n");
         delete collider;
-        for (auto& [type, animation] : animations)
-            delete animation;
-        for (auto& attack : attacks)
-            delete attack;
         return nullptr;
     }
+
     Enemy::EnemyDescriptor descriptor;
     descriptor.position = position;
     descriptor.speed = speed;

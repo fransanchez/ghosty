@@ -1,5 +1,4 @@
 {
-    "EnemyType": "Skeleton",
     "Collider": {
         "CenterOffset": {
             "X": 10.0,

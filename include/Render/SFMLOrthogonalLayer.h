@@ -662,7 +662,7 @@ public:
     {
         return m_shapes;
     }
-    const std::vector<sf::Vector2f>& getPoints() const
+    const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getPoints() const
     {
         return m_points;
     }
@@ -672,7 +672,7 @@ private:
     sf::Shape* createShape(const tmx::Object& object);
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    std::vector<sf::Vector2f> m_points;
+    std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>> m_points;
     std::vector<sf::Shape*> m_shapes;
 };
 
@@ -703,8 +703,18 @@ sf::Shape* ObjectLayer::createShape(const tmx::Object& object)
     switch (object.getShape())
     {
     case tmx::Object::Shape::Point:
-        m_points.emplace_back(object.getPosition().x, object.getPosition().y);
+    {
+        sf::Vector2f position(object.getPosition().x, object.getPosition().y);
+
+        std::unordered_map<std::string, std::string> properties;
+        for (const auto& property : object.getProperties())
+        {
+            properties[property.getName()] = property.getStringValue();
+        }
+
+        m_points.emplace_back(position, properties);
         break;
+    }
     case tmx::Object::Shape::Rectangle:
         shape = new sf::RectangleShape({ object.getAABB().width, object.getAABB().height });
         shape->setPosition(sf::Vector2f(object.getPosition().x, object.getPosition().y));
@@ -761,7 +771,7 @@ void ObjectLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         sf::CircleShape pointVisual(3.f); // Radio del punto visual
         pointVisual.setFillColor(sf::Color::Green);
-        pointVisual.setPosition(point.x - pointVisual.getRadius(), point.y - pointVisual.getRadius());
+        pointVisual.setPosition(point.first.x - pointVisual.getRadius(), point.first.y - pointVisual.getRadius());
         target.draw(pointVisual, states);
     }
 }

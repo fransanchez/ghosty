@@ -144,22 +144,22 @@ const std::vector<sf::Shape*>& Level::getEnemyPatrolAreasShapes() const
     return m_enemyPatrolAreasLayer->getShapes();
 }
 
-const std::vector<sf::Vector2f>& Level::getPlayerSpawnPoints() const
+const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& Level::getPlayerSpawnPoints() const
 {
     return m_playerSpawnsLayer->getPoints();
 }
 
-const std::vector<sf::Vector2f>& Level::getEnemySpawnPoints() const
+const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& Level::getEnemySpawnPoints() const
 {
     return m_enemySpawnsLayer->getPoints();
 }
 
-sf::Vector2f Level::getPlayerSpawnPoint() const
+std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> Level::getPlayerSpawnPoint() const
 {
     if (!m_playerSpawnsLayer || m_playerSpawnsLayer->getPoints().empty())
     {
         printf("Warning: No player spawn points found!\n");
-        return sf::Vector2f(94.f, 490.f);
+        return std::make_pair(sf::Vector2f(94.f, 490.f), std::unordered_map<std::string, std::string>());
     }
 
     return m_playerSpawnsLayer->getPoints().front();
