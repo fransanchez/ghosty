@@ -7,7 +7,7 @@
 #include <SFML/Window/Keyboard.hpp>
 
 Player::~Player() {
-    m_collisionManager->unregisterCollider(m_collider);
+    m_collisionManager->unregisterPlayer();
 
     for (auto& attack : m_attacks) {
         delete attack;
@@ -33,6 +33,8 @@ bool Player::init(const PlayerDescriptor& descriptor,
     m_attacks = descriptor.attacks;
     m_collider = collider;
     m_collisionManager = collisionManager;
+
+    m_collisionManager->registerPlayer(m_collider);
 
     if (m_animations->count(AnimationType::Idle))
     {
@@ -70,8 +72,6 @@ void Player::update(float deltaMilliseconds)
     {
         attack->update(deltaSeconds);
     }
-
-
 }
 
 void Player::render(sf::RenderWindow& window)

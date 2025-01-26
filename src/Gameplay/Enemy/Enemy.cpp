@@ -1,5 +1,5 @@
+#include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/Enemy/Enemy.h>
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 
 Enemy::~Enemy()
@@ -22,6 +22,7 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     m_collider = collider;
     m_collisionManager = collisionManager;
     m_speed = enemyDescriptor.speed;
+    m_sightRange = enemyDescriptor.sightRange;
 
     if (m_animations->count(AnimationType::Idle))
     {
@@ -38,30 +39,41 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     setPosition(enemyDescriptor.position);
     m_sprite.setPosition(enemyDescriptor.position);
 
+    m_enemySight.setOrigin(m_enemySight.getOrigin().x, m_sprite.getLocalBounds().height / 2.f);
+    m_enemySight.setSize({ m_sightRange, m_sprite.getGlobalBounds().height });
+    m_enemySight.setFillColor(sf::Color(0, 0, 255, 50)); // Semi-transparent blue
+    m_enemySight.setOutlineColor(sf::Color::Blue);
+    m_enemySight.setOutlineThickness(1.0f);
+
     return true;
 }
 
 void Enemy::render(sf::RenderWindow& window)
 {
-
 	window.draw(m_sprite);
 
     m_collider->render(window);
 
-	const sf::FloatRect spriteBounds = m_sprite.getGlobalBounds();
-	sf::RectangleShape boundsRect(sf::Vector2f(spriteBounds.width, spriteBounds.height));
-	boundsRect.setPosition(spriteBounds.left, spriteBounds.top);
-	boundsRect.setOutlineColor(sf::Color::Red);
-	boundsRect.setOutlineThickness(2.f);
-	boundsRect.setFillColor(sf::Color::Transparent);
-	window.draw(boundsRect);
+	//const sf::FloatRect spriteBounds = m_sprite.getGlobalBounds();
+	//sf::RectangleShape boundsRect(sf::Vector2f(spriteBounds.width, spriteBounds.height));
+	//boundsRect.setPosition(spriteBounds.left, spriteBounds.top);
+	//boundsRect.setOutlineColor(sf::Color::Red);
+	//boundsRect.setOutlineThickness(2.f);
+	//boundsRect.setFillColor(sf::Color::Transparent);
+	//window.draw(boundsRect);
+
+    for (auto& attack : m_attacks)
+    {
+        attack->render(window);
+    }
+
+    window.draw(m_enemySight);
 }
 
 void Enemy::changeState(EnemyState newState)
 {
     if (m_currentState != newState)
     {
-        printf("Changing state %i ", newState);
         m_currentState = newState;
         updateAnimation();
     }
@@ -80,7 +92,7 @@ void Enemy::updateAnimation()
         animationType = AnimationType::Walk;
         break;
     case EnemyState::Chase:
-        animationType = AnimationType::Run;
+        animationType = AnimationType::Walk;
         break;
     case EnemyState::Attack:
         animationType = AnimationType::Attack;

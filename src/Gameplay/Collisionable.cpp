@@ -5,7 +5,6 @@ Collisionable::Collisionable(Collider* collider, CollisionManager* manager) {
 
     m_collider = collider;
     m_collisionManager = manager;
-    m_collisionManager->registerCollider(m_collider);
 }
 
 Collisionable::~Collisionable() {

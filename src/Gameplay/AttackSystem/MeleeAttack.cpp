@@ -2,9 +2,10 @@
 #include <Gameplay/CollisionManager.h>
 #include <cstdio>
 
-MeleeAttack::MeleeAttack(float damage, float lifetime, Collider* collider)
+MeleeAttack::MeleeAttack(float damage, float lifetime, float attackRate, Collider* collider)
     : m_damage(damage),
     m_lifetime(lifetime),
+    m_attackRate(attackRate),
     m_cooldownTimer(0.f),
     m_collider(collider),
     m_collisionManager(nullptr),
@@ -27,20 +28,22 @@ void MeleeAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direc
 
         m_collider->setPosition(m_position);
         m_isActive = true;
-        m_cooldownTimer = m_lifetime;
-
-        printf("MeleeAttack: Attack triggered at position (%f, %f)\n", position.x, position.y);
+        m_cooldownTimer = m_attackRate;
     }
 }
 
 void MeleeAttack::update(float deltaTime)
 {
+    if (m_cooldownTimer > 0.f)
+    {
+        m_cooldownTimer -= deltaTime;
+    }
+
     if (!m_isActive)
         return;
 
-    m_cooldownTimer -= deltaTime;
-
-    if (m_cooldownTimer <= 0.f)
+    m_lifetime -= deltaTime;
+    if (m_lifetime <= 0.f)
     {
         m_isActive = false;
         return;

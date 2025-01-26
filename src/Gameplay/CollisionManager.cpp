@@ -8,6 +8,7 @@ CollisionManager::~CollisionManager()
     m_groundShapes.clear();
     m_wallShapes.clear();
     m_enemyPatrolAreasShapes.clear();
+    m_playerCollider = nullptr;
 }
 
 void CollisionManager::registerCollider(Collider* collider)
@@ -23,6 +24,16 @@ void CollisionManager::unregisterCollider(Collider* collider)
     if (it != m_colliders.end()) {
         m_colliders.erase(it);
     }
+}
+
+void CollisionManager::registerPlayer(Collider* playerCollider)
+{
+    m_playerCollider = playerCollider;
+}
+
+void CollisionManager::unregisterPlayer()
+{
+    m_playerCollider = nullptr;
 }
 
 void CollisionManager::setGroundShapes(const std::vector<sf::Shape*>& groundShapes)
@@ -127,6 +138,7 @@ PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider) 
     for (const auto* patrolShape : m_enemyPatrolAreasShapes)
     {
         sf::FloatRect patrolBounds = patrolShape->getGlobalBounds();
+        result.areaBounds = patrolBounds;
 
         if (colliderBounds.intersects(patrolBounds))
         {
@@ -145,4 +157,28 @@ PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider) 
     }
 
     return result;
+}
+
+sf::Vector2f CollisionManager::getPlayerPosition() const
+{
+    if (!m_playerCollider)
+    {
+        printf("Error: Player is not registered in the CollisionManager.\n");
+        return { 0.f, 0.f };
+    }
+
+    sf::FloatRect playerBounds = m_playerCollider->getBounds();
+    return { playerBounds.left + playerBounds.width / 2.f, playerBounds.top + playerBounds.height / 2.f };
+}
+
+bool CollisionManager::isPlayerInsideArea(const sf::FloatRect& area) const
+{
+    if (!m_playerCollider)
+    {
+        printf("Warning: Player collider not registered.\n");
+        return false;
+    }
+
+    sf::FloatRect playerBounds = m_playerCollider->getBounds();
+    return area.intersects(playerBounds);
 }

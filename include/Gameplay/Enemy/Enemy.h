@@ -5,6 +5,7 @@
 #include <Render/AnimationType.h>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 class Attack;
 class Collider;
@@ -25,6 +26,7 @@ class Enemy : public Collisionable
 		{
 			sf::Vector2f position;
 			sf::Vector2f speed{ .0f, .0f };
+			float sightRange{ 50.f };
 			std::unordered_map<AnimationType, Animation*>* animations;
 			std::vector<Attack*> attacks;
 		};
@@ -41,6 +43,7 @@ class Enemy : public Collisionable
 		virtual void handleState(float deltaMilliseconds) = 0;
 		void changeState(EnemyState newState);
 		void updateAnimation();
+		virtual void updateSight() = 0;
 
 		sf::Sprite m_sprite;
 		sf::Vector2f m_direction{ .0f, .0f };
@@ -51,4 +54,7 @@ class Enemy : public Collisionable
 		Animation* m_currentAnimation{ nullptr };
 		int m_currentAttackIndex{ 0 };
 		EnemyState m_currentState{ EnemyState::Idle };
+
+		sf::RectangleShape m_enemySight;
+		float m_sightRange{ 50.f };
 };

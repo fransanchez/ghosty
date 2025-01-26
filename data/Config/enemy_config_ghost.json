@@ -14,6 +14,7 @@
         "X": 100.0,
         "Y": 0.0
     },
+    "SightRange" : 300.0,
     "Animations": {
         "Idle": {
             "TexturePath": "../data/Images/Enemies/Ghost/idle.png",
@@ -55,14 +56,15 @@
         "Melee": {
             "Damage": 1.0,
             "Lifetime": 1.0,
+            "AttackRate": 3.0,
             "Collider": {
                 "CenterOffset": {
-                    "X": 0.0,
+                    "X": 10.0,
                     "Y": 0.0
                 },
                 "Size": {
-                    "Width": 65.0,
-                    "Height": 65.0
+                    "Width": 200.0,
+                    "Height": 200.0
                 }
             }
         }
