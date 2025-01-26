@@ -9,7 +9,6 @@ void StaticEnemy::update(float deltaMilliseconds)
 {
     // Update timer state and call parent to update normally
     m_watchTimer += deltaMilliseconds;
-
     Enemy::update(deltaMilliseconds);
 }
 
@@ -26,6 +25,7 @@ void StaticEnemy::handleIdleState()
         {
             m_watchTimer = 0.0f;
             m_movingRight = !m_movingRight;
+            m_direction.x = m_movingRight ? 1.0f : -1.0f;
         }
     }
 }

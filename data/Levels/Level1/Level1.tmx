@@ -75,7 +75,7 @@
  <objectgroup id="9" name="EnemySpawns">
   <object id="23" name="Enemy1" x="1053" y="485">
    <properties>
-    <property name="type" value="Skeleton"/>
+    <property name="type" value="Vampire"/>
    </properties>
    <point/>
   </object>

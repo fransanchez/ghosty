@@ -8,6 +8,7 @@
 #include <Gameplay/Enemy/EnemyType.h>
 #include <Gameplay/Enemy/GhostEnemy.h>
 #include <Gameplay/Enemy/SkeletonEnemy.h>
+#include <Gameplay/Enemy/VampireEnemy.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/AttackSystem/MeleeAttack.h>
@@ -23,9 +24,10 @@ using json = nlohmann::json;
 Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& position, CollisionManager* collisionManager)
 {
     static const std::unordered_map<EnemyType, std::string> enemyConfigPaths = {
-    { EnemyType::Ghost, GHOST_ENEMY_CONFIG_PATH },
-    { EnemyType::Skeleton, SKELETON_ENEMY_CONFIG_PATH },
-    { EnemyType::Dino, DINO_ENEMY_CONFIG_PATH }
+        { EnemyType::Ghost, GHOST_ENEMY_CONFIG_PATH },
+        { EnemyType::Skeleton, SKELETON_ENEMY_CONFIG_PATH },
+        { EnemyType::Dino, DINO_ENEMY_CONFIG_PATH },
+        { EnemyType::Vampire, VAMPIRE_ENEMY_CONFIG_PATH }
     };
 
     auto it = enemyConfigPaths.find(enemyType);
@@ -100,6 +102,9 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
         break;
     case EnemyType::Dino:
         enemy = new DinoEnemy();
+        break;
+    case EnemyType::Vampire:
+        enemy = new VampireEnemy();
         break;
     default:
         printf("Error: Unsupported EnemyType\n");

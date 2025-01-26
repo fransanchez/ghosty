@@ -21,6 +21,7 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     Collider* collider,
     CollisionManager* collisionManager)
 {
+    m_position = enemyDescriptor.position;
     m_animations = enemyDescriptor.animations;
     m_attacks = enemyDescriptor.attacks;
     m_collider = collider;
@@ -30,7 +31,7 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
 
     m_patrolSpeed = enemyDescriptor.speed;
     m_chaseSpeed = { m_patrolSpeed.x * 1.5f, m_patrolSpeed.y * 1.5f };
-    m_speed = m_patrolSpeed;
+    m_speed = { 0.0f, 0.0f };
 
     m_sightArea = { enemyDescriptor.sightArea.x, enemyDescriptor.sightArea.y };
 
@@ -44,6 +45,7 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
         printf("Error: Idle animation is missing\n");
         return false;
     }
+    m_direction.x = m_movingRight ? 1.0f : -1.0f;
 
     m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
     setPosition(enemyDescriptor.position);
@@ -86,13 +88,13 @@ void Enemy::render(sf::RenderWindow& window)
 
     m_collider->render(window);
 
-	//const sf::FloatRect spriteBounds = m_sprite.getGlobalBounds();
-	//sf::RectangleShape boundsRect(sf::Vector2f(spriteBounds.width, spriteBounds.height));
-	//boundsRect.setPosition(spriteBounds.left, spriteBounds.top);
-	//boundsRect.setOutlineColor(sf::Color::Red);
-	//boundsRect.setOutlineThickness(2.f);
-	//boundsRect.setFillColor(sf::Color::Transparent);
-	//window.draw(boundsRect);
+	const sf::FloatRect spriteBounds = m_sprite.getGlobalBounds();
+	sf::RectangleShape boundsRect(sf::Vector2f(spriteBounds.width, spriteBounds.height));
+	boundsRect.setPosition(spriteBounds.left, spriteBounds.top);
+	boundsRect.setOutlineColor(sf::Color::Red);
+	boundsRect.setOutlineThickness(2.f);
+	boundsRect.setFillColor(sf::Color::Transparent);
+	window.draw(boundsRect);
 
     for (auto& attack : m_attacks)
     {
@@ -209,8 +211,8 @@ void Enemy::updateEnemyPosition(float deltaSeconds) {
     }
     m_sprite.setPosition(m_position);
     // Sync collider position
-    m_collider->setPosition(m_position);
     m_collider->setDirection(m_direction);
+    m_collider->setPosition(m_position);
 }
 
 void Enemy::updateEnemySprite(float deltaSeconds)

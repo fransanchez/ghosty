@@ -10,19 +10,13 @@ Collider::Collider(const sf::Vector2f& position, const sf::Vector2f& size, const
 }
 
 void Collider::setPosition(const sf::Vector2f& position) {
-    sf::Vector2f relativeOffset;
+    sf::Vector2f relativeOffset = m_centerOffset;
     if (m_direction.x < 0) {
-        relativeOffset.x = m_centerOffset.x;
-    }
-    else {
-        relativeOffset.x = -m_centerOffset.x;
+        relativeOffset.x = -relativeOffset.x;
     }
 
-    if (m_direction.y < 0) {
-        relativeOffset.y = m_centerOffset.y;
-    }
-    else {
-        relativeOffset.y = -m_centerOffset.y;
+    if (m_direction.y > 0) {
+        relativeOffset.y = -relativeOffset.y;
     }
     m_position = position + relativeOffset;
 }
@@ -34,16 +28,6 @@ sf::Vector2f Collider::getCenterOffset() const
 sf::Vector2f Collider::getCenter() const
 {
     return m_position;
-}
-
-void Collider::setSize(const sf::Vector2f& size)
-{
-    m_size = size;
-}
-
-sf::Vector2f Collider::getSize() const
-{
-    return m_size;
 }
 
 sf::FloatRect Collider::getBounds() const

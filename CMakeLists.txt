@@ -50,6 +50,7 @@ set(PROJECT_HEADERS
     include/Gameplay/Enemy/GhostEnemy.h
     include/Gameplay/Enemy/SkeletonEnemy.h
     include/Gameplay/Enemy/StaticEnemy.h
+    include/Gameplay/Enemy/VampireEnemy.h
     include/Gameplay/Enemy/WalkingEnemy.h
     include/Gameplay/Player/Player.h
     include/Gameplay/Player/PlayerFactory.h
@@ -86,6 +87,7 @@ set(PROJECT_SOURCES
     src/Gameplay/Enemy/GhostEnemy.cpp
     src/Gameplay/Enemy/SkeletonEnemy.cpp
     src/Gameplay/Enemy/StaticEnemy.cpp
+    src/Gameplay/Enemy/VampireEnemy.cpp
     src/Gameplay/Enemy/WalkingEnemy.cpp
 
     src/Gameplay/Player/Player.cpp

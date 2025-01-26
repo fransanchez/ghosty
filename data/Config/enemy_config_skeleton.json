@@ -1,11 +1,11 @@
 {
     "Collider": {
         "CenterOffset": {
-            "X": 10.0,
+            "X": -10.0,
             "Y": 0.0
         },
         "Size": {
-            "Width": 80.0,
+            "Width": 64.0,
             "Height": 72.0
         }
     },

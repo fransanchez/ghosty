@@ -24,7 +24,7 @@ void WalkingEnemy::handleIdleState()
     {
         changeState(EnemyState::Patrol);
         m_stateTimer = 0.0f;
-        m_direction = { 1.0f, 0.0f };
+        m_direction.x = m_movingRight ? 1.0f : -1.0f;
     }
 }
 

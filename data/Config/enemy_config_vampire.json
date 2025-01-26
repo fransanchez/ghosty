@@ -1,0 +1,84 @@
+{
+    "Collider": {
+        "CenterOffset": {
+            "X": -20.0,
+            "Y": 0.0
+        },
+        "Size": {
+            "Width": 50.0,
+            "Height": 80.0
+        }
+    },
+    "Speed": {
+        "X": 100.0,
+        "Y": 0.0
+    },
+    "SightArea": {
+        "Width": 300.0,
+        "Height": 150.0
+    },
+    "Animations": {
+        "Idle": {
+            "TexturePath": "../data/Images/Enemies/Vampire/idle.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 3,
+            "Loop": true,
+            "FrameDuration": 0.2
+        },
+        "Walk": {
+            "TexturePath": "../data/Images/Enemies/Vampire/walk.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 3,
+            "Loop": true,
+            "FrameDuration": 0.2
+        },
+        "Attack": {
+            "TexturePath": "../data/Images/Enemies/Vampire/attack.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 3,
+            "Loop": false,
+            "FrameDuration": 0.15
+        },
+        "Hurt": {
+            "TexturePath": "../data/Images/Enemies/Vampire/hurt.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 2,
+            "Loop": false,
+            "FrameDuration": 0.3
+        },
+        "Death": {
+            "TexturePath": "../data/Images/Enemies/Vampire/death.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 5,
+            "Loop": false,
+            "FrameDuration": 0.15
+        }
+    },
+    "Attacks": {
+        "Ranged": {
+            "Damage": 15.0,
+            "Lifetime": 1.5,
+            "Speed": 500.0,
+            "FireRate": 0.66,
+            "Animation": {
+                "FireProjectile": {
+                    "TexturePath": "../data/Images/Enemies/Vampire/fire.png",
+                    "FrameCountRows": 1,
+                    "FrameCountColumns": 6,
+                    "Loop": false,
+                    "FrameDuration": 0.2
+                }
+            },
+            "Collider": {
+                "CenterOffset": {
+                    "X": 0.0,
+                    "Y": 0.0
+                },
+                "Size": {
+                    "Width": 45.0,
+                    "Height": 45.0
+                }
+            }
+        }
+    }
+}

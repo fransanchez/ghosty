@@ -48,6 +48,12 @@ void Projectile::update(float deltaTime)
 
     m_lifetime -= deltaTime;
     m_position += m_direction * m_projectileSpeed * deltaTime;
+    if (m_direction.x > 0.f) {
+        m_sprite.setScale(1.0f, 1.0f);
+    }
+    else {
+        m_sprite.setScale(-1.0f, 1.0f);
+    }
     m_animation->update(deltaTime);
     m_sprite.setTexture(*m_animation->getCurrentFrame());
     m_sprite.setPosition(m_position);
