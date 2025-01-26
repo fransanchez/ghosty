@@ -136,3 +136,18 @@ void GhostEnemy::handleAttackState()
         changeState(EnemyState::Idle);
     }
 }
+
+void GhostEnemy::handleTargetLockedState()
+{
+
+}
+
+bool GhostEnemy::isPlayerInRange() {
+    return false;
+}
+
+bool GhostEnemy::canReachPlayer() {
+    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
+    sf::FloatRect patrolArea = patrolCollision.areaBounds;
+    return m_collisionManager->isPlayerInsideArea(patrolArea);
+}

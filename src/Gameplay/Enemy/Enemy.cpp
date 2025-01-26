@@ -114,6 +114,9 @@ void Enemy::handleState(float deltaMilliseconds)
     case EnemyState::Chase:
         handleChaseState();
         break;
+    case EnemyState::TargetLocked:
+        handleTargetLockedState();
+        break;
     case EnemyState::Attack:
         handleAttackState();
         break;
@@ -146,6 +149,9 @@ void Enemy::updateAnimation()
         break;
     case EnemyState::Chase:
         animationType = AnimationType::Walk;
+        break;
+    case EnemyState::TargetLocked:
+        animationType = AnimationType::Idle;
         break;
     case EnemyState::Attack:
         animationType = AnimationType::Attack;
@@ -216,10 +222,8 @@ void Enemy::updateSight()
     {
         m_enemySight.setSize({ -m_sightRange, m_sprite.getGlobalBounds().height });
     }
+}
 
-    // Change state if we can see or we lost the player. Handle state will take care of the new state
-    if (m_currentState != EnemyState::Attack && m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds()))
-    {
-        changeState(EnemyState::Chase);
-    }
+bool Enemy::isPlayerInSight() {
+    return m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds());
 }
