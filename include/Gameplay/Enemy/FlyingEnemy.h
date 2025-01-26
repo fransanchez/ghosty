@@ -16,9 +16,11 @@ class FlyingEnemy : public Enemy
         void handleTargetLockedState() override;
         void handleReturnToOriginState() override;
         void handleAttackState() override;
+
         virtual bool isPlayerInRange() = 0;
 
         void applyOscillation();
+        void moveWithinAreaEdges();
 
         float m_oscillationTimer = 0;
 };

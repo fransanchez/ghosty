@@ -36,23 +36,7 @@ void FlyingEnemy::handlePatrolState()
         return;
     }
 
-    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider, m_patrolArea);
-    if (!patrolCollision.inside)
-    {
-        printf("Warning: GhostEnemy is outside its patrol area.\n");
-        return; // Prevent movement if outside patrol area
-    }
-
-    // Reverse direction if touching edges
-    if (patrolCollision.leftEdge)
-    {
-        m_movingRight = true;
-    }
-    else if (patrolCollision.rightEdge)
-    {
-        m_movingRight = false;
-    }
-    m_direction.x = m_movingRight ? 1.0f : -1.0f;
+    moveWithinAreaEdges();
 
     applyOscillation();
 }
@@ -145,6 +129,7 @@ void FlyingEnemy::handleReturnToOriginState()
         else {
             m_direction.y = -1.f;
         }
+        moveWithinAreaEdges();
     }
     else {
         m_direction.y = 0.f;
@@ -163,4 +148,25 @@ void FlyingEnemy::applyOscillation()
     else {
         m_direction.y = 1.f;
     }
+}
+
+void FlyingEnemy::moveWithinAreaEdges() {
+
+    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider, m_patrolArea);
+    if (!patrolCollision.inside)
+    {
+        printf("Warning: GhostEnemy is outside its patrol area.\n");
+        return;
+    }
+
+    // Reverse direction if touching edges
+    if (patrolCollision.leftEdge)
+    {
+        m_movingRight = true;
+    }
+    else if (patrolCollision.rightEdge)
+    {
+        m_movingRight = false;
+    }
+    m_direction.x = m_movingRight ? 1.0f : -1.0f;
 }
