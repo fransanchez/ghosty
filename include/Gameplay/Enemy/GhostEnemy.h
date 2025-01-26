@@ -8,7 +8,6 @@ public:
     GhostEnemy() = default;
     ~GhostEnemy() override = default;
 
-    void handleCollisions() override; // From Collisionable
     virtual void update(float deltaMilliseconds) override; // From GameObject
 private:
     void handleIdleState() override;

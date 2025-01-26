@@ -11,11 +11,6 @@ void GhostEnemy::update(float deltaMilliseconds)
     Enemy::update(deltaMilliseconds);
 }
 
-void GhostEnemy::handleCollisions()
-{
-    // To-Do
-}
-
 void GhostEnemy::handleIdleState()
 {
     m_direction = { 0.f, 0.f };

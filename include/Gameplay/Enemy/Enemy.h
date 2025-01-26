@@ -38,7 +38,8 @@ class Enemy : public Collisionable
 		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
 
 		virtual void update(float deltaMilliseconds) override; // From GameObject
-		void render(sf::RenderWindow& window) override; // From GameObject
+		virtual void render(sf::RenderWindow& window) override; // From GameObject
+		virtual void handleCollisions() override; // From Collisionable
 
 	protected:
 		virtual void handleIdleState() = 0;
@@ -49,7 +50,6 @@ class Enemy : public Collisionable
 		void changeState(EnemyState newState);
 		void updateAnimation();
 		void setSpeedForState();
-
 
 		void updateEnemyPosition(float deltaSeconds);
 		void updateEnemySprite(float deltaSeconds);

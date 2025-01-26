@@ -96,6 +96,11 @@ void Enemy::render(sf::RenderWindow& window)
     window.draw(m_enemySight);
 }
 
+void Enemy::handleCollisions()
+{
+    // To-Do
+}
+
 void Enemy::handleState(float deltaMilliseconds)
 {
     switch (m_currentState)
