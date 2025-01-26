@@ -41,7 +41,7 @@ void SkeletonEnemy::handlePatrolState()
     else 
     {
         // Continue patrolling
-        PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
+        PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider, m_patrolArea);
         if (!patrolCollision.inside)
         {
             printf("Warning: GhostEnemy is outside its patrol area.\n");
@@ -98,7 +98,7 @@ void SkeletonEnemy::handleChaseState()
         // Stop at patrol area edges
         if (!playerReachable)
         {
-            PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
+            PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider, m_patrolArea);
             if ((m_direction.x < 0 && patrolCollision.leftEdge) ||
                 (m_direction.x > 0 && patrolCollision.rightEdge))
             {
@@ -166,7 +166,5 @@ bool SkeletonEnemy::isPlayerInRange() {
 }
 
 bool SkeletonEnemy::canReachPlayer() {
-    PatrolAreaCollision patrolCollision = m_collisionManager->checkPatrolArea(m_collider);
-    sf::FloatRect patrolArea = patrolCollision.areaBounds;
-    return m_collisionManager->isPlayerInsideArea(patrolArea);
+    return m_collisionManager->isPlayerInsideArea(m_patrolArea->getGlobalBounds());
 }

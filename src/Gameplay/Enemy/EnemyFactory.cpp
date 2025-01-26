@@ -79,10 +79,11 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
         speed.y = config["Speed"]["Y"].get<float>();
     }
 
-    float sightRange = 50.f; // Default sight range
-    if (config.contains("SightRange"))
+    sf::Vector2f sightArea = { 300.f, 150.f }; // Default sight area
+    if (config.contains("SightArea"))
     {
-        sightRange = config["SightRange"].get<float>();
+        sightArea.x = config["SightArea"]["Width"].get<float>();
+        sightArea.y = config["SightArea"]["Height"].get<float>();
     }
 
     // Create enemy based on type
@@ -101,12 +102,20 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
         return nullptr;
     }
 
+    const sf::Shape* patrolArea = collisionManager->getClosestPatrolArea(position);
+    if (!patrolArea)
+    {
+        printf("Error: No patrol area found for enemy at position (%f, %f).\n", position.x, position.y);
+        return nullptr;
+    }
+
     Enemy::EnemyDescriptor descriptor;
     descriptor.position = position;
     descriptor.speed = speed;
     descriptor.animations = new std::unordered_map<AnimationType, Animation*>(std::move(animations));
     descriptor.attacks = attacks;
-    descriptor.sightRange = sightRange;
+    descriptor.sightArea = sightArea;
+    descriptor.patrolArea = patrolArea;
 
     if (!enemy->init(descriptor, collider, collisionManager))
     {

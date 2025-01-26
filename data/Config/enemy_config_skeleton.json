@@ -13,7 +13,10 @@
         "X": 100.0,
         "Y": 0.0
     },
-    "SightRange" : 300.0,
+    "SightArea": {
+        "Width": 300.0,
+        "Height": 150.0
+    },
     "Animations": {
         "Idle": {
             "TexturePath": "../data/Images/Enemies/Skeleton/idle.png",

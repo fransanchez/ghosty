@@ -26,9 +26,10 @@ class Enemy : public Collisionable
 		{
 			sf::Vector2f position;
 			sf::Vector2f speed{ .0f, .0f };
-			float sightRange{ 50.f };
+			sf::Vector2f sightArea;
 			std::unordered_map<AnimationType, Animation*>* animations;
 			std::vector<Attack*> attacks;
+			const sf::Shape* patrolArea = nullptr;
 		};
 
 		virtual ~Enemy() override;
@@ -71,7 +72,9 @@ class Enemy : public Collisionable
 		int m_currentAttackIndex{ 0 };
 		EnemyState m_currentState{ EnemyState::Idle };
 
+		sf::Vector2f m_sightArea{ 300.f, 150.f };
 		sf::RectangleShape m_enemySight;
-		float m_sightRange{ 50.f };
 		bool m_movingRight{ false };
+
+		const sf::Shape* m_patrolArea = nullptr;
 };

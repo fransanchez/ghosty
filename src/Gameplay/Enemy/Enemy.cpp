@@ -12,6 +12,9 @@ Enemy::~Enemy()
         delete animation;
 
     delete m_animations;
+
+    // Enemy doesn't own the patrol areas, that's the level
+    m_patrolArea = nullptr;
 }
 
 bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
@@ -23,11 +26,13 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     m_collider = collider;
     m_collisionManager = collisionManager;
 
+    m_patrolArea = enemyDescriptor.patrolArea;
+
     m_patrolSpeed = enemyDescriptor.speed;
     m_chaseSpeed = { m_patrolSpeed.x * 1.5f, m_patrolSpeed.y * 1.5f };
     m_speed = m_patrolSpeed;
 
-    m_sightRange = enemyDescriptor.sightRange;
+    m_sightArea = { enemyDescriptor.sightArea.x, enemyDescriptor.sightArea.y };
 
     if (m_animations->count(AnimationType::Idle))
     {
@@ -44,8 +49,8 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     setPosition(enemyDescriptor.position);
     m_sprite.setPosition(enemyDescriptor.position);
 
-    m_enemySight.setOrigin(m_enemySight.getOrigin().x, m_sprite.getLocalBounds().height / 2.f);
-    m_enemySight.setSize({ m_sightRange, m_sprite.getGlobalBounds().height });
+    m_enemySight.setSize({ m_sightArea.x, m_sightArea.y });
+    m_enemySight.setOrigin(m_enemySight.getOrigin().x, m_enemySight.getSize().y / 2.f);
     m_enemySight.setFillColor(sf::Color(0, 0, 255, 50)); // Semi-transparent blue
     m_enemySight.setOutlineColor(sf::Color::Blue);
     m_enemySight.setOutlineThickness(1.0f);
@@ -184,6 +189,7 @@ void Enemy::setSpeedForState()
 void Enemy::updateEnemyPosition(float deltaSeconds) {
     // Move based on direction and speed
     m_position.x += m_direction.x * m_speed.x * deltaSeconds;
+    m_position.y += m_direction.y * m_speed.y * deltaSeconds;
 
     if (m_movingRight) {
         m_sprite.setScale(1.0f, 1.0f);
@@ -216,11 +222,11 @@ void Enemy::updateSight()
 
     if (m_movingRight) // Facing left
     {
-        m_enemySight.setSize({ m_sightRange, m_sprite.getGlobalBounds().height });
+        m_enemySight.setSize({ m_sightArea.x, m_sightArea.y });
     }
     else // Facing right
     {
-        m_enemySight.setSize({ -m_sightRange, m_sprite.getGlobalBounds().height });
+        m_enemySight.setSize({ -m_sightArea.x, m_sightArea.y });
     }
 }
 

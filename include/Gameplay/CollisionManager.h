@@ -42,8 +42,10 @@ public:
 
     bool checkIsGrounded(const Collider* collider) const;
     WallCollision checkWalls(const Collider* collider) const;
-    PatrolAreaCollision checkPatrolArea(const Collider* collider) const;
+    PatrolAreaCollision checkPatrolArea(const Collider* collider, const sf::Shape* patrolArea) const;
     bool isPlayerInsideArea(const sf::FloatRect& area) const;
+
+    const sf::Shape* getClosestPatrolArea(const sf::Vector2f& spawnPoint) const;
 
     std::vector<Collider*> checkCollisionsWith(const Collider* collider) const;
     sf::Vector2f getPlayerPosition() const;

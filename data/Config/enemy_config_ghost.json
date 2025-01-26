@@ -11,9 +11,12 @@
     },
     "Speed": {
         "X": 100.0,
-        "Y": 0.0
+        "Y": 100.0
     },
-    "SightRange" : 300.0,
+    "SightArea": {
+        "Width": 700.0,
+        "Height": 800.0
+    },
     "Animations": {
         "Idle": {
             "TexturePath": "../data/Images/Enemies/Ghost/idle.png",

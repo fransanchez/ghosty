@@ -130,32 +130,27 @@ std::vector<Collider*> CollisionManager::checkCollisionsWith(const Collider* col
     return collisions;
 }
 
-PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider) const
+PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider, const sf::Shape* patrolArea) const
 {
     PatrolAreaCollision result;
     sf::FloatRect colliderBounds = collider->getBounds();
+    sf::FloatRect patrolBounds = patrolArea->getGlobalBounds();
 
-    for (const auto* patrolShape : m_enemyPatrolAreasShapes)
+    result.areaBounds = patrolBounds;
+
+    if (colliderBounds.intersects(patrolBounds))
     {
-        sf::FloatRect patrolBounds = patrolShape->getGlobalBounds();
-        result.areaBounds = patrolBounds;
+        result.inside = true;
 
-        if (colliderBounds.intersects(patrolBounds))
+        if (colliderBounds.left <= patrolBounds.left)
         {
-            result.inside = true;
-
-            if (colliderBounds.left <= patrolBounds.left)
-            {
-                result.leftEdge = true;
-            }
-            if (colliderBounds.left + colliderBounds.width >= patrolBounds.left + patrolBounds.width)
-            {
-                result.rightEdge = true;
-            }
-            break; // Assume only one patrol area per enemy
+            result.leftEdge = true;
+        }
+        if (colliderBounds.left + colliderBounds.width >= patrolBounds.left + patrolBounds.width)
+        {
+            result.rightEdge = true;
         }
     }
-
     return result;
 }
 
@@ -181,4 +176,27 @@ bool CollisionManager::isPlayerInsideArea(const sf::FloatRect& area) const
 
     sf::FloatRect playerBounds = m_playerCollider->getBounds();
     return area.intersects(playerBounds);
+}
+
+const sf::Shape* CollisionManager::getClosestPatrolArea(const sf::Vector2f& spawnPoint) const
+{
+    const sf::Shape* closestArea = nullptr;
+    float minArea = std::numeric_limits<float>::max();
+
+    for (const auto* patrolShape : m_enemyPatrolAreasShapes)
+    {
+        sf::FloatRect patrolBounds = patrolShape->getGlobalBounds();
+
+        if (patrolBounds.contains(spawnPoint))
+        {
+            float area = patrolBounds.width * patrolBounds.height;
+            if (area < minArea)
+            {
+                minArea = area;
+                closestArea = patrolShape;
+            }
+        }
+    }
+
+    return closestArea;
 }
