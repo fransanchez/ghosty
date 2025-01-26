@@ -37,15 +37,24 @@ class Enemy : public Collisionable
 
 		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
 
+		virtual void update(float deltaMilliseconds) override; // From GameObject
 		void render(sf::RenderWindow& window) override; // From GameObject
 
 	protected:
-		virtual void handleState(float deltaMilliseconds) = 0;
-		virtual void updateSight() = 0;
+		virtual void handleIdleState() = 0;
+		virtual void handlePatrolState() = 0;
+		virtual void handleChaseState() = 0;
+		virtual void handleAttackState() = 0;
 
 		void changeState(EnemyState newState);
 		void updateAnimation();
 		void setSpeedForState();
+
+
+		void updateEnemyPosition(float deltaSeconds);
+		void updateEnemySprite(float deltaSeconds);
+		void updateSight();
+		void handleState(float deltaMilliseconds);
 
 		sf::Sprite m_sprite;
 		sf::Vector2f m_direction{ .0f, .0f };
@@ -61,4 +70,5 @@ class Enemy : public Collisionable
 
 		sf::RectangleShape m_enemySight;
 		float m_sightRange{ 50.f };
+		bool m_movingRight{ false };
 };

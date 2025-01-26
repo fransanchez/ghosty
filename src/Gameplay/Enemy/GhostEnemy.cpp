@@ -1,103 +1,19 @@
-#include <Gameplay/CollisionManager.h>
 #include <Gameplay/AttackSystem/Attack.h>
+#include <Gameplay/CollisionManager.h>
 #include <Gameplay/Enemy/GhostEnemy.h>
 #include <cmath>
 
 void GhostEnemy::update(float deltaMilliseconds)
 {
+    // Update timer state and call parent to update normally
     m_stateTimer += deltaMilliseconds;
 
-    // Important to update the sight sense
-    updateSight();
-
-    handleCollisions();
-
-    handleState(deltaMilliseconds);
-
-    float deltaSeconds = deltaMilliseconds / 1000.f;
-
-    updateEnemyPosition(deltaSeconds);
-
-    updateEnemySprite(deltaSeconds);
-
-    for (auto& attack : m_attacks)
-    {
-        attack->update(deltaSeconds);
-    }
-}
-
-void GhostEnemy::handleState(float deltaMilliseconds)
-{
-    switch (m_currentState)
-    {
-    case EnemyState::Idle:
-        handleIdleState();
-        break;
-    case EnemyState::Patrol:
-        handlePatrolState();
-        break;
-    case EnemyState::Chase:
-        handleChaseState();
-        break;
-    case EnemyState::Attack:
-        handleAttackState();
-        break;
-    default:
-        break;
-    }
-}
-
-void GhostEnemy::updateEnemySprite(float deltaSeconds)
-{
-    if (m_currentAnimation && !m_currentAnimation->getFrames().empty())
-    {
-        m_currentAnimation->update(deltaSeconds);
-        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
-    }
-    else
-    {
-        printf("Error: Current animation is not set or has no frames\n");
-    }
+    Enemy::update(deltaMilliseconds);
 }
 
 void GhostEnemy::handleCollisions()
 {
     // To-Do
-}
-
-void GhostEnemy::updateEnemyPosition(float deltaSeconds) {
-    // Move based on direction and speed
-    m_position.x += m_direction.x * m_speed.x * deltaSeconds;
-
-    if (m_movingRight) {
-        m_sprite.setScale(1.0f, 1.0f);
-    }
-    else {
-        m_sprite.setScale(-1.0f, 1.0f);
-    }
-    m_sprite.setPosition(m_position);
-    // Sync collider position
-    m_collider->setPosition(m_position);
-}
-
-void GhostEnemy::updateSight()
-{
-    m_enemySight.setPosition(m_position);
-
-    if (m_movingRight) // Facing left
-    {
-        m_enemySight.setSize({ m_sightRange, m_sprite.getGlobalBounds().height });
-    }
-    else // Facing right
-    {
-        m_enemySight.setSize({ -m_sightRange, m_sprite.getGlobalBounds().height });
-    }
-
-    // Change state if we can see or we lost the player. Handle state will take care of the new state
-    if (m_currentState != EnemyState::Attack && m_collisionManager->isPlayerInsideArea(m_enemySight.getGlobalBounds()))
-    {
-        changeState(EnemyState::Chase);
-    }
 }
 
 void GhostEnemy::handleIdleState()
@@ -141,7 +57,6 @@ void GhostEnemy::handlePatrolState()
         }
         m_direction.x = m_movingRight ? 1.0f : -1.0f;
     }
-
 }
 
 void GhostEnemy::handleChaseState()
