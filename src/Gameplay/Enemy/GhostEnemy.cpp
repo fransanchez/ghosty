@@ -217,7 +217,6 @@ void GhostEnemy::handleAttackState()
 {
     if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
     {
-        printf("Enemy is attacking the Player.\n");
         sf::Vector2f attackDirection = m_direction;
         m_attacks[m_currentAttackIndex]->attack(m_position, attackDirection, m_collisionManager);
     }

@@ -21,6 +21,7 @@ public:
 private:
     float m_damage;
     float m_lifetime;
+    float m_lifetimeTimer;
     float m_cooldownTimer;
     float m_attackRate;
     Collider* m_collider;

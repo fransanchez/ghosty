@@ -6,10 +6,11 @@ MeleeAttack::MeleeAttack(float damage, float lifetime, float attackRate, Collide
     : m_damage(damage),
     m_lifetime(lifetime),
     m_attackRate(attackRate),
-    m_cooldownTimer(0.f),
     m_collider(collider),
     m_collisionManager(nullptr),
-    m_isActive(false)
+    m_isActive(false),
+    m_cooldownTimer(0.f),
+    m_lifetimeTimer(0.f)
 {
 }
 
@@ -25,10 +26,10 @@ void MeleeAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direc
     {
         m_position = position;
         m_collisionManager = collisionManager;
-
         m_collider->setPosition(m_position);
         m_isActive = true;
         m_cooldownTimer = m_attackRate;
+        m_lifetimeTimer = m_lifetime;
     }
 }
 
@@ -42,8 +43,8 @@ void MeleeAttack::update(float deltaTime)
     if (!m_isActive)
         return;
 
-    m_lifetime -= deltaTime;
-    if (m_lifetime <= 0.f)
+    m_lifetimeTimer -= deltaTime;
+    if (m_lifetimeTimer <= 0.f)
     {
         m_isActive = false;
         return;
@@ -69,5 +70,5 @@ void MeleeAttack::render(sf::RenderWindow& window)
 
 bool MeleeAttack::canAttack()
 {
-    return !m_isActive;
+    return !m_isActive && m_cooldownTimer <= 0.f;
 }
