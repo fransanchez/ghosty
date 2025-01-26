@@ -2,6 +2,7 @@
 #include <fstream>
 #include <Gameplay/Collider.h>
 #include <Gameplay/CollisionManager.h>
+#include <Gameplay/Enemy/DinoEnemy.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
 #include <Gameplay/Enemy/EnemyType.h>
@@ -23,7 +24,8 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
 {
     static const std::unordered_map<EnemyType, std::string> enemyConfigPaths = {
     { EnemyType::Ghost, GHOST_ENEMY_CONFIG_PATH },
-    { EnemyType::Skeleton, SKELETON_ENEMY_CONFIG_PATH }
+    { EnemyType::Skeleton, SKELETON_ENEMY_CONFIG_PATH },
+    { EnemyType::Dino, DINO_ENEMY_CONFIG_PATH }
     };
 
     auto it = enemyConfigPaths.find(enemyType);
@@ -95,6 +97,9 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
         break;
     case EnemyType::Skeleton:
         enemy = new SkeletonEnemy();
+        break;
+    case EnemyType::Dino:
+        enemy = new DinoEnemy();
         break;
     default:
         printf("Error: Unsupported EnemyType\n");

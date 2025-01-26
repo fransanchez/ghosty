@@ -42,12 +42,14 @@ set(PROJECT_HEADERS
     include/Gameplay/AttackSystem/MeleeAttack.h
     include/Gameplay/AttackSystem/Projectile.h
     include/Gameplay/AttackSystem/RangedAttack.h
+    include/Gameplay/Enemy/DinoEnemy.h
     include/Gameplay/Enemy/Enemy.h
     include/Gameplay/Enemy/EnemyFactory.h
     include/Gameplay/Enemy/EnemyType.h
     include/Gameplay/Enemy/FlyingEnemy.h
     include/Gameplay/Enemy/GhostEnemy.h
     include/Gameplay/Enemy/SkeletonEnemy.h
+    include/Gameplay/Enemy/StaticEnemy.h
     include/Gameplay/Enemy/WalkingEnemy.h
     include/Gameplay/Player/Player.h
     include/Gameplay/Player/PlayerFactory.h
@@ -77,11 +79,13 @@ set(PROJECT_SOURCES
     src/Gameplay/AttackSystem/MeleeAttack.cpp
     src/Gameplay/AttackSystem/Projectile.cpp
     src/Gameplay/AttackSystem/RangedAttack.cpp
+    src/Gameplay/Enemy/DinoEnemy.cpp
     src/Gameplay/Enemy/Enemy.cpp
     src/Gameplay/Enemy/EnemyFactory.cpp
     src/Gameplay/Enemy/FlyingEnemy.cpp
     src/Gameplay/Enemy/GhostEnemy.cpp
     src/Gameplay/Enemy/SkeletonEnemy.cpp
+    src/Gameplay/Enemy/StaticEnemy.cpp
     src/Gameplay/Enemy/WalkingEnemy.cpp
 
     src/Gameplay/Player/Player.cpp

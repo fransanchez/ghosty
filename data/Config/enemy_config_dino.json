@@ -1,0 +1,74 @@
+{
+    "Collider": {
+        "CenterOffset": {
+            "X": 0.0,
+            "Y": 0.0
+        },
+        "Size": {
+            "Width": 80.0,
+            "Height": 72.0
+        }
+    },
+    "Speed": {
+        "X": 100.0,
+        "Y": 0.0
+    },
+    "SightArea": {
+        "Width": 300.0,
+        "Height": 150.0
+    },
+    "Animations": {
+        "Idle": {
+            "TexturePath": "../data/Images/Enemies/Dino/idle.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 4,
+            "Loop": true,
+            "FrameDuration": 0.2
+        },
+        "Walk": {
+            "TexturePath": "../data/Images/Enemies/Dino/walk.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 4,
+            "Loop": true,
+            "FrameDuration": 0.2
+        },
+        "Attack": {
+            "TexturePath": "../data/Images/Enemies/Dino/attack.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 5,
+            "Loop": false,
+            "FrameDuration": 0.15
+        },
+        "Hurt": {
+            "TexturePath": "../data/Images/Enemies/Dino/hurt.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 4,
+            "Loop": false,
+            "FrameDuration": 0.2
+        },
+        "Death": {
+            "TexturePath": "../data/Images/Enemies/Dino/death.png",
+            "FrameCountRows": 1,
+            "FrameCountColumns": 6,
+            "Loop": false,
+            "FrameDuration": 0.12
+        }
+    },
+    "Attacks": {
+        "Melee": {
+            "Damage": 1.0,
+            "Lifetime": 1.0,
+            "AttackRate": 2.0,
+            "Collider": {
+                "CenterOffset": {
+                    "X": 0.0,
+                    "Y": 0.0
+                },
+                "Size": {
+                    "Width": 200.0,
+                    "Height": 200.0
+                }
+            }
+        }
+    }
+}

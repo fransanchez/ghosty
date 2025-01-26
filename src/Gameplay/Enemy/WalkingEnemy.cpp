@@ -87,7 +87,6 @@ void WalkingEnemy::handleChaseState()
             if ((m_direction.x < 0 && patrolCollision.leftEdge) ||
                 (m_direction.x > 0 && patrolCollision.rightEdge))
             {
-                //m_speed.x = 0.0f;
                 changeState(EnemyState::Idle);
             }
         }
