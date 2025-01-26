@@ -18,6 +18,8 @@ class GameObject
 		const sf::Vector2f& getPosition() const { return m_position; }
 		sf::Vector2f& getPosition() { return m_position; }
 		virtual void setPosition(const sf::Vector2f& newPosition) { m_position = newPosition; }
+		sf::Vector2f& getDirection() { return m_direction; }
+		virtual void setDirection(const sf::Vector2f& newDirection) { m_direction = newDirection; }
 
 		virtual void update(float delta) = 0;
 		virtual void render(sf::RenderWindow& window) = 0;
@@ -25,4 +27,5 @@ class GameObject
 	protected:
 
 		sf::Vector2f m_position{ .0f, .0f };
+		sf::Vector2f m_direction{ .0f, .0f };
 };

@@ -118,6 +118,7 @@ void Player::updatePlayerPosition(float deltaSeconds)
 
     m_sprite.setPosition(m_position);
     m_collider->setPosition(m_position);
+    m_collider->setDirection(m_direction);
 }
 
 void Player::updateSpriteSelection(float deltaSeconds)

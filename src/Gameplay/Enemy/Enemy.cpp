@@ -188,6 +188,7 @@ void Enemy::updateEnemyPosition(float deltaSeconds) {
     m_sprite.setPosition(m_position);
     // Sync collider position
     m_collider->setPosition(m_position);
+    m_collider->setDirection(m_direction);
 }
 
 void Enemy::updateEnemySprite(float deltaSeconds)

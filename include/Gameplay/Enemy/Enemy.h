@@ -57,7 +57,6 @@ class Enemy : public Collisionable
 		void handleState(float deltaMilliseconds);
 
 		sf::Sprite m_sprite;
-		sf::Vector2f m_direction{ .0f, .0f };
 		sf::Vector2f m_speed{ 0.f, 0.f };
 		sf::Vector2f m_patrolSpeed;
 		sf::Vector2f m_chaseSpeed;

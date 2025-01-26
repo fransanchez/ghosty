@@ -43,7 +43,6 @@ class Player : public Collisionable
         std::vector<Attack*> m_attacks;
 
         sf::Sprite m_sprite;
-        sf::Vector2f m_direction{ .0f, .0f };
         sf::Vector2f m_speed{ 0.f, 0.f };
         bool m_isGrounded{ false };
         bool m_isRunning{ false };
