@@ -59,7 +59,7 @@
             "AttackRate": 3.0,
             "Collider": {
                 "CenterOffset": {
-                    "X": 10.0,
+                    "X": 0.0,
                     "Y": 0.0
                 },
                 "Size": {

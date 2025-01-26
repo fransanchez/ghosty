@@ -41,13 +41,17 @@ class Enemy : public Collisionable
 
 	protected:
 		virtual void handleState(float deltaMilliseconds) = 0;
+		virtual void updateSight() = 0;
+
 		void changeState(EnemyState newState);
 		void updateAnimation();
-		virtual void updateSight() = 0;
+		void setSpeedForState();
 
 		sf::Sprite m_sprite;
 		sf::Vector2f m_direction{ .0f, .0f };
 		sf::Vector2f m_speed{ 0.f, 0.f };
+		sf::Vector2f m_patrolSpeed;
+		sf::Vector2f m_chaseSpeed;
 		std::unordered_map<AnimationType, Animation*>* m_animations;
 		std::vector<Attack*> m_attacks;
 

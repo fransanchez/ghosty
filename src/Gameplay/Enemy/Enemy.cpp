@@ -21,7 +21,11 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     m_attacks = enemyDescriptor.attacks;
     m_collider = collider;
     m_collisionManager = collisionManager;
-    m_speed = enemyDescriptor.speed;
+
+    m_patrolSpeed = enemyDescriptor.speed;
+    m_chaseSpeed = { m_patrolSpeed.x * 1.5f, m_patrolSpeed.y * 1.5f };
+    m_speed = m_patrolSpeed;
+
     m_sightRange = enemyDescriptor.sightRange;
 
     if (m_animations->count(AnimationType::Idle))
@@ -75,6 +79,7 @@ void Enemy::changeState(EnemyState newState)
     if (m_currentState != newState)
     {
         m_currentState = newState;
+        setSpeedForState();
         updateAnimation();
     }
 }
@@ -103,5 +108,21 @@ void Enemy::updateAnimation()
     {
         m_currentAnimation = (*m_animations)[animationType];
         m_currentAnimation->reset();
+    }
+}
+
+void Enemy::setSpeedForState()
+{
+    switch (m_currentState)
+    {
+    case EnemyState::Patrol:
+        m_speed = m_patrolSpeed;
+        break;
+    case EnemyState::Chase:
+        m_speed = m_chaseSpeed;
+        break;
+    default:
+        m_speed = { 0.0f, 0.0f };
+        break;
     }
 }
