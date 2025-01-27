@@ -39,7 +39,7 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
     }
 
     // Load Player Attacks
-    std::vector<Attack*> attacks = loadAttacks(config);
+    std::vector<Attack*> attacks = loadAttacks(config, collisionManager);
 
     if (attacks.empty())
     {
@@ -69,7 +69,7 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
     return player;
 }
 
-std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
+std::vector<Attack*> PlayerFactory::loadAttacks(const json& config, CollisionManager* collisionManager)
 {
 
     std::vector<Attack*> attacks;
@@ -100,7 +100,8 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
                     speed,
                     fireRate,
                     range,
-                    collider
+                    collider,
+                    collisionManager
                 );
 
                 attacks.push_back(rangedAttack);

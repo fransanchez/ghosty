@@ -11,13 +11,12 @@ RangedAttack::RangedAttack(
     float range,
     Collider* collider,
     CollisionManager* collisionManager)
-    : m_damage(damage),
-    m_projectileLifetime(projectileLifetime),
+    : m_projectileLifetime(projectileLifetime),
     m_projectileSpeed(projectileSpeed),
-    m_fireRate(1.0f / fireRate),
-    m_cooldownTimer(0.0f),
     m_animation(animation)
 {
+    m_attackRate = (1.0 / fireRate);
+    m_damage = damage;
     m_range = range;
     m_faction = faction;
     m_collider = collider;
@@ -47,11 +46,13 @@ void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& dire
         descriptor.direction = direction;
         descriptor.projectileSpeed = m_projectileSpeed;
         descriptor.projectileLife = m_projectileLifetime;
+        descriptor.damage = m_damage;
 
         Collider* projectileCollider = new Collider(*m_collider);
         projectile.init(descriptor, m_animation, projectileCollider, m_collisionManager);
         m_projectiles.push_front(&projectile);
-        m_cooldownTimer = m_fireRate;
+        m_cooldownTimer = m_attackRate;
+        m_collisionManager->registerProjectile(&projectile, m_faction);
     }
 }
 
@@ -69,6 +70,8 @@ void RangedAttack::update(float deltaTime)
 
         if (projectile->isExpired())
         {
+            m_collisionManager->unregisterProjectile(projectile, m_faction);
+
             m_projectilesPool.release(*projectile);
             it = m_projectiles.erase(it);
         }

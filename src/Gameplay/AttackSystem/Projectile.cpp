@@ -10,6 +10,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
     m_direction = descriptor.direction;
     m_projectileSpeed = descriptor.projectileSpeed;
     m_lifetime = descriptor.projectileLife;
+    m_damage = descriptor.damage;
     if (!m_animation)
     {
         m_animation = new Animation(*anim);

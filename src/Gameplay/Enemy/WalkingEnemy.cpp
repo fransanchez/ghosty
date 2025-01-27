@@ -128,7 +128,7 @@ void WalkingEnemy::handleAttackState()
             attackDirection.x /= magnitude;
             attackDirection.y /= magnitude;
         }
-        m_attacks[m_currentAttackIndex]->attack(m_position, attackDirection, m_collisionManager);
+        m_attacks[m_currentAttackIndex]->attack(m_position, attackDirection);
     }
 
     if (m_currentAnimation && m_currentAnimation->isFinished())

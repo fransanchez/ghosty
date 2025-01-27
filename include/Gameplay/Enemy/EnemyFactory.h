@@ -22,6 +22,6 @@ public:
 
 private:
     static std::unordered_map<AnimationType, Animation*> loadAnimations(const nlohmann::json& config);
-    static std::vector<Attack*> loadAttacks(const nlohmann::json& config);
+    static std::vector<Attack*> loadAttacks(const nlohmann::json& config, CollisionManager* collisionManager);
     static Collider* loadCollider(const nlohmann::json& parentData, const sf::Vector2f& position);
 };

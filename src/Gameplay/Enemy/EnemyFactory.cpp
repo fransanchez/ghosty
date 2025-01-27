@@ -58,7 +58,7 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
     }
 
     // Load attacks
-    auto attacks = loadAttacks(config);
+    auto attacks = loadAttacks(config, collisionManager);
     if (attacks.empty())
     {
         printf("Warning: No attacks loaded for enemy.\n");
@@ -151,7 +151,7 @@ std::unordered_map<AnimationType, Animation*> EnemyFactory::loadAnimations(const
     return AnimationLoader::LoadAnimations(config["Animations"]);
 }
 
-std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
+std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionManager* collisionManager)
 {
     std::vector<Attack*> attacks;
 
@@ -174,7 +174,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
             if (attackName == "Melee")
             {
                 float attackRate = attackData.contains("AttackRate") ? attackData["AttackRate"].get<float>() : 1.0f;
-                attacks.push_back(new MeleeAttack(AttackFaction::Enemy, damage, lifetime, attackRate, attackCollider));
+                attacks.push_back(new MeleeAttack(AttackFaction::Enemy, damage, lifetime, attackRate, attackCollider, collisionManager));
             }
             else if (attackName == "Ranged")
             {
@@ -203,7 +203,8 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
                     speed,
                     fireRate,
                     range,
-                    attackCollider));
+                    attackCollider,
+                    collisionManager));
             }
             else
             {

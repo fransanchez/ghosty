@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 
+class Attack;
 class Collider;
 class Enemy;
 class Player;
@@ -42,6 +43,8 @@ class CollisionManager
         void unregisterPlayer();
         void registerProjectile(Projectile* projectile, AttackFaction faction);
         void unregisterProjectile(Projectile* projectile, AttackFaction faction);
+        void registerMeleeAttack(Attack* attack);
+        void unregisterMeleeAttack(Attack* attack);
 
         void setGroundShapes(const std::vector<sf::Shape*>& groundShapes);
         void setWallShapes(const std::vector<sf::Shape*>& wallShapes);
@@ -56,6 +59,8 @@ class CollisionManager
 
         sf::Vector2f getPlayerPosition() const;
 
+        int checkPlayerHurtingCollisions();
+
     private:
         const float GROUND_COLLISION_MARGIN = 6.f;
 
@@ -67,4 +72,5 @@ class CollisionManager
         std::vector<Projectile*> m_playerProjectiles;
         std::vector<Enemy*> m_enemies;
         std::vector<Projectile*> m_enemyProjectiles;
+        std::vector<Attack*> m_enemyMeleeAttacks;
 };

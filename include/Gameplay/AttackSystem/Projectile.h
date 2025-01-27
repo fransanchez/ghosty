@@ -15,6 +15,7 @@ class Projectile : public Collisionable
             sf::Vector2f direction{ .0f, .0f };
             float projectileSpeed;
             float projectileLife;
+            int damage = 0;
         };
 
         Projectile() : m_animation(nullptr) {};
@@ -35,7 +36,12 @@ class Projectile : public Collisionable
 
         bool isExpired() const;
 
+        const int getDamag() const {
+            return m_damage;
+        }
+
     private:
+        int m_damage = 0;
         sf::Sprite m_sprite;
         sf::Vector2f m_direction;
         float m_lifetime{ 0.0f };

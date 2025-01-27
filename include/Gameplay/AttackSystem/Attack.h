@@ -31,9 +31,16 @@ class Attack
         const Collider* getCollider() const {
             return m_collider;
         }
+        const int getDamage() const {
+            return m_damage;
+        }
 
     protected:
+        int m_damage = 0;
         float m_range = 0.f;
+        float m_cooldownTimer = 0.f;
+        float m_attackRate = 0.f;   // attacks per second
+
         AttackFaction m_faction{ AttackFaction::Player };
         Collider* m_collider{ nullptr };
         CollisionManager* m_collisionManager{ nullptr };

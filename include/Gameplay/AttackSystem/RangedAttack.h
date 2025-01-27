@@ -28,12 +28,8 @@ public:
     bool canAttack() override;
 
 private:
-
-    float m_damage;
     float m_projectileLifetime;
     float m_projectileSpeed;
-    float m_fireRate;   // shots per second
-    float m_cooldownTimer;
     const Animation* m_animation;
 
     ObjectPool<Projectile, 8> m_projectilesPool;

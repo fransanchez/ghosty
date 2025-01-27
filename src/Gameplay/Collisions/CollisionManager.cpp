@@ -22,6 +22,11 @@ CollisionManager::~CollisionManager()
     }
     m_playerProjectiles.clear();
 
+    for (Attack* attack : m_enemyMeleeAttacks) {
+        attack = nullptr;
+    }
+    m_enemyMeleeAttacks.clear();
+
     for (Enemy* enemy : m_enemies) {
         enemy = nullptr;
     }
@@ -69,6 +74,20 @@ void CollisionManager::unregisterProjectile(Projectile* projectile, AttackFactio
     auto it = std::find(projectilesVector.begin(), projectilesVector.end(), projectile);
     if (it != projectilesVector.end()) {
         projectilesVector.erase(it);
+    }
+}
+
+void CollisionManager::registerMeleeAttack(Attack* attack)
+{
+    m_enemyMeleeAttacks.push_back(attack);
+}
+
+void CollisionManager::unregisterMeleeAttack(Attack* attack)
+{
+
+    auto it = std::find(m_enemyMeleeAttacks.begin(), m_enemyMeleeAttacks.end(), attack);
+    if (it != m_enemyMeleeAttacks.end()) {
+        m_enemyMeleeAttacks.erase(it);
     }
 }
 
@@ -218,4 +237,18 @@ const sf::Shape* CollisionManager::getClosestPatrolArea(const sf::Vector2f& spaw
     }
 
     return closestArea;
+}
+
+int CollisionManager::checkPlayerHurtingCollisions()
+{
+    int damage = 0;
+
+    // 1. Check Enemy projectiles
+
+    // 2. Check Enemy melee attacks
+
+    // 3. if any is intersecting with player collider, getDamage and return it
+    
+
+    return damage;
 }

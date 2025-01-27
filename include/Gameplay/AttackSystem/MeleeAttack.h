@@ -19,11 +19,7 @@ public:
     bool canAttack() override;
 
 private:
-    float m_damage;
     float m_lifetime;
     float m_lifetimeTimer;
-    float m_cooldownTimer;
-    float m_attackRate;
     bool m_isActive;
-    sf::Vector2f m_position;
 };
