@@ -1,4 +1,5 @@
 {
+    "MaxLife": 3,
     "Collider": {
         "CenterOffset": {
             "X": -20.0,

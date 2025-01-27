@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Gameplay/Collisionable.h>
+#include <Gameplay/EntityLife.h>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
 #include <SFML/Graphics/Rect.hpp>
@@ -31,6 +32,7 @@ class Enemy : public Collisionable
 			std::unordered_map<AnimationType, Animation*>* animations;
 			std::vector<Attack*> attacks;
 			const sf::Shape* patrolArea = nullptr;
+			int maxLife = 1;
 		};
 
 		virtual ~Enemy() override;
@@ -80,4 +82,5 @@ class Enemy : public Collisionable
 		bool m_movingRight{ false };
 
 		const sf::Shape* m_patrolArea = nullptr;
+		EntityLife m_life;
 };

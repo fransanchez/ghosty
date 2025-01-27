@@ -33,6 +33,7 @@ bool Player::init(const PlayerDescriptor& descriptor,
     m_attacks = descriptor.attacks;
     m_collider = collider;
     m_collisionManager = collisionManager;
+    m_life = EntityLife(descriptor.maxLife);
 
     m_collisionManager->registerPlayer(m_collider);
 
@@ -57,7 +58,6 @@ bool Player::init(const PlayerDescriptor& descriptor,
 
 void Player::update(float deltaMilliseconds)
 {
-
     handleInput();
 
     handleCollisions();
@@ -277,6 +277,13 @@ void Player::setAnimation()
 
 void Player::handleCollisions()
 {
+    handleScenarioCollisions();
+
+    handleHurtingCollisions();
+}
+
+void Player::handleScenarioCollisions()
+{
     if (!m_collider || !m_collisionManager)
         return;
 
@@ -300,6 +307,23 @@ void Player::handleCollisions()
         if (wallCollision.topCollision && m_verticalVelocity < 0.f)
         {
             m_verticalVelocity = 0.f;
+        }
+    }
+}
+
+void Player::handleHurtingCollisions()
+{
+    if (/* check hurting collisions */ false)
+    {
+        m_life.subtractLife(1);
+
+        if (m_life.getLife() == 0)
+        {
+            printf("Player has died\n");
+        }
+        else
+        {
+            printf("Player has been hurt. Remaining life: %d\n", m_life.getLife());
         }
     }
 }

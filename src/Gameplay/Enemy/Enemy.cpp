@@ -32,6 +32,7 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
     m_patrolSpeed = enemyDescriptor.speed;
     m_chaseSpeed = { m_patrolSpeed.x * 1.5f, m_patrolSpeed.y * 1.5f };
     m_speed = { 0.0f, 0.0f };
+    m_life = EntityLife(enemyDescriptor.maxLife);
 
     m_sightArea = { enemyDescriptor.sightArea.x, enemyDescriptor.sightArea.y };
 
@@ -106,7 +107,19 @@ void Enemy::render(sf::RenderWindow& window)
 
 void Enemy::handleCollisions()
 {
-    // To-Do
+    if (/* check hurting collisions */ false)
+    {
+        m_life.subtractLife(1);
+
+        if (m_life.getLife() == 0)
+        {
+            printf("Player has died\n");
+        }
+        else
+        {
+            printf("Player has been hurt. Remaining life: %d\n", m_life.getLife());
+        }
+    }
 }
 
 void Enemy::handleState(float deltaMilliseconds)

@@ -1,4 +1,5 @@
 {
+    "MaxLife": 5,
     "Collider": {
         "CenterOffset": {
             "X": 0.0,
@@ -66,7 +67,7 @@
             "Lifetime": 2.0,
             "Speed": 500.0,
             "FireRate": 2.5,
-            "Range":  1000.0,
+            "Range": 1000.0,
             "Animation": {
                 "DarkProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",

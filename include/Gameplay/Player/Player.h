@@ -2,6 +2,7 @@
 
 #include <Utils/Constants.h>
 #include <Gameplay/Collisionable.h>
+#include <Gameplay/EntityLife.h>
 #include <memory>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
@@ -20,6 +21,7 @@ class Player : public Collisionable
             sf::Vector2f speed{ .0f, .0f };
             std::unordered_map<AnimationType, Animation*>* animations;
             std::vector<Attack*> attacks;
+            int maxLife = 3;
         };
 
         ~Player() override;
@@ -39,6 +41,11 @@ class Player : public Collisionable
         void handleCollisions() override; // From Collisionable
 
     private:
+        void updatePlayerPosition(float deltaSeconds);
+        void updateSpriteSelection(float deltaSeconds);
+        void handleInput();
+        void handleScenarioCollisions();
+        void handleHurtingCollisions();
 
         std::vector<Attack*> m_attacks;
 
@@ -51,14 +58,9 @@ class Player : public Collisionable
         Animation* m_currentAnimation{ nullptr };
 
         int m_currentAttackIndex{ 1 };
-
         float m_verticalVelocity{ 0.0f };
-
         bool m_isAttacking{ false };
         bool m_attackKeyPressed{ false };
+        EntityLife m_life;
 
-        void updatePlayerPosition(float deltaSeconds);
-        void updateSpriteSelection(float deltaSeconds);
-        void handleInput();
-        void updateAnimation();
 };

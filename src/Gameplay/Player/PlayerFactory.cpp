@@ -47,12 +47,14 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
         return nullptr;
     }
 
+    int maxLife = config.contains("MaxLife") ? config["MaxLife"].get<int>() : 3;
 
     Player::PlayerDescriptor descriptor;
     descriptor.position = position;
     descriptor.speed = speed;
     descriptor.animations = new std::unordered_map<AnimationType, Animation*>(std::move(playerAnimations));
     descriptor.attacks = attacks;
+    descriptor.maxLife = maxLife;
 
     Collider* collider = loadCollider(config, position);
  

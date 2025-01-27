@@ -119,6 +119,8 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
         return nullptr;
     }
 
+    int maxLife = config.contains("MaxLife") ? config["MaxLife"].get<int>() : 1;
+
     Enemy::EnemyDescriptor descriptor;
     descriptor.position = position;
     descriptor.speed = speed;
@@ -126,6 +128,7 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
     descriptor.attacks = attacks;
     descriptor.sightArea = sightArea;
     descriptor.patrolArea = patrolArea;
+    descriptor.maxLife = maxLife;
 
     if (!enemy->init(descriptor, collider, collisionManager))
     {
