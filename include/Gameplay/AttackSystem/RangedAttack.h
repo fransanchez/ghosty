@@ -11,7 +11,13 @@
 class RangedAttack : public Attack
 {
 public:
-    RangedAttack(float damage, const Animation* animation, float projectileLifetime, float projectileSpeed, float fireRate, Collider* collider);
+    RangedAttack(float damage,
+        const Animation* animation,
+        float projectileLifetime,
+        float projectileSpeed,
+        float fireRate,
+        float range,
+        Collider* collider);
     ~RangedAttack();
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction, CollisionManager* collisionManager) override;

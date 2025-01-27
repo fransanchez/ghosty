@@ -7,6 +7,7 @@ RangedAttack::RangedAttack(
     float projectileLifetime,
     float projectileSpeed,
     float fireRate,
+    float range,
     Collider* collider)
     : m_damage(damage),
     m_projectileLifetime(projectileLifetime),
@@ -16,6 +17,7 @@ RangedAttack::RangedAttack(
     m_animation(animation),
     m_collider(collider)
 {
+    m_range = range;
 }
 
 RangedAttack::~RangedAttack()

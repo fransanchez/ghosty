@@ -68,7 +68,7 @@ class Enemy : public Collisionable
 		sf::Vector2f m_patrolSpeed;
 		sf::Vector2f m_chaseSpeed;
 		sf::Vector2f m_originalPosition;
-		std::unordered_map<AnimationType, Animation*>* m_animations;
+		std::unordered_map<AnimationType, Animation*>* m_animations { nullptr };
 		std::vector<Attack*> m_attacks;
 
 		Animation* m_currentAnimation{ nullptr };

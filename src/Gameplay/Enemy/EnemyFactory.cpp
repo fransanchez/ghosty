@@ -188,7 +188,11 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
                     continue;
                 }
 
-                attacks.push_back(new RangedAttack(damage, animation, lifetime, attackData["Speed"].get<float>(), attackData["FireRate"].get<float>(), attackCollider));
+                float speed = attackData["Speed"].get<float>();
+                float fireRate = attackData["FireRate"].get<float>();
+                float range = attackData["Range"].get<float>();
+
+                attacks.push_back(new RangedAttack(damage, animation, lifetime, speed, fireRate, range, attackCollider));
             }
             else
             {

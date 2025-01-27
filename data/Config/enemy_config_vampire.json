@@ -60,6 +60,7 @@
             "Lifetime": 1.5,
             "Speed": 500.0,
             "FireRate": 0.66,
+            "Range": 600.0,
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Enemies/Vampire/fire.png",

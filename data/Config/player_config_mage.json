@@ -66,6 +66,7 @@
             "Lifetime": 2.0,
             "Speed": 500.0,
             "FireRate": 2.5,
+            "Range":  1000.0,
             "Animation": {
                 "DarkProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",
@@ -91,6 +92,7 @@
             "Lifetime": 2.0,
             "Speed": 500.0,
             "FireRate": 2.5,
+            "Range": 1000.0,
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/fire.png",
@@ -116,6 +118,7 @@
             "Lifetime": 1.0,
             "Speed": 500.0,
             "FireRate": 2.5,
+            "Range": 600.0,
             "Animation": {
                 "IceProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/ice.png",

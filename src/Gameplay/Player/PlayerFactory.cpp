@@ -56,7 +56,6 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
 
     Collider* collider = loadCollider(config, position);
  
-
     Player* player = new Player();
     if (!player->init(descriptor, collider, collisionManager))
     {
@@ -81,6 +80,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
             float lifetime = attackData["Lifetime"].get<float>();
             float speed = attackData["Speed"].get<float>();
             float fireRate = attackData["FireRate"].get<float>();
+            float range = attackData["Range"].get<float>();
 
             if (attackData.contains("Animation"))
             {
@@ -96,6 +96,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
                     lifetime,
                     speed,
                     fireRate,
+                    range,
                     collider
                 );
 
