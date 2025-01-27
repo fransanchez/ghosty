@@ -35,7 +35,7 @@ bool Player::init(const PlayerDescriptor& descriptor,
     m_collisionManager = collisionManager;
     m_life = EntityLife(descriptor.maxLife);
 
-    m_collisionManager->registerPlayer(m_collider);
+    m_collisionManager->registerPlayer(this);
 
     if (m_animations->count(AnimationType::Idle))
     {

@@ -35,6 +35,7 @@ bool World::load()
 	{
 		return false;
 	}
+	m_collisionManager->registerPlayer(m_player);
 
 	const auto& spawnPoints = m_level->getEnemySpawnPoints();
 
@@ -56,6 +57,7 @@ bool World::load()
 
 			if (enemy)
 			{
+				m_collisionManager->registerEnemy(enemy);
 				m_enemies.push_back(enemy);
 			}
 		}
@@ -66,6 +68,15 @@ bool World::load()
 
 void World::unload()
 {
+	m_collisionManager->unregisterPlayer();
+
+	for (Enemy* enemy : m_enemies) {
+		m_collisionManager->unregisterEnemy(enemy);
+		delete enemy;
+		enemy = nullptr;
+	}
+	m_enemies.clear();
+
 	delete m_collisionManager;
 	m_collisionManager = nullptr;
 

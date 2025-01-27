@@ -10,7 +10,7 @@ class CollisionManager;
 class MeleeAttack : public Attack
 {
 public:
-    MeleeAttack(float damage, float lifetime, float attackRate, Collider* collider);
+    MeleeAttack(AttackFaction faction, float damage, float lifetime, float attackRate, Collider* collider);
     ~MeleeAttack() override;
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction, CollisionManager* collisionManager) override;

@@ -2,7 +2,7 @@
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <cstdio>
 
-MeleeAttack::MeleeAttack(float damage, float lifetime, float attackRate, Collider* collider)
+MeleeAttack::MeleeAttack(AttackFaction faction, float damage, float lifetime, float attackRate, Collider* collider)
     : m_damage(damage),
     m_lifetime(lifetime),
     m_attackRate(attackRate),
@@ -12,6 +12,7 @@ MeleeAttack::MeleeAttack(float damage, float lifetime, float attackRate, Collide
     m_cooldownTimer(0.f),
     m_lifetimeTimer(0.f)
 {
+    m_faction = faction;
 }
 
 MeleeAttack::~MeleeAttack()
@@ -50,14 +51,6 @@ void MeleeAttack::update(float deltaTime)
         return;
     }
 
-    // Check for collisions
-    auto collisions = m_collisionManager->checkCollisionsWith(m_collider);
-    for (auto* target : collisions)
-    {
-        // Apply damage or handle collision logic
-        printf("MeleeAttack: Collision detected with target!\n");
-        // Apply damage logic here (if needed)
-    }
 }
 
 void MeleeAttack::render(sf::RenderWindow& window)

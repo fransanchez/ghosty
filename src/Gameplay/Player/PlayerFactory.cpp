@@ -93,6 +93,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
                 Collider* collider = loadCollider(attackData, { 0.f, 0.f });
 
                 Attack* rangedAttack = new RangedAttack(
+                    AttackFaction::Player,
                     damage,
                     attackAnimation,
                     lifetime,

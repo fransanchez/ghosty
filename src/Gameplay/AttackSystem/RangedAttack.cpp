@@ -2,6 +2,7 @@
 #include <Gameplay/AttackSystem/RangedAttack.h>
 
 RangedAttack::RangedAttack(
+    AttackFaction faction,
     float damage,
     const Animation* animation,
     float projectileLifetime,
@@ -18,6 +19,7 @@ RangedAttack::RangedAttack(
     m_collider(collider)
 {
     m_range = range;
+    m_faction = faction;
 }
 
 RangedAttack::~RangedAttack()

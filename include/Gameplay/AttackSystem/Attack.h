@@ -5,8 +5,15 @@
 
 class CollisionManager;
 
+enum class AttackFaction
+{
+    Player,
+    Enemy
+};
+
 class Attack
 {
+
     public:
         virtual ~Attack() = default;
 
@@ -17,7 +24,11 @@ class Attack
         const float getRange() const {
             return m_range;
         }
+        const AttackFaction getFaction() const {
+            return m_faction;
+        }
 
     protected:
         float m_range = 0.f;
+        AttackFaction m_faction{ AttackFaction::Player };
 };

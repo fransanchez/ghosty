@@ -174,7 +174,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
             if (attackName == "Melee")
             {
                 float attackRate = attackData.contains("AttackRate") ? attackData["AttackRate"].get<float>() : 1.0f;
-                attacks.push_back(new MeleeAttack(damage, lifetime, attackRate, attackCollider));
+                attacks.push_back(new MeleeAttack(AttackFaction::Enemy, damage, lifetime, attackRate, attackCollider));
             }
             else if (attackName == "Ranged")
             {
@@ -195,7 +195,15 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
                 float fireRate = attackData["FireRate"].get<float>();
                 float range = attackData["Range"].get<float>();
 
-                attacks.push_back(new RangedAttack(damage, animation, lifetime, speed, fireRate, range, attackCollider));
+                attacks.push_back(new RangedAttack(
+                    AttackFaction::Enemy,
+                    damage,
+                    animation,
+                    lifetime,
+                    speed,
+                    fireRate,
+                    range,
+                    attackCollider));
             }
             else
             {

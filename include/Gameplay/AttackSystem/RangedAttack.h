@@ -11,7 +11,8 @@
 class RangedAttack : public Attack
 {
 public:
-    RangedAttack(float damage,
+    RangedAttack(AttackFaction faction,
+        float damage,
         const Animation* animation,
         float projectileLifetime,
         float projectileSpeed,

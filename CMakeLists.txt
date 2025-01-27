@@ -45,7 +45,6 @@ set(PROJECT_HEADERS
     include/Gameplay/Collisions/Collider.h
     include/Gameplay/Collisions/Collisionable.h
     include/Gameplay/Collisions/CollisionManager.h
-    include/Gameplay/Collisions/HitCollider.h
     include/Gameplay/Enemy/DinoEnemy.h
     include/Gameplay/Enemy/Enemy.h
     include/Gameplay/Enemy/EnemyFactory.h

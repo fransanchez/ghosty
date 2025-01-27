@@ -1,39 +1,75 @@
+#include <Gameplay/AttackSystem/Attack.h>
+#include <Gameplay/AttackSystem/Projectile.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Collisions/Collider.h>
+#include <Gameplay/Enemy/Enemy.h>
+#include <Gameplay/Player/Player.h>
 #include <SFML/Graphics/Shape.hpp>
 
 CollisionManager::~CollisionManager()
 {
-    m_colliders.clear();
     m_groundShapes.clear();
     m_wallShapes.clear();
     m_enemyPatrolAreasShapes.clear();
-    m_playerCollider = nullptr;
+
+    for (Projectile* proj : m_enemyProjectiles) {
+        proj = nullptr;
+    }
+    m_enemyProjectiles.clear();
+
+    for (Projectile* proj : m_playerProjectiles) {
+        proj = nullptr;
+    }
+    m_playerProjectiles.clear();
+
+    for (Enemy* enemy : m_enemies) {
+        enemy = nullptr;
+    }
+    m_enemies.clear();
+    m_player = nullptr;
 }
 
-void CollisionManager::registerCollider(Collider* collider)
+void CollisionManager::registerEnemy(Enemy* enemy)
 {
-    if (std::find(m_colliders.begin(), m_colliders.end(), collider) == m_colliders.end()) {
-        m_colliders.push_back(collider);
+    m_enemies.push_back(enemy);
+}
+
+void CollisionManager::unregisterEnemy(Enemy* enemy)
+{
+    auto it = std::find(m_enemies.begin(), m_enemies.end(), enemy);
+    if (it != m_enemies.end()) {
+        m_enemies.erase(it);
     }
 }
 
-void CollisionManager::unregisterCollider(Collider* collider)
+void CollisionManager::registerPlayer(Player* player)
 {
-    auto it = std::find(m_colliders.begin(), m_colliders.end(), collider);
-    if (it != m_colliders.end()) {
-        m_colliders.erase(it);
-    }
-}
-
-void CollisionManager::registerPlayer(Collider* playerCollider)
-{
-    m_playerCollider = playerCollider;
+    m_player = player;
 }
 
 void CollisionManager::unregisterPlayer()
 {
-    m_playerCollider = nullptr;
+    m_player = nullptr;
+}
+
+void CollisionManager::registerProjectile(Projectile* projectile, AttackFaction faction)
+{
+    if (faction == AttackFaction::Player) {
+        m_playerProjectiles.push_back(projectile);
+    }
+    else {
+        m_enemyProjectiles.push_back(projectile);
+    }
+}
+void CollisionManager::unregisterProjectile(Projectile* projectile, AttackFaction faction)
+{
+    std::vector<Projectile*> projectilesVector = 
+        (faction == AttackFaction::Player) ? m_playerProjectiles : m_enemyProjectiles;
+
+    auto it = std::find(projectilesVector.begin(), projectilesVector.end(), projectile);
+    if (it != projectilesVector.end()) {
+        projectilesVector.erase(it);
+    }
 }
 
 void CollisionManager::setGroundShapes(const std::vector<sf::Shape*>& groundShapes)
@@ -112,23 +148,6 @@ WallCollision CollisionManager::checkWalls(const Collider* collider) const
     return result;
 }
 
-std::vector<Collider*> CollisionManager::checkCollisionsWith(const Collider* collider) const
-{
-    std::vector<Collider*> collisions;
-
-    for (const auto* other : m_colliders)
-    {
-        if (other == collider)
-            continue;
-
-        if (collider->getBounds().intersects(other->getBounds()))
-        {
-            collisions.push_back(const_cast<Collider*>(other));
-        }
-    }
-
-    return collisions;
-}
 
 PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider, const sf::Shape* patrolArea) const
 {
@@ -156,25 +175,25 @@ PatrolAreaCollision CollisionManager::checkPatrolArea(const Collider* collider, 
 
 sf::Vector2f CollisionManager::getPlayerPosition() const
 {
-    if (!m_playerCollider)
+    if (!m_player)
     {
         printf("Error: Player is not registered in the CollisionManager.\n");
         return { 0.f, 0.f };
     }
 
-    sf::FloatRect playerBounds = m_playerCollider->getBounds();
+    sf::FloatRect playerBounds = m_player->getCollider()->getBounds();
     return { playerBounds.left + playerBounds.width / 2.f, playerBounds.top + playerBounds.height / 2.f };
 }
 
 bool CollisionManager::isPlayerInsideArea(const sf::FloatRect& area) const
 {
-    if (!m_playerCollider)
+    if (!m_player)
     {
         printf("Warning: Player collider not registered.\n");
         return false;
     }
 
-    sf::FloatRect playerBounds = m_playerCollider->getBounds();
+    sf::FloatRect playerBounds = m_player->getCollider()->getBounds();
     return area.intersects(playerBounds);
 }
 

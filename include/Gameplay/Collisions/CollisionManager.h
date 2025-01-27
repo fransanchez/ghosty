@@ -1,10 +1,15 @@
 #pragma once
 
-#include <vector>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <vector>
 
 class Collider;
+class Enemy;
+class Player;
+class Projectile;
+enum class AttackFaction;
+
 namespace sf
 {
     class Shape;
@@ -28,35 +33,38 @@ struct PatrolAreaCollision
 
 class CollisionManager
 {
-public:
-    ~CollisionManager();
+    public:
+        ~CollisionManager();
 
-    void registerCollider(Collider* collider);
-    void unregisterCollider(Collider* collider);
-    void registerPlayer(Collider* playerCollider);
-    void unregisterPlayer();
+        void registerEnemy(Enemy* enemy);
+        void unregisterEnemy(Enemy* enemy);
+        void registerPlayer(Player* player);
+        void unregisterPlayer();
+        void registerProjectile(Projectile* projectile, AttackFaction faction);
+        void unregisterProjectile(Projectile* projectile, AttackFaction faction);
 
-    void setGroundShapes(const std::vector<sf::Shape*>& groundShapes);
-    void setWallShapes(const std::vector<sf::Shape*>& wallShapes);
-    void setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& patrolAreasShapes);
+        void setGroundShapes(const std::vector<sf::Shape*>& groundShapes);
+        void setWallShapes(const std::vector<sf::Shape*>& wallShapes);
+        void setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& patrolAreasShapes);
 
-    bool checkIsGrounded(const Collider* collider) const;
-    WallCollision checkWalls(const Collider* collider) const;
-    PatrolAreaCollision checkPatrolArea(const Collider* collider, const sf::Shape* patrolArea) const;
-    bool isPlayerInsideArea(const sf::FloatRect& area) const;
+        bool checkIsGrounded(const Collider* collider) const;
+        WallCollision checkWalls(const Collider* collider) const;
+        PatrolAreaCollision checkPatrolArea(const Collider* collider, const sf::Shape* patrolArea) const;
+        bool isPlayerInsideArea(const sf::FloatRect& area) const;
 
-    const sf::Shape* getClosestPatrolArea(const sf::Vector2f& spawnPoint) const;
+        const sf::Shape* getClosestPatrolArea(const sf::Vector2f& spawnPoint) const;
 
-    std::vector<Collider*> checkCollisionsWith(const Collider* collider) const;
-    sf::Vector2f getPlayerPosition() const;
+        sf::Vector2f getPlayerPosition() const;
 
-private:
-    const float GROUND_COLLISION_MARGIN = 6.f;
+    private:
+        const float GROUND_COLLISION_MARGIN = 6.f;
 
-    std::vector<Collider*> m_colliders;
-    std::vector<sf::Shape*> m_groundShapes;
-    std::vector<sf::Shape*> m_wallShapes;
-    std::vector<sf::Shape*> m_enemyPatrolAreasShapes;
+        std::vector<sf::Shape*> m_groundShapes;
+        std::vector<sf::Shape*> m_wallShapes;
+        std::vector<sf::Shape*> m_enemyPatrolAreasShapes;
 
-    Collider* m_playerCollider = nullptr; // New
+        Player* m_player = nullptr;
+        std::vector<Projectile*> m_playerProjectiles;
+        std::vector<Enemy*> m_enemies;
+        std::vector<Projectile*> m_enemyProjectiles;
 };
