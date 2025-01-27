@@ -2,7 +2,7 @@
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <cstdio>
 
-MeleeAttack::MeleeAttack(float damage, float lifetime, float attackRate, Collider* collider)
+MeleeAttack::MeleeAttack(int damage, float lifetime, float attackRate, HitCollider* collider)
     : m_damage(damage),
     m_lifetime(lifetime),
     m_attackRate(attackRate),

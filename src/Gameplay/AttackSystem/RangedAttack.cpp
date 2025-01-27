@@ -2,28 +2,28 @@
 #include <Gameplay/AttackSystem/RangedAttack.h>
 
 RangedAttack::RangedAttack(
-    float damage,
+    int damage,
     const Animation* animation,
     float projectileLifetime,
     float projectileSpeed,
     float fireRate,
     float range,
-    Collider* collider)
+    HitCollider* collider)
     : m_damage(damage),
     m_projectileLifetime(projectileLifetime),
     m_projectileSpeed(projectileSpeed),
     m_fireRate(1.0f / fireRate),
     m_cooldownTimer(0.0f),
     m_animation(animation),
-    m_collider(collider)
+    m_hitCollider(collider)
 {
     m_range = range;
 }
 
 RangedAttack::~RangedAttack()
 {
-    delete m_collider;
-    m_collider = nullptr;
+    delete m_hitCollider;
+    m_hitCollider = nullptr;
     // Return all active projectiles to the pool
     for (auto& projectile : m_projectiles)
     {
@@ -43,7 +43,7 @@ void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& dire
         descriptor.projectileSpeed = m_projectileSpeed;
         descriptor.projectileLife = m_projectileLifetime;
 
-        Collider* projectileCollider = new Collider(*m_collider);
+        HitCollider* projectileCollider = new HitCollider(*m_hitCollider);
         projectile.init(descriptor, m_animation, projectileCollider, collisionManager);
         m_projectiles.push_front(&projectile);
         m_cooldownTimer = m_fireRate;

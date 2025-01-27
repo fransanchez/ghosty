@@ -2,6 +2,7 @@
 #include <fstream>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
+#include <Gameplay/Collisions/HitCollider.h>
 #include <Gameplay/Enemy/DinoEnemy.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
@@ -163,12 +164,9 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config)
             float lifetime = attackData["Lifetime"].get<float>();
 
             // Load collider for the attack
-            Collider* attackCollider = loadCollider(attackData, { 0.f, 0.f });
-            if (!attackCollider)
-            {
-                printf("Warning: Collider not found for attack %s\n", attackName.c_str());
-                continue;
-            }
+            Collider* baseCollider = loadCollider(attackData, { 0.f, 0.f });
+            HitCollider* attackCollider = new HitCollider(*baseCollider, damage);
+            delete(baseCollider);
 
             // Create melee or ranged attack
             if (attackName == "Melee")

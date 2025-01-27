@@ -85,7 +85,6 @@ set(PROJECT_SOURCES
     src/Gameplay/Collisions/Collider.cpp
     src/Gameplay/Collisions/Collisionable.cpp
     src/Gameplay/Collisions/CollisionManager.cpp
-    src/Gameplay/Collisions/HitCollider.cpp
     src/Gameplay/Enemy/DinoEnemy.cpp
     src/Gameplay/Enemy/Enemy.cpp
     src/Gameplay/Enemy/EnemyFactory.cpp
