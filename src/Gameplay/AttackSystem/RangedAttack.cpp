@@ -9,21 +9,24 @@ RangedAttack::RangedAttack(
     float projectileSpeed,
     float fireRate,
     float range,
-    Collider* collider)
+    Collider* collider,
+    CollisionManager* collisionManager)
     : m_damage(damage),
     m_projectileLifetime(projectileLifetime),
     m_projectileSpeed(projectileSpeed),
     m_fireRate(1.0f / fireRate),
     m_cooldownTimer(0.0f),
-    m_animation(animation),
-    m_collider(collider)
+    m_animation(animation)
 {
     m_range = range;
     m_faction = faction;
+    m_collider = collider;
+    m_collisionManager = collisionManager;
 }
 
 RangedAttack::~RangedAttack()
 {
+    m_collisionManager = nullptr;
     delete m_collider;
     m_collider = nullptr;
     // Return all active projectiles to the pool
@@ -34,7 +37,7 @@ RangedAttack::~RangedAttack()
     m_projectiles.clear(); // Clear the active list
 }
 
-void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direction, CollisionManager* collisionManager)
+void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direction)
 {
     if (m_cooldownTimer <= 0.0f)
     {
@@ -46,7 +49,7 @@ void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& dire
         descriptor.projectileLife = m_projectileLifetime;
 
         Collider* projectileCollider = new Collider(*m_collider);
-        projectile.init(descriptor, m_animation, projectileCollider, collisionManager);
+        projectile.init(descriptor, m_animation, projectileCollider, m_collisionManager);
         m_projectiles.push_front(&projectile);
         m_cooldownTimer = m_fireRate;
     }

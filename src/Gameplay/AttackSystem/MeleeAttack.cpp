@@ -1,32 +1,40 @@
 #include <Gameplay/AttackSystem/MeleeAttack.h>
+#include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <cstdio>
 
-MeleeAttack::MeleeAttack(AttackFaction faction, float damage, float lifetime, float attackRate, Collider* collider)
+MeleeAttack::MeleeAttack(
+    AttackFaction faction,
+    float damage,
+    float lifetime,
+    float attackRate,
+    Collider* collider,
+    CollisionManager* collisionManager)
     : m_damage(damage),
     m_lifetime(lifetime),
     m_attackRate(attackRate),
-    m_collider(collider),
-    m_collisionManager(nullptr),
     m_isActive(false),
     m_cooldownTimer(0.f),
     m_lifetimeTimer(0.f)
 {
     m_faction = faction;
+    m_collider = collider;
+    m_collisionManager = collisionManager;
 }
 
 MeleeAttack::~MeleeAttack()
 {
+    m_collisionManager = nullptr;
     delete m_collider;
     m_collider = nullptr;
 }
 
-void MeleeAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direction, CollisionManager* collisionManager)
+void MeleeAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direction)
 {
     if (m_cooldownTimer <= 0.f && !m_isActive)
     {
         m_position = position;
-        m_collisionManager = collisionManager;
+        m_collisionManager = m_collisionManager;
         m_collider->setPosition(m_position);
         m_isActive = true;
         m_cooldownTimer = m_attackRate;

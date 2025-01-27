@@ -18,10 +18,11 @@ public:
         float projectileSpeed,
         float fireRate,
         float range,
-        Collider* collider);
+        Collider* collider,
+        CollisionManager* collisionManager);
     ~RangedAttack();
 
-    void attack(const sf::Vector2f& position, const sf::Vector2f& direction, CollisionManager* collisionManager) override;
+    void attack(const sf::Vector2f& position, const sf::Vector2f& direction) override;
     void update(float deltaTime) override;
     void render(sf::RenderWindow& window) override;
     bool canAttack() override;
@@ -34,7 +35,6 @@ private:
     float m_fireRate;   // shots per second
     float m_cooldownTimer;
     const Animation* m_animation;
-    Collider* m_collider;
 
     ObjectPool<Projectile, 8> m_projectilesPool;
     std::list<Projectile*> m_projectiles;
