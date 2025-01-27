@@ -92,19 +92,39 @@ void World::update(uint32_t deltaMilliseconds)
 {
 	m_level->update(deltaMilliseconds);
 
-	// Update actors
-	m_player->update(deltaMilliseconds);
-
-	for (auto* enemy : m_enemies)
+	if (m_player)
 	{
-		enemy->update(deltaMilliseconds);
+		if (!m_player->isMarkedForDestruction()) {
+			m_player->update(deltaMilliseconds);
+		}
+		else 
+		{
+			// To-Do: switch screen
+			m_collisionManager->unregisterPlayer();
+			delete(m_player);
+			m_player = nullptr;
+		}
+	}
+	// Update actors
+	for (auto it = m_enemies.begin(); it != m_enemies.end(); )
+	{
+		if ((*it)->isMarkedForDestruction()) {
+			delete* it;
+			it = m_enemies.erase(it);
+		}
+		else {
+			(*it)->update(deltaMilliseconds);
+			++it;
+		}
 	}
 }
 
 void World::render(sf::RenderWindow& window)
 {
 	m_level->render(window);
-	m_player->render(window);
+	if (m_player) {
+		m_player->render(window);
+	}
 	for (auto* enemy : m_enemies)
 	{
 		enemy->render(window);

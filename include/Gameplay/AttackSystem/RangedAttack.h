@@ -20,7 +20,7 @@ public:
         float range,
         Collider* collider,
         CollisionManager* collisionManager);
-    ~RangedAttack();
+    ~RangedAttack() override;
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction) override;
     void update(float deltaTime) override;

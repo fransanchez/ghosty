@@ -35,15 +35,15 @@ class Projectile : public Collisionable
         void handleCollisions() override; // From Collisionable
 
         bool isExpired() const;
-
-        const int getDamag() const {
-            return m_damage;
-        }
+        void markForDestruction();
+        bool isMarkedForDesturction() const;
+        int getDamage() const;
 
     private:
         int m_damage = 0;
         sf::Sprite m_sprite;
         sf::Vector2f m_direction;
+        bool m_markedForDestruction{ false };
         float m_lifetime{ 0.0f };
         float m_projectileSpeed{ 0.0f };
         // We want a copy of the animation, not a pointer to the base one

@@ -21,7 +21,9 @@ class Enemy : public Collisionable
 			Chase,
 			TargetLocked,
 			ReturnToOrigin,
-			Attack
+			Attack,
+			Hurt,
+			Dead
 		};
 
 		struct EnemyDescriptor
@@ -39,11 +41,13 @@ class Enemy : public Collisionable
 
 		bool init(const EnemyDescriptor& enemyDescriptor, Collider* collider, CollisionManager* collisionManager);
 
-		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
+		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); };
+
+		bool isMarkedForDestruction() const { return m_markedForDestruction; };
 
 		virtual void update(float deltaMilliseconds) override; // From GameObject
 		virtual void render(sf::RenderWindow& window) override; // From GameObject
-		virtual void handleCollisions() override; // From Collisionable
+		void handleCollisions() override; // From Collisionable
 
 	protected:
 		virtual void handleIdleState() = 0;
@@ -64,6 +68,7 @@ class Enemy : public Collisionable
 		void moveWithinAreaEdges();
 		bool isPlayerInSight();
 		bool isPlayerInArea();
+		void checkIsHurt();
 
 		sf::Sprite m_sprite;
 		sf::Vector2f m_speed{ 0.f, 0.f };
@@ -82,5 +87,8 @@ class Enemy : public Collisionable
 		bool m_movingRight{ false };
 
 		const sf::Shape* m_patrolArea = nullptr;
+		bool m_canBeHurt{ true };
+		bool m_isDead{ false };
+		bool m_markedForDestruction{ false };
 		EntityLife m_life;
 };

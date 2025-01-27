@@ -19,6 +19,6 @@ public:
 
     virtual void handleCollisions() = 0;
 protected:
-    Collider* m_collider;
+    Collider* m_collider{ nullptr };
     CollisionManager* m_collisionManager = nullptr;
 };

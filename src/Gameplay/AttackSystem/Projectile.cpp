@@ -11,6 +11,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
     m_projectileSpeed = descriptor.projectileSpeed;
     m_lifetime = descriptor.projectileLife;
     m_damage = descriptor.damage;
+
     if (!m_animation)
     {
         m_animation = new Animation(*anim);
@@ -45,6 +46,9 @@ const Animation* Projectile::getAnimation() const
 
 void Projectile::update(float deltaTime)
 {
+    if (m_markedForDestruction) {
+        return;
+    }
     handleCollisions();
 
     m_lifetime -= deltaTime;
@@ -66,6 +70,21 @@ bool Projectile::isExpired() const
     return m_lifetime <= 0.0f;
 }
 
+void Projectile::markForDestruction()
+{
+    m_markedForDestruction = true;
+}
+
+bool Projectile::isMarkedForDesturction() const
+{
+    return m_markedForDestruction;
+}
+
+int Projectile::getDamage() const
+{
+    return m_damage;
+}
+
 void Projectile::render(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
@@ -83,6 +102,6 @@ void Projectile::handleCollisions()
     if (wallCollision.collided)
     {
         m_direction.x = 0.f;
-        m_lifetime = 0.0f;
+        m_markedForDestruction = true;
     }
 }

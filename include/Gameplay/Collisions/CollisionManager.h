@@ -60,6 +60,7 @@ class CollisionManager
         sf::Vector2f getPlayerPosition() const;
 
         int checkPlayerHurtingCollisions();
+        int checkEnemyHurtingCollisions(const Collider* collider);
 
     private:
         const float GROUND_COLLISION_MARGIN = 6.f;

@@ -68,12 +68,17 @@ void CollisionManager::registerProjectile(Projectile* projectile, AttackFaction 
 }
 void CollisionManager::unregisterProjectile(Projectile* projectile, AttackFaction faction)
 {
-    std::vector<Projectile*> projectilesVector = 
-        (faction == AttackFaction::Player) ? m_playerProjectiles : m_enemyProjectiles;
-
-    auto it = std::find(projectilesVector.begin(), projectilesVector.end(), projectile);
-    if (it != projectilesVector.end()) {
-        projectilesVector.erase(it);
+    if (faction == AttackFaction::Player) {
+        auto it = std::find(m_playerProjectiles.begin(), m_playerProjectiles.end(), projectile);
+        if (it != m_playerProjectiles.end()) {
+            m_playerProjectiles.erase(it);
+        }
+    }
+    else {
+        auto it = std::find(m_enemyProjectiles.begin(), m_enemyProjectiles.end(), projectile);
+        if (it != m_enemyProjectiles.end()) {
+            m_enemyProjectiles.erase(it);
+        }
     }
 }
 
@@ -208,7 +213,6 @@ bool CollisionManager::isPlayerInsideArea(const sf::FloatRect& area) const
 {
     if (!m_player)
     {
-        printf("Warning: Player collider not registered.\n");
         return false;
     }
 
@@ -243,12 +247,47 @@ int CollisionManager::checkPlayerHurtingCollisions()
 {
     int damage = 0;
 
-    // 1. Check Enemy projectiles
+    sf::FloatRect playerBounds = m_player->getCollider()->getBounds();
 
-    // 2. Check Enemy melee attacks
+    // Check projectiles
+    for (auto* projectile : m_enemyProjectiles)
+    {
+        if (projectile->getCollider()->getBounds().intersects(playerBounds))
+        {
+            printf("Marking for destruction");
+            damage += projectile->getDamage();
+            projectile->markForDestruction();
+        }
+    }
 
-    // 3. if any is intersecting with player collider, getDamage and return it
-    
+    // Check enemy melee attacks
+    for (Attack* attack : m_enemyMeleeAttacks)
+    {
+        if (attack->getCollider()->getBounds().intersects(playerBounds))
+        {
+            damage += attack->getDamage();
+        }
+    }
+
+    return damage;
+}
+
+int CollisionManager::checkEnemyHurtingCollisions(const Collider* enemyCollider)
+{
+    int damage = 0;
+
+    sf::FloatRect playerBounds = enemyCollider->getBounds();
+
+    // Check projectiles
+    for (auto* projectile : m_playerProjectiles)
+    {
+        if (projectile->getCollider()->getBounds().intersects(playerBounds))
+        {
+            printf("Marking for destruction");
+            damage += projectile->getDamage();
+            projectile->markForDestruction();
+        }
+    }
 
     return damage;
 }

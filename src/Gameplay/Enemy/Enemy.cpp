@@ -64,22 +64,41 @@ bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
 
 void Enemy::update(float deltaMilliseconds)
 {
-    // Important to update the sight sense
-    updateSight();
-
-    handleCollisions();
-
-    handleState(deltaMilliseconds);
-
     float deltaSeconds = deltaMilliseconds / 1000.f;
 
-    updateEnemyPosition(deltaSeconds);
+    if (!m_isDead) {
+        checkIsHurt();
+        // Important to update the sight sense
+        updateSight();
 
+        handleCollisions();
+
+        handleState(deltaMilliseconds);
+
+        updateEnemyPosition(deltaSeconds);
+
+        for (auto& attack : m_attacks)
+        {
+            attack->update(deltaSeconds);
+        }
+    }
+    else 
+    {
+        if (m_currentAnimation->isFinished()) {
+            m_markedForDestruction = true;
+        }
+    }
+    
     updateEnemySprite(deltaSeconds);
 
-    for (auto& attack : m_attacks)
-    {
-        attack->update(deltaSeconds);
+}
+
+void Enemy::checkIsHurt() {
+    if (!m_canBeHurt) {
+        if (m_currentAnimation == (*m_animations)[AnimationType::Hurt] && m_currentAnimation->isFinished()) {
+            m_canBeHurt = true;
+            changeState(EnemyState::Idle);
+        }
     }
 }
 
@@ -107,17 +126,25 @@ void Enemy::render(sf::RenderWindow& window)
 
 void Enemy::handleCollisions()
 {
-    if (/* check hurting collisions */ false)
-    {
-        m_life.subtractLife(1);
+    if (m_canBeHurt) {
+        int damage = m_collisionManager->checkEnemyHurtingCollisions(m_collider);
 
-        if (m_life.getLife() == 0)
+        if (damage > 0)
         {
-            printf("Player has died\n");
-        }
-        else
-        {
-            printf("Player has been hurt. Remaining life: %d\n", m_life.getLife());
+            m_life.subtractLife(damage);
+
+            if (m_life.getLife() == 0)
+            {
+                printf("Enemy has died\n");
+                m_isDead = true;
+                changeState(EnemyState::Dead);
+            }
+            else
+            {
+                printf("Enemy has been hurt. Remaining life: %d\n", m_life.getLife());
+                m_canBeHurt = false;
+                changeState(EnemyState::Hurt);
+            }
         }
     }
 }
@@ -144,6 +171,8 @@ void Enemy::handleState(float deltaMilliseconds)
     case EnemyState::Attack:
         handleAttackState();
         break;
+    case EnemyState::Hurt:
+    case EnemyState::Dead:
     default:
         break;
     }
@@ -182,6 +211,12 @@ void Enemy::updateAnimation()
         break;
     case EnemyState::Attack:
         animationType = AnimationType::Attack;
+        break;
+    case EnemyState::Hurt:
+        animationType = AnimationType::Hurt;
+        break;
+    case EnemyState::Dead:
+        animationType = AnimationType::Death;
         break;
     }
 

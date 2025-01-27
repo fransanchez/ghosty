@@ -35,6 +35,7 @@ class Player : public Collisionable
         sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
         void setGrounded(bool grounded);
         bool isGrounded() const { return m_isGrounded; }
+        bool isMarkedForDestruction() const { return m_markedForDestruction; };
 
         void update(float deltaMilliseconds) override; // From GameObject
         void render(sf::RenderWindow& window) override; // From GameObject
@@ -46,6 +47,7 @@ class Player : public Collisionable
         void handleInput();
         void handleScenarioCollisions();
         void handleHurtingCollisions();
+        void checkIsHurt();
 
         std::vector<Attack*> m_attacks;
 
@@ -61,6 +63,9 @@ class Player : public Collisionable
         float m_verticalVelocity{ 0.0f };
         bool m_isAttacking{ false };
         bool m_attackKeyPressed{ false };
+        bool m_canBeHurt{ true };
+        bool m_isDead{ false };
+        bool m_markedForDestruction{ false };
         EntityLife m_life;
 
 };

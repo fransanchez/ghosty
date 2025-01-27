@@ -33,7 +33,7 @@ RangedAttack::~RangedAttack()
     {
         m_projectilesPool.release(*projectile);
     }
-    m_projectiles.clear(); // Clear the active list
+    m_projectiles.clear();
 }
 
 void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direction)
@@ -68,10 +68,9 @@ void RangedAttack::update(float deltaTime)
         Projectile* projectile = *it;
         projectile->update(deltaTime);
 
-        if (projectile->isExpired())
+        if (projectile->isExpired() || projectile->isMarkedForDesturction())
         {
             m_collisionManager->unregisterProjectile(projectile, m_faction);
-
             m_projectilesPool.release(*projectile);
             it = m_projectiles.erase(it);
         }

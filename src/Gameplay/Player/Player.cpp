@@ -58,19 +58,39 @@ bool Player::init(const PlayerDescriptor& descriptor,
 
 void Player::update(float deltaMilliseconds)
 {
-    handleInput();
-
-    handleCollisions();
 
     float deltaSeconds = deltaMilliseconds / 1000.f;
 
-    updatePlayerPosition(deltaSeconds);
+    if (!m_isDead) {
+
+        checkIsHurt();
+
+        handleInput();
+
+        handleCollisions();
+
+        updatePlayerPosition(deltaSeconds);
+
+        for (auto& attack : m_attacks)
+        {
+            attack->update(deltaSeconds);
+        }
+    }
+    else {
+        if (m_currentAnimation->isFinished()) {
+            m_markedForDestruction = true;
+        }
+    }
 
     updateSpriteSelection(deltaSeconds);
 
-    for (auto& attack : m_attacks)
-    {
-        attack->update(deltaSeconds);
+}
+
+void Player::checkIsHurt() {
+    if (!m_canBeHurt) {
+        if (m_currentAnimation == (*m_animations)[AnimationType::Hurt] && m_currentAnimation->isFinished()) {
+            m_canBeHurt = true;
+        }
     }
 }
 
@@ -224,28 +244,37 @@ void Player::setAnimation()
 
     AnimationType desiredAnimationType = AnimationType::Idle;
 
-    // Jumping
-    if (!m_isGrounded) {
-        desiredAnimationType = AnimationType::Jump;
+    if (!m_canBeHurt) {
+        desiredAnimationType = AnimationType::Hurt;
     }
-    else if (m_direction == sf::Vector2f(0.f, 0.f))
+    else if (m_isDead) {
+        desiredAnimationType = AnimationType::Death;
+    }
+    else 
     {
-        // Idle
-        if (m_isAttacking) {
-            desiredAnimationType = AnimationType::Attack;
+        // Jumping
+        if (!m_isGrounded) {
+            desiredAnimationType = AnimationType::Jump;
+        }
+        else if (m_direction == sf::Vector2f(0.f, 0.f))
+        {
+            // Idle
+            if (m_isAttacking) {
+                desiredAnimationType = AnimationType::Attack;
+            }
+            else {
+                desiredAnimationType = AnimationType::Idle;
+            }
         }
         else {
-            desiredAnimationType = AnimationType::Idle;
-        }
-    }
-    else {
-        // Movement
-        if (m_isAttacking) {
-            desiredAnimationType = m_isRunning ? AnimationType::RunAttack : AnimationType::WalkAttack;
-        }
-        else
-        {
-            desiredAnimationType = m_isRunning ? AnimationType::Run : AnimationType::Walk;
+            // Movement
+            if (m_isAttacking) {
+                desiredAnimationType = m_isRunning ? AnimationType::RunAttack : AnimationType::WalkAttack;
+            }
+            else
+            {
+                desiredAnimationType = m_isRunning ? AnimationType::Run : AnimationType::Walk;
+            }
         }
     }
 
@@ -279,7 +308,9 @@ void Player::handleCollisions()
 {
     handleScenarioCollisions();
 
-    handleHurtingCollisions();
+    if (m_canBeHurt) {
+        handleHurtingCollisions();
+    }
 }
 
 void Player::handleScenarioCollisions()
@@ -313,19 +344,23 @@ void Player::handleScenarioCollisions()
 
 void Player::handleHurtingCollisions()
 {
+
     int damage = m_collisionManager->checkPlayerHurtingCollisions();
 
-    if (/* check hurting collisions */ false)
+    if (damage > 0)
     {
-        m_life.subtractLife(1);
+        m_life.subtractLife(damage);
 
         if (m_life.getLife() == 0)
         {
             printf("Player has died\n");
+            m_isDead = true;
         }
         else
         {
             printf("Player has been hurt. Remaining life: %d\n", m_life.getLife());
+            m_canBeHurt = false;
         }
+        setAnimation();
     }
 }
