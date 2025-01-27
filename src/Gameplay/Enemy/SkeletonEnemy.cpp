@@ -1,4 +1,4 @@
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/SkeletonEnemy.h>
 
 bool SkeletonEnemy::isPlayerInRange() {

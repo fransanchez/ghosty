@@ -1,6 +1,6 @@
 #include <cmath>
 #include <Gameplay/AttackSystem/Attack.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/FlyingEnemy.h>
 #include <Utils/Constants.h>
 

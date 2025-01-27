@@ -1,5 +1,5 @@
-#include <Gameplay/Collider.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/Collider.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Player/Player.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Render/AnimationType.h>

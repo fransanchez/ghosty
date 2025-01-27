@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gameplay/Collisionable.h>
+#include <Gameplay/Collisions/Collisionable.h>
 #include <Gameplay/EntityLife.h>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>

@@ -42,6 +42,10 @@ set(PROJECT_HEADERS
     include/Gameplay/AttackSystem/MeleeAttack.h
     include/Gameplay/AttackSystem/Projectile.h
     include/Gameplay/AttackSystem/RangedAttack.h
+    include/Gameplay/Collisions/Collider.h
+    include/Gameplay/Collisions/Collisionable.h
+    include/Gameplay/Collisions/CollisionManager.h
+    include/Gameplay/Collisions/HitCollider.h
     include/Gameplay/Enemy/DinoEnemy.h
     include/Gameplay/Enemy/Enemy.h
     include/Gameplay/Enemy/EnemyFactory.h
@@ -55,9 +59,6 @@ set(PROJECT_HEADERS
     include/Gameplay/Player/Player.h
     include/Gameplay/Player/PlayerFactory.h
 
-    include/Gameplay/Collider.h
-    include/Gameplay/Collisionable.h
-    include/Gameplay/CollisionManager.h
     include/Gameplay/EntityLife.h
     include/Gameplay/GameObject.h
 
@@ -81,6 +82,10 @@ set(PROJECT_SOURCES
     src/Gameplay/AttackSystem/MeleeAttack.cpp
     src/Gameplay/AttackSystem/Projectile.cpp
     src/Gameplay/AttackSystem/RangedAttack.cpp
+    src/Gameplay/Collisions/Collider.cpp
+    src/Gameplay/Collisions/Collisionable.cpp
+    src/Gameplay/Collisions/CollisionManager.cpp
+    src/Gameplay/Collisions/HitCollider.cpp
     src/Gameplay/Enemy/DinoEnemy.cpp
     src/Gameplay/Enemy/Enemy.cpp
     src/Gameplay/Enemy/EnemyFactory.cpp
@@ -94,9 +99,6 @@ set(PROJECT_SOURCES
     src/Gameplay/Player/Player.cpp
     src/Gameplay/Player/PlayerFactory.cpp
 
-    src/Gameplay/Collider.cpp
-    src/Gameplay/Collisionable.cpp
-    src/Gameplay/CollisionManager.cpp
     src/Gameplay/EntityLife.cpp
 
 

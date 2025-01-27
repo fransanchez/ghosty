@@ -2,8 +2,8 @@
 
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/Projectile.h>
-#include <Gameplay/Collider.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/Collider.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Render/Animation.h>
 #include <Utils/ObjectPool.h>
 #include <list>

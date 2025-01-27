@@ -1,7 +1,7 @@
 #include <Core/AssetManager.h>
 #include <fstream>
-#include <Gameplay/Collider.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/Collider.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/Player/PlayerFactory.h>

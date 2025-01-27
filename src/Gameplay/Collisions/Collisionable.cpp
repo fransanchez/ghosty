@@ -1,5 +1,5 @@
-#include <Gameplay/Collisionable.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/Collisionable.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 
 Collisionable::Collisionable(Collider* collider, CollisionManager* manager) {
 

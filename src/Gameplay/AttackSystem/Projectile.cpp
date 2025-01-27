@@ -1,5 +1,5 @@
 #include <Gameplay/AttackSystem/Projectile.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 
 void Projectile::init(ProjectileDescriptor descriptor,
             const Animation* anim,

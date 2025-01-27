@@ -1,5 +1,5 @@
-#include <Gameplay/CollisionManager.h>
-#include <Gameplay/Collider.h>
+#include <Gameplay/Collisions/CollisionManager.h>
+#include <Gameplay/Collisions/Collider.h>
 #include <SFML/Graphics/Shape.hpp>
 
 CollisionManager::~CollisionManager()

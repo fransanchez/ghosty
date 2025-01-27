@@ -1,7 +1,7 @@
 #include <Core/AssetManager.h>
 #include <fstream>
-#include <Gameplay/Collider.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/Collider.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/DinoEnemy.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>

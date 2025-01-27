@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gameplay/Collisionable.h>
+#include <Gameplay/Collisions/Collisionable.h>
 #include <Gameplay/GameObject.h>
 #include <SFML/Graphics.hpp>
 #include <Render/Animation.h>

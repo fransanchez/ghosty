@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Gameplay/Collider.h>
+#include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/GameObject.h>
 #include <memory>
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Gameplay/AttackSystem/Attack.h>
-#include <Gameplay/Collider.h>
+#include <Gameplay/Collisions/Collider.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 

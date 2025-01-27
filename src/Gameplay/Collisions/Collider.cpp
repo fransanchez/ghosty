@@ -1,4 +1,4 @@
-#include <Gameplay/Collider.h>
+#include <Gameplay/Collisions/Collider.h>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 

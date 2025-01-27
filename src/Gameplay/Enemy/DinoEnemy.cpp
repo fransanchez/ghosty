@@ -1,4 +1,4 @@
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/DinoEnemy.h>
 
 bool DinoEnemy::isPlayerInRange() {

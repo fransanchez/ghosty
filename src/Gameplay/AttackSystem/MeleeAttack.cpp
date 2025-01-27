@@ -1,5 +1,5 @@
 #include <Gameplay/AttackSystem/MeleeAttack.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <cstdio>
 
 MeleeAttack::MeleeAttack(float damage, float lifetime, float attackRate, Collider* collider)

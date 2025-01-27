@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Utils/Constants.h>
-#include <Gameplay/Collisionable.h>
+#include <Gameplay/Collisions/Collisionable.h>
 #include <Gameplay/EntityLife.h>
 #include <memory>
 #include <Render/Animation.h>

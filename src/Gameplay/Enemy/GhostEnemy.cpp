@@ -1,5 +1,5 @@
 #include <Gameplay/AttackSystem/Attack.h>
-#include <Gameplay/CollisionManager.h>
+#include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/GhostEnemy.h>
 #include <cmath>
 
