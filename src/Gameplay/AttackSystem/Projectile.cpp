@@ -6,6 +6,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
             Collider* collider,
             CollisionManager* collisionManager)
 {
+    m_markedForDestruction = false;
     m_position = descriptor.position;
     m_direction = descriptor.direction;
     m_projectileSpeed = descriptor.projectileSpeed;

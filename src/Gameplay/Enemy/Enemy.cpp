@@ -135,13 +135,11 @@ void Enemy::handleCollisions()
 
             if (m_life.getLife() == 0)
             {
-                printf("Enemy has died\n");
                 m_isDead = true;
                 changeState(EnemyState::Dead);
             }
             else
             {
-                printf("Enemy has been hurt. Remaining life: %d\n", m_life.getLife());
                 m_canBeHurt = false;
                 changeState(EnemyState::Hurt);
             }

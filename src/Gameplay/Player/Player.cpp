@@ -353,12 +353,10 @@ void Player::handleHurtingCollisions()
 
         if (m_life.getLife() == 0)
         {
-            printf("Player has died\n");
             m_isDead = true;
         }
         else
         {
-            printf("Player has been hurt. Remaining life: %d\n", m_life.getLife());
             m_canBeHurt = false;
         }
         setAnimation();

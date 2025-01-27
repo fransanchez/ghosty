@@ -254,7 +254,6 @@ int CollisionManager::checkPlayerHurtingCollisions()
     {
         if (projectile->getCollider()->getBounds().intersects(playerBounds))
         {
-            printf("Marking for destruction");
             damage += projectile->getDamage();
             projectile->markForDestruction();
         }
