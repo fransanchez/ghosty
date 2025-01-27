@@ -57,7 +57,7 @@
     },
     "Attacks": {
         "Melee": {
-            "Damage": 1,
+            "Damage": 1.0,
             "Lifetime": 1.0,
             "AttackRate": 3.0,
             "Collider": {

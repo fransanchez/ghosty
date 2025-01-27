@@ -63,7 +63,7 @@
     },
     "Attacks": {
         "Darkball": {
-            "Damage": 1,
+            "Damage": 15.0,
             "Lifetime": 2.0,
             "Speed": 500.0,
             "FireRate": 2.5,
@@ -89,7 +89,7 @@
             }
         },
         "Fireball": {
-            "Damage": 1,
+            "Damage": 15.0,
             "Lifetime": 2.0,
             "Speed": 500.0,
             "FireRate": 2.5,
@@ -115,7 +115,7 @@
             }
         },
         "IceSpike": {
-            "Damage": 2,
+            "Damage": 15.0,
             "Lifetime": 1.0,
             "Speed": 500.0,
             "FireRate": 2.5,

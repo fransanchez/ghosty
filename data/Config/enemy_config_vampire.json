@@ -57,7 +57,7 @@
     },
     "Attacks": {
         "Ranged": {
-            "Damage": 2,
+            "Damage": 15.0,
             "Lifetime": 1.5,
             "Speed": 500.0,
             "FireRate": 0.66,

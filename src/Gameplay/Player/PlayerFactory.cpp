@@ -78,7 +78,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
     {
         for (const auto& [attackName, attackData] : config["Attacks"].items())
         {
-            int damage = attackData["Damage"].get<int>();
+            float damage = attackData["Damage"].get<float>();
             float lifetime = attackData["Lifetime"].get<float>();
             float speed = attackData["Speed"].get<float>();
             float fireRate = attackData["FireRate"].get<float>();
@@ -90,9 +90,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
                 Animation* attackAnimation = AnimationLoader::LoadSingleAttackAnimation(animationData);
 
                 // Load Collider for the attack
-                Collider* baseCollider = loadCollider(attackData, { 0.f, 0.f });
-                HitCollider* hitCollider = new HitCollider(*baseCollider, damage);
-                delete baseCollider;
+                Collider* collider = loadCollider(attackData, { 0.f, 0.f });
 
                 Attack* rangedAttack = new RangedAttack(
                     damage,
@@ -101,7 +99,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config)
                     speed,
                     fireRate,
                     range,
-                    hitCollider
+                    collider
                 );
 
                 attacks.push_back(rangedAttack);

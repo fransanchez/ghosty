@@ -2,7 +2,7 @@
 
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/Projectile.h>
-#include <Gameplay/Collisions/HitCollider.h>
+#include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <Render/Animation.h>
 #include <Utils/ObjectPool.h>
@@ -11,13 +11,13 @@
 class RangedAttack : public Attack
 {
 public:
-    RangedAttack(int damage,
+    RangedAttack(float damage,
         const Animation* animation,
         float projectileLifetime,
         float projectileSpeed,
         float fireRate,
         float range,
-        HitCollider* collider);
+        Collider* collider);
     ~RangedAttack();
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction, CollisionManager* collisionManager) override;
@@ -27,13 +27,13 @@ public:
 
 private:
 
-    int m_damage;
+    float m_damage;
     float m_projectileLifetime;
     float m_projectileSpeed;
     float m_fireRate;   // shots per second
     float m_cooldownTimer;
     const Animation* m_animation;
-    HitCollider* m_hitCollider;
+    Collider* m_collider;
 
     ObjectPool<Projectile, 8> m_projectilesPool;
     std::list<Projectile*> m_projectiles;
