@@ -19,7 +19,7 @@ class World
 
 		~World();
 
-		bool load();
+		bool load(uint32_t cameraWidth, uint32_t cameraHeight);
 		void unload();
 
 		void update(uint32_t deltaMilliseconds);

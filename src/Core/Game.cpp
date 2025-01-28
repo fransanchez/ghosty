@@ -5,6 +5,7 @@
 #include <SFML/Window/Event.hpp>
 #include <UI/UIManager.h>
 #include <UI/UIScreenMainMenu.h>
+#include <Utils/GameConfigLoader.h>
 
 
 bool Game::init(GameCreateInfo& createInfo)
@@ -18,9 +19,8 @@ bool Game::init(GameCreateInfo& createInfo)
 	m_mainMenu = new UIScreenMainMenu();
 	m_mainMenu->init();
 	m_uiManager->show(*m_mainMenu);
-
 	m_world = new World();
-	const bool loadOk = m_world->load();
+	const bool loadOk = m_world->load(createInfo.screenWidth, createInfo.screenHeight);
 
 	return loadOk;
 }

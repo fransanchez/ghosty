@@ -30,8 +30,6 @@ FetchContent_MakeAvailable(JSON)
 
 
 set(PROJECT_HEADERS 
-    include/Utils/Constants.h
-    include/Utils/ObjectPool.h
 
     include/Core/AssetManager.h
     include/Core/Game.h
@@ -70,6 +68,10 @@ set(PROJECT_HEADERS
     include/UI/UIManager.h
     include/UI/UIScreen.h
     include/UI/UIScreenMainMenu.h
+
+    include/Utils/Constants.h
+    include/Utils/GameConfigLoader.h
+    include/Utils/ObjectPool.h
 )
 
 set(PROJECT_SOURCES 
@@ -108,6 +110,7 @@ set(PROJECT_SOURCES
     src/UI/UIManager.cpp
     src/UI/UIScreenMainMenu.cpp
 
+    src/Utils/GameConfigLoader.cpp
 
     src/main.cpp
 )

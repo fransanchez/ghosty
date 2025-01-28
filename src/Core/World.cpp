@@ -12,10 +12,9 @@ World::~World()
 	unload();
 }
 
-bool World::load()
+bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 {
 	constexpr float millisecondsToSeconds = 1 / 1000.f;
-
 
 	m_level = new Level();
 	if (!m_level->load(LEVEL_MAP_PATH))
@@ -38,7 +37,7 @@ bool World::load()
 	m_collisionManager->registerPlayer(m_player);
 
 	sf::Vector2f playerPosition = m_player->getPosition();
-	m_camera.setSize(1280.f, 720.f);
+	m_camera.setSize(cameraWidth, cameraHeight);
 	m_camera.setCenter(playerPosition);
 
 	const auto& spawnPoints = m_level->getEnemySpawnPoints();

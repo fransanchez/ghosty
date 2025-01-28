@@ -1,18 +1,29 @@
 
 #include <cstdio>
 #include <Core/Game.h>
+#include <nlohmann/json.hpp>
 #include <SFML/System/Clock.hpp>
 #include <Utils/Constants.h>
+#include <Utils/GameConfigLoader.h>
+
 
 int main()
 {
+    nlohmann::json config = GameConfigLoader::loadConfig(GAME_CONFIG_PATH);
 
-    // To-Do: Load game config from file instead of hardcoding values in code
+    if (config.empty())
+    {
+        printf("Error: Failed to load config from file \n");
+        return false;
+    }
+
     Game::GameCreateInfo gameCI;
-    gameCI.gameTitle = GAME_TITLE;
-    gameCI.screenWidth = 1920u;
-    gameCI.screenHeight = 1080u;
-    gameCI.frameRateLimit = 60u;
+    gameCI.gameTitle = config.value("gameTitle", "SFML Game");
+    gameCI.screenWidth = config.value("screenWidth", 1280u);
+    gameCI.screenHeight = config.value("screenHeight", 720u);
+    gameCI.frameRateLimit = config.value("frameRateLimit", 60u);
+    config.clear();
+
 
     Game game;
     const bool gameInitialized = game.init(gameCI);

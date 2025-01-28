@@ -2,6 +2,7 @@
 
 // Game constants
 constexpr char* GAME_TITLE = "Ghosty";
+constexpr char* GAME_CONFIG_PATH = "../data/Config/game_config.json";
 
 // Config Constants
 constexpr char* DINO_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_dino.json";
