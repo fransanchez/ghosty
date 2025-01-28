@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <Core/Level.h>
 #include <Gameplay/Player/Player.h>
-#include <Utils/ObjectPool.h>
+#include <SFML/Graphics/View.hpp>
 
 class CollisionsManager;
 class Enemy;
@@ -26,9 +26,11 @@ class World
 		void render(sf::RenderWindow& window);
 
 	private:
-
+		void updateCamera();
 		std::vector<Enemy*> m_enemies;
 		Level* m_level{};
 		Player* m_player{ nullptr };
 		CollisionManager* m_collisionManager{ nullptr };
+
+		sf::View m_camera;
 };

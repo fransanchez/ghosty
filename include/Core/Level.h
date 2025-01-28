@@ -41,6 +41,9 @@ class Level
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getEnemySpawnPoints() const;
         std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> getPlayerSpawnPoint() const;
 
+        float getWidth() const;
+        float getHeight() const;
+
     private:
         tmx::Map* m_map{ nullptr };
         std::vector<std::pair<sf::VertexArray, sf::Texture*>> m_imageLayers;

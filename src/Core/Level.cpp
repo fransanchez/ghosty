@@ -165,3 +165,22 @@ std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> Level::get
     return m_playerSpawnsLayer->getPoints().front();
 }
 
+float Level::getWidth() const
+{
+    if (m_map)
+    {
+        auto bounds = m_map->getBounds();
+        return bounds.width;
+    }
+    return 0.f;
+}
+
+float Level::getHeight() const
+{
+    if (m_map)
+    {
+        auto bounds = m_map->getBounds();
+        return bounds.height;
+    }
+    return 0.f;
+}

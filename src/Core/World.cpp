@@ -37,6 +37,10 @@ bool World::load()
 	}
 	m_collisionManager->registerPlayer(m_player);
 
+	sf::Vector2f playerPosition = m_player->getPosition();
+	m_camera.setSize(1280.f, 720.f);
+	m_camera.setCenter(playerPosition);
+
 	const auto& spawnPoints = m_level->getEnemySpawnPoints();
 
 	for (const auto& [position, properties] : spawnPoints)
@@ -117,10 +121,14 @@ void World::update(uint32_t deltaMilliseconds)
 			++it;
 		}
 	}
+
+	updateCamera();
 }
 
 void World::render(sf::RenderWindow& window)
 {
+	window.setView(m_camera);
+
 	m_level->render(window);
 	if (m_player) {
 		m_player->render(window);
@@ -131,4 +139,31 @@ void World::render(sf::RenderWindow& window)
 	}
 }
 
+void World::updateCamera()
+{
+	if (!m_player)
+		return;
+
+	sf::Vector2f playerPosition = m_player->getPosition();
+
+	float levelWidth = m_level->getWidth();
+	float levelHeight = m_level->getHeight();
+	sf::Vector2f viewSize = m_camera.getSize();
+
+	float leftBound = viewSize.x / 2.f;
+	float rightBound = levelWidth - viewSize.x / 2.f;
+
+	float topBound = (levelHeight > viewSize.y) ? (viewSize.y / 2.f) : (levelHeight / 2.f);
+	float bottomBound = (levelHeight > viewSize.y) ? (levelHeight - viewSize.y / 2.f) : (levelHeight / 2.f);
+
+	float x = std::clamp(playerPosition.x, leftBound, rightBound);
+	float y = std::clamp(playerPosition.y, topBound, bottomBound);
+
+	if (levelHeight <= viewSize.y)
+	{
+		y = levelHeight / 2.f;
+	}
+
+	m_camera.setCenter(x, y);
+}
 
