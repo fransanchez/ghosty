@@ -48,6 +48,7 @@ set(PROJECT_HEADERS
     include/Gameplay/Enemy/DinoEnemy.h
     include/Gameplay/Enemy/Enemy.h
     include/Gameplay/Enemy/EnemyFactory.h
+    include/Gameplay/Enemy/EnemyManager.h
     include/Gameplay/Enemy/EnemyType.h
     include/Gameplay/Enemy/FlyingEnemy.h
     include/Gameplay/Enemy/GhostEnemy.h
@@ -87,6 +88,7 @@ set(PROJECT_SOURCES
     src/Gameplay/Enemy/DinoEnemy.cpp
     src/Gameplay/Enemy/Enemy.cpp
     src/Gameplay/Enemy/EnemyFactory.cpp
+    src/Gameplay/Enemy/EnemyManager.cpp
     src/Gameplay/Enemy/FlyingEnemy.cpp
     src/Gameplay/Enemy/GhostEnemy.cpp
     src/Gameplay/Enemy/SkeletonEnemy.cpp
