@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Gameplay/Collisions/Collisionable.h>
+#include <Gameplay/Enemy/Enemy.h>
+#include <Gameplay/Enemy/EnemyType.h>
 #include <Gameplay/EntityLife.h>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
@@ -35,15 +37,19 @@ class Enemy : public Collisionable
 			std::vector<Attack*> attacks;
 			const sf::Shape* patrolArea = nullptr;
 			int maxLife = 1;
+			EnemyType type;
+			Collider* collider = nullptr;
 		};
 
 		virtual ~Enemy() override;
 
-		bool init(const EnemyDescriptor& enemyDescriptor, Collider* collider, CollisionManager* collisionManager);
+		bool init(const EnemyDescriptor& enemyDescriptor, CollisionManager* collisionManager);
 
 		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); };
 
 		bool isMarkedForDestruction() const { return m_markedForDestruction; };
+
+		EnemyType getType() const { return m_type; }
 
 		virtual void update(float deltaMilliseconds) override; // From GameObject
 		virtual void render(sf::RenderWindow& window) override; // From GameObject
@@ -91,4 +97,6 @@ class Enemy : public Collisionable
 		bool m_isDead{ false };
 		bool m_markedForDestruction{ false };
 		EntityLife m_life;
+
+		EnemyType m_type;
 };

@@ -4,6 +4,7 @@
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
+#include <Gameplay/Enemy/EnemyManager.h>
 #include <Gameplay/Enemy/EnemyType.h>
 #include <Gameplay/Player/PlayerFactory.h>
 
@@ -40,45 +41,25 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 	m_camera.setSize(cameraWidth, cameraHeight);
 	m_camera.setCenter(playerPosition);
 
-	const auto& spawnPoints = m_level->getEnemySpawnPoints();
-
-	for (const auto& [position, properties] : spawnPoints)
+	m_enemyManager = new EnemyManager(m_collisionManager);
+	if (!m_enemyManager->loadEnemies(m_level->getEnemySpawnPoints()))
 	{
-		auto it = properties.find("type");
-		if (it != properties.end())
-		{
-			const std::string& typeString = it->second;
-			EnemyType enemyType = stringToEnemyType(typeString);
-
-			if (enemyType == EnemyType::Unknown)
-			{
-				printf("Warning: Unsupported enemy type '%s' at spawn point.\n", typeString.c_str());
-				continue;
-			}
-
-			Enemy* enemy = EnemyFactory::createEnemy(enemyType, position, m_collisionManager);
-
-			if (enemy)
-			{
-				m_collisionManager->registerEnemy(enemy);
-				m_enemies.push_back(enemy);
-			}
-		}
+		printf("Failed to load enemies.\n");
+		return false;
 	}
+
+	const auto& spawnPoints = m_level->getEnemySpawnPoints();
 
 	return true;
 }
 
 void World::unload()
 {
-	m_collisionManager->unregisterPlayer();
 
-	for (Enemy* enemy : m_enemies) {
-		m_collisionManager->unregisterEnemy(enemy);
-		delete enemy;
-		enemy = nullptr;
-	}
-	m_enemies.clear();
+	delete m_enemyManager;
+	m_enemyManager = nullptr;
+
+	m_collisionManager->unregisterPlayer();
 
 	delete m_collisionManager;
 	m_collisionManager = nullptr;
@@ -108,17 +89,10 @@ void World::update(uint32_t deltaMilliseconds)
 			m_player = nullptr;
 		}
 	}
-	// Update actors
-	for (auto it = m_enemies.begin(); it != m_enemies.end(); )
+
+	if (m_enemyManager)
 	{
-		if ((*it)->isMarkedForDestruction()) {
-			delete* it;
-			it = m_enemies.erase(it);
-		}
-		else {
-			(*it)->update(deltaMilliseconds);
-			++it;
-		}
+		m_enemyManager->update(deltaMilliseconds);
 	}
 
 	updateCamera();
@@ -128,14 +102,12 @@ void World::render(sf::RenderWindow& window)
 {
 	window.setView(m_camera);
 
+
 	m_level->render(window);
 	if (m_player) {
 		m_player->render(window);
 	}
-	for (auto* enemy : m_enemies)
-	{
-		enemy->render(window);
-	}
+	m_enemyManager->render(window);
 }
 
 void World::updateCamera()

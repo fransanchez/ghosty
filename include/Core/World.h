@@ -6,7 +6,7 @@
 #include <SFML/Graphics/View.hpp>
 
 class CollisionsManager;
-class Enemy;
+class EnemyManager;
 
 namespace sf
 {
@@ -27,10 +27,10 @@ class World
 
 	private:
 		void updateCamera();
-		std::vector<Enemy*> m_enemies;
 		Level* m_level{};
 		Player* m_player{ nullptr };
 		CollisionManager* m_collisionManager{ nullptr };
+		EnemyManager* m_enemyManager{ nullptr };
 
 		sf::View m_camera;
 };

@@ -17,16 +17,17 @@ Enemy::~Enemy()
     m_patrolArea = nullptr;
 }
 
-bool Enemy::init(const EnemyDescriptor& enemyDescriptor,
-    Collider* collider,
-    CollisionManager* collisionManager)
+bool Enemy::init(const EnemyDescriptor& enemyDescriptor, CollisionManager* collisionManager)
 {
+    m_type = enemyDescriptor.type;
     m_position = enemyDescriptor.position;
     m_animations = enemyDescriptor.animations;
     m_attacks = enemyDescriptor.attacks;
-    m_collider = collider;
+    m_collider = enemyDescriptor.collider;
     m_collisionManager = collisionManager;
-
+    m_canBeHurt = true;
+    m_isDead = false;
+    m_markedForDestruction = false;
     m_patrolArea = enemyDescriptor.patrolArea;
 
     m_patrolSpeed = enemyDescriptor.speed;
@@ -90,7 +91,6 @@ void Enemy::update(float deltaMilliseconds)
     }
     
     updateEnemySprite(deltaSeconds);
-
 }
 
 void Enemy::checkIsHurt() {

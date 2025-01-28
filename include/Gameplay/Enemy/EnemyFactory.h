@@ -18,8 +18,7 @@ class Attack;
 class EnemyFactory
 {
 public:
-    static Enemy* createEnemy(const EnemyType enemyType, const sf::Vector2f& position, CollisionManager* collisionManager);
-
+    static Enemy::EnemyDescriptor* EnemyFactory::loadEnemyDescriptor(const EnemyType enemyType, CollisionManager* collisionManager);
 private:
     static std::unordered_map<AnimationType, Animation*> loadAnimations(const nlohmann::json& config);
     static std::vector<Attack*> loadAttacks(const nlohmann::json& config, CollisionManager* collisionManager);

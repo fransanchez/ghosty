@@ -2,13 +2,9 @@
 #include <fstream>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
-#include <Gameplay/Enemy/DinoEnemy.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
 #include <Gameplay/Enemy/EnemyType.h>
-#include <Gameplay/Enemy/GhostEnemy.h>
-#include <Gameplay/Enemy/SkeletonEnemy.h>
-#include <Gameplay/Enemy/VampireEnemy.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/AttackSystem/MeleeAttack.h>
@@ -21,7 +17,7 @@
 
 using json = nlohmann::json;
 
-Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& position, CollisionManager* collisionManager)
+Enemy::EnemyDescriptor* EnemyFactory::loadEnemyDescriptor(const EnemyType enemyType, CollisionManager* collisionManager)
 {
     static const std::unordered_map<EnemyType, std::string> enemyConfigPaths = {
         { EnemyType::Ghost, GHOST_ENEMY_CONFIG_PATH },
@@ -34,7 +30,7 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
     if (it == enemyConfigPaths.end())
     {
         printf("Error: Unsupported EnemyType\n");
-        return nullptr;
+        throw std::runtime_error("Invalid enemy type");
     }
 
     const std::string& configPath = it->second;
@@ -43,38 +39,16 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
     if (!file.is_open())
     {
         printf("Error: Could not open enemy configuration file %s\n", configPath.c_str());
-        return nullptr;
+        throw std::runtime_error("Failed to open config file");
     }
 
     json config;
     file >> config;
 
-    // Load animations
     auto animations = loadAnimations(config);
-    if (animations.empty())
-    {
-        printf("Error: No animations loaded for enemy.\n");
-        return nullptr;
-    }
-
-    // Load attacks
     auto attacks = loadAttacks(config, collisionManager);
-    if (attacks.empty())
-    {
-        printf("Warning: No attacks loaded for enemy.\n");
-    }
-
-    // Load collider
-    auto collider = loadCollider(config, position);
-    if (!collider)
-    {
-        printf("Error: Could not load collider for enemy.\n");
-        for (auto& [type, animation] : animations)
-            delete animation;
-        for (auto& attack : attacks)
-            delete attack;
-        return nullptr;
-    }
+    // Load collider (position will be set later)
+    auto collider = loadCollider(config, { 0.f, 0.f });
 
     sf::Vector2f speed = { 0.f, 0.f }; // Default speed
     if (config.contains("Speed"))
@@ -90,60 +64,18 @@ Enemy* EnemyFactory::createEnemy(const EnemyType enemyType, const sf::Vector2f& 
         sightArea.y = config["SightArea"]["Height"].get<float>();
     }
 
-    // Create enemy based on type
-    Enemy* enemy = nullptr;
-    switch (enemyType)
-    {
-    case EnemyType::Ghost:
-        enemy = new GhostEnemy();
-        break;
-    case EnemyType::Skeleton:
-        enemy = new SkeletonEnemy();
-        break;
-    case EnemyType::Dino:
-        enemy = new DinoEnemy();
-        break;
-    case EnemyType::Vampire:
-        enemy = new VampireEnemy();
-        break;
-    default:
-        printf("Error: Unsupported EnemyType\n");
-        delete collider;
-        return nullptr;
-    }
-
-    const sf::Shape* patrolArea = collisionManager->getClosestPatrolArea(position);
-    if (!patrolArea)
-    {
-        printf("Error: No patrol area found for enemy at position (%f, %f).\n", position.x, position.y);
-        return nullptr;
-    }
-
     int maxLife = config.contains("MaxLife") ? config["MaxLife"].get<int>() : 1;
 
-    Enemy::EnemyDescriptor descriptor;
-    descriptor.position = position;
-    descriptor.speed = speed;
-    descriptor.animations = new std::unordered_map<AnimationType, Animation*>(std::move(animations));
-    descriptor.attacks = attacks;
-    descriptor.sightArea = sightArea;
-    descriptor.patrolArea = patrolArea;
-    descriptor.maxLife = maxLife;
+    Enemy::EnemyDescriptor* descriptor = new Enemy::EnemyDescriptor();
+    descriptor->speed = speed;
+    descriptor->sightArea = sightArea;
+    descriptor->animations = new std::unordered_map<AnimationType, Animation*>(std::move(animations));
+    descriptor->attacks = attacks;
+    descriptor->maxLife = maxLife;
+    descriptor->type = enemyType;
+    descriptor->collider = collider;
 
-    if (!enemy->init(descriptor, collider, collisionManager))
-    {
-        printf("Error: Could not initialize enemy.\n");
-        delete enemy;
-        delete collider;
-        for (auto& attack : attacks)
-            delete attack;
-        for (auto& [type, animation] : *descriptor.animations)
-            delete animation;
-        delete descriptor.animations;
-        return nullptr;
-    }
-
-    return enemy;
+    return descriptor;
 }
 
 std::unordered_map<AnimationType, Animation*> EnemyFactory::loadAnimations(const json& config)
