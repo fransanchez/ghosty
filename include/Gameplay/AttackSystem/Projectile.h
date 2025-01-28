@@ -36,7 +36,7 @@ class Projectile : public Collisionable
 
         bool isExpired() const;
         void markForDestruction();
-        bool isMarkedForDesturction() const;
+        bool isMarkedForDestruction() const;
         int getDamage() const;
 
     private:

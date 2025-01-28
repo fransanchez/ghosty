@@ -76,7 +76,7 @@ void Projectile::markForDestruction()
     m_markedForDestruction = true;
 }
 
-bool Projectile::isMarkedForDesturction() const
+bool Projectile::isMarkedForDestruction() const
 {
     return m_markedForDestruction;
 }

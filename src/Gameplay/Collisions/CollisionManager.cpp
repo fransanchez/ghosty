@@ -252,7 +252,7 @@ int CollisionManager::checkPlayerHurtingCollisions()
     // Check projectiles
     for (auto* projectile : m_enemyProjectiles)
     {
-        if (projectile->getCollider()->getBounds().intersects(playerBounds))
+        if (!projectile->isMarkedForDestruction() && projectile->getCollider()->getBounds().intersects(playerBounds))
         {
             damage += projectile->getDamage();
             projectile->markForDestruction();

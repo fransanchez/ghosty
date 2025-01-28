@@ -68,7 +68,7 @@ void RangedAttack::update(float deltaTime)
         Projectile* projectile = *it;
         projectile->update(deltaTime);
 
-        if (projectile->isExpired() || projectile->isMarkedForDesturction())
+        if (projectile->isExpired() || projectile->isMarkedForDestruction())
         {
             m_collisionManager->unregisterProjectile(projectile, m_faction);
             m_projectilesPool.release(*projectile);
