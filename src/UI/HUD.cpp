@@ -37,12 +37,6 @@ bool HUD::init(int maxLives)
         sprite->setPosition(10.f + i * (sprite->getGlobalBounds().width + 5.f), 10.f);
         m_heartSprites.push_back(sprite);
     }
-    //for (int i = 0; i < maxLives; ++i)
-    //{
-    //    sf::Sprite* heartSprite = 
-    //    heartSprite->setPosition(10.f + i * 40.f, 10.f); // Position hearts with spacing
-    //    m_heartSprites.push_back(heartSprite);
-    //}
 
     return true;
 }
