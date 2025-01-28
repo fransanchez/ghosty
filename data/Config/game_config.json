@@ -3,5 +3,5 @@
     "screenWidth": 1280,
     "screenHeight": 720,
     "frameRateLimit": 60,
-    "windowIconPath": "../data/Images/Ghosty_icon.png"
+    "windowIconPath": "../data/Images/UI/Ghosty_icon.png"
 }
