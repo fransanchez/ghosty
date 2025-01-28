@@ -7,6 +7,7 @@
 
 class CollisionsManager;
 class EnemyManager;
+class HUD;
 
 namespace sf
 {
@@ -31,6 +32,7 @@ class World
 		Player* m_player{ nullptr };
 		CollisionManager* m_collisionManager{ nullptr };
 		EnemyManager* m_enemyManager{ nullptr };
-
+		HUD* m_hud{ nullptr };
 		sf::View m_camera;
+		sf::View m_uiView;
 };

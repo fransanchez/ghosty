@@ -7,7 +7,7 @@ constexpr char* GAME_CONFIG_PATH = "../data/Config/game_config.json";
 // Config Constants
 constexpr char* DINO_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_dino.json";
 constexpr char* GHOST_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_ghost.json";
-constexpr char* LEVEL_MAP_PATH = "../Data/Levels/Level1/Level1.tmx";
+constexpr char* LEVEL_MAP_PATH = "../data/Levels/Level1/Level1.tmx";
 constexpr char* PLAYER_CONFIG_PATH = "../data/Config/player_config_mage.json";
 constexpr char* SKELETON_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_skeleton.json";
 constexpr char* VAMPIRE_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_vampire.json";
@@ -17,6 +17,7 @@ constexpr float JUMP_INITIAL_VELOCITY = -500.0f;
 constexpr float GRAVITY = 981.0f;
 constexpr float RUN_VELOCITY = 1.5f;
 constexpr float WALK_VELOCITY = 1.0f;
+constexpr char* ASSETS_LIVES_PATH = "../data/Images/heart.png";
 
 // Enemy Constants
 constexpr float ENEMY_RETURN_POSITION_TOLERANCE = 2.0f;

@@ -31,6 +31,8 @@ class Player : public Collisionable
             CollisionManager* collisionManager);
 
         void setAnimation();
+        int getCurrentLives();
+        int getMaxLives();
 
         sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); }
         void setGrounded(bool grounded);

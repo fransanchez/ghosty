@@ -7,6 +7,7 @@
 #include <Gameplay/Enemy/EnemyManager.h>
 #include <Gameplay/Enemy/EnemyType.h>
 #include <Gameplay/Player/PlayerFactory.h>
+#include <UI/HUD.h>
 
 World::~World()
 {
@@ -41,6 +42,8 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 	m_camera.setSize(cameraWidth, cameraHeight);
 	m_camera.setCenter(playerPosition);
 
+	m_uiView = sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(cameraWidth), static_cast<float>(cameraHeight)));
+
 	m_enemyManager = new EnemyManager(m_collisionManager);
 	if (!m_enemyManager->loadEnemies(m_level->getEnemySpawnPoints()))
 	{
@@ -48,8 +51,12 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 		return false;
 	}
 
-	const auto& spawnPoints = m_level->getEnemySpawnPoints();
-
+	m_hud = new HUD();
+	if (!m_hud->init(m_player->getMaxLives()))
+	{
+		printf("Error: Could not initialize HUD.\n");
+		return false;
+	}
 	return true;
 }
 
@@ -70,6 +77,9 @@ void World::unload()
 	m_level->unload();
 	delete m_level;
 	m_level = nullptr;
+
+	delete m_hud;
+	m_hud = nullptr;
 }
 
 void World::update(uint32_t deltaMilliseconds)
@@ -96,6 +106,11 @@ void World::update(uint32_t deltaMilliseconds)
 	}
 
 	updateCamera();
+
+	if (m_player && m_hud)
+	{
+		m_hud->update(m_player->getCurrentLives());
+	}
 }
 
 void World::render(sf::RenderWindow& window)
@@ -108,6 +123,16 @@ void World::render(sf::RenderWindow& window)
 		m_player->render(window);
 	}
 	m_enemyManager->render(window);
+
+	if (m_hud)
+	{
+		const sf::View originalView = window.getView();
+		// We change the view briefly to render hud and go back to original.
+		// This ensures our HUD is always on top of the current camera
+		window.setView(m_uiView);
+		m_hud->render(window);
+		window.setView(originalView);
+	}
 }
 
 void World::updateCamera()

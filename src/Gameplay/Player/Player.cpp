@@ -362,3 +362,13 @@ void Player::handleHurtingCollisions()
         setAnimation();
     }
 }
+
+int Player::getCurrentLives()
+{
+    return m_life.getLife();
+}
+
+int Player::getMaxLives()
+{
+    return m_life.getMaxLife();
+}
