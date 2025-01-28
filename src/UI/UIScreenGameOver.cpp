@@ -28,6 +28,9 @@ void UIScreenGameOver::init(sf::RenderWindow* window)
     float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
     float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
     m_backgroundSprite.setScale(scaleX, scaleY);
+    sf::Color spriteColor = m_backgroundSprite.getColor();
+    spriteColor.a = 0.f;
+    m_backgroundSprite.setColor(spriteColor);
 
     m_fadingIn = true;
     m_fadingOut = false;

@@ -16,7 +16,11 @@ class UIScreenPlaying : public UIScreen
         void handleMouseClick(sf::Vector2f mousePosition) override;
 
     private:
+        static constexpr float DEATH_DELAY = 2.0f;
+        static constexpr float FADEOUT_SPEED = 100.0f;
+
         World* m_world{ nullptr };
-        uint32_t m_windowWidth{ 0 };
-        uint32_t m_windowHeight{ 0 };
+        bool m_transitioningToGameOver{ false };
+        float m_deathDelayTimer{ 0.f };
+        float m_fadeAlpha{ 0.f };
 };

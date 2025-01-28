@@ -83,32 +83,30 @@ void World::unload()
 
 void World::update(uint32_t deltaMilliseconds)
 {
-	m_level->update(deltaMilliseconds);
 
 	if (m_player)
 	{
 		if (!m_player->isMarkedForDestruction()) {
+			m_level->update(deltaMilliseconds);
 			m_player->update(deltaMilliseconds);
+			if (m_enemyManager)
+			{
+				m_enemyManager->update(deltaMilliseconds);
+			}
+
+			updateCamera();
+
+			if (m_player && m_hud)
+			{
+				m_hud->update(m_player->getCurrentLives());
+			}
 		}
 		else 
 		{
-			// To-Do: switch screen
 			m_collisionManager->unregisterPlayer();
 			delete(m_player);
 			m_player = nullptr;
 		}
-	}
-
-	if (m_enemyManager)
-	{
-		m_enemyManager->update(deltaMilliseconds);
-	}
-
-	updateCamera();
-
-	if (m_player && m_hud)
-	{
-		m_hud->update(m_player->getCurrentLives());
 	}
 }
 
@@ -163,5 +161,5 @@ void World::updateCamera()
 
 bool World::isPlayerDead() const
 {
-	return m_player && m_player->isDead();
+	return m_player && m_player->isMarkedForDestruction();
 }

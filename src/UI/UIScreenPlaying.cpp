@@ -1,5 +1,6 @@
 #include <UI/UIScreenPlaying.h>
 #include <Core/World.h>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <Utils/Constants.h>
 
@@ -20,13 +21,16 @@ void UIScreenPlaying::init(sf::RenderWindow* window)
         delete m_world;
         m_world = nullptr;
     }
+
+    m_transitioningToGameOver = false;
+    m_deathDelayTimer = 0.f;
+    m_fadeAlpha = 0.f;
 }
 
 void UIScreenPlaying::deInit()
 {
     if (m_world)
     {
-        m_window->setView(m_window->getDefaultView());
         m_world->unload();
         delete m_world;
         m_world = nullptr;
@@ -39,10 +43,25 @@ void UIScreenPlaying::update(float deltaMilliseconds)
     if (m_world)
     {
         m_world->update(deltaMilliseconds);
-        if (m_world->isPlayerDead())
+
+        if (m_world->isPlayerDead() && !m_transitioningToGameOver)
         {
-            m_window->setView(m_window->getDefaultView());
-            m_nextGameState = Game::GameState::GameOver;
+            m_transitioningToGameOver = true;
+            m_deathDelayTimer = 0.f;
+        }
+
+        if (m_transitioningToGameOver)
+        {
+            m_deathDelayTimer += deltaMilliseconds / 1000.f;
+
+            m_fadeAlpha += FADEOUT_SPEED * (deltaMilliseconds / 1000.f);
+            if (m_fadeAlpha > 255.f) m_fadeAlpha = 255.f;
+
+            if (m_deathDelayTimer >= DEATH_DELAY)
+            {
+                m_window->setView(m_window->getDefaultView());
+                m_nextGameState = Game::GameState::GameOver;
+            }
         }
     }
 }
@@ -52,6 +71,16 @@ void UIScreenPlaying::render(sf::RenderWindow& window)
     if (m_world)
     {
         m_world->render(window);
+    }
+    if (m_transitioningToGameOver)
+    {
+        // Same trick as we use to render the HUD in world. Change view -> paint -> restore view
+        const sf::View originalView = window.getView();
+        window.setView(window.getDefaultView());
+        sf::RectangleShape fadeOverlay(sf::Vector2f(m_window->getSize()));
+        fadeOverlay.setFillColor(sf::Color(0, 0, 0, static_cast<sf::Uint8>(m_fadeAlpha)));
+        window.draw(fadeOverlay);
+        window.setView(originalView);
     }
 }
 
