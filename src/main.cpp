@@ -22,8 +22,8 @@ int main()
     gameCI.screenWidth = config.value("screenWidth", 1280u);
     gameCI.screenHeight = config.value("screenHeight", 720u);
     gameCI.frameRateLimit = config.value("frameRateLimit", 60u);
+    gameCI.windowIconPath = config.value("windowIconPath", "");
     config.clear();
-
 
     Game game;
     const bool gameInitialized = game.init(gameCI);

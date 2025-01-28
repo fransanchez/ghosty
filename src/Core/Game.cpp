@@ -15,6 +15,16 @@ bool Game::init(GameCreateInfo& createInfo)
 	m_window = new sf::RenderWindow({ createInfo.screenWidth, createInfo.screenHeight }, createInfo.gameTitle);
 	m_window->setFramerateLimit(createInfo.frameRateLimit);
 
+	sf::Image icon;
+	if (!createInfo.windowIconPath.empty() && icon.loadFromFile(createInfo.windowIconPath))
+	{
+		m_window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+	}
+	else {
+		printf("Error: Could not load window icon\n");
+	}
+
 	m_uiManager = new UIManager();
 	m_mainMenu = new UIScreenMainMenu();
 	m_mainMenu->init();

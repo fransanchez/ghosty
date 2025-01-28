@@ -2,5 +2,6 @@
     "gameTitle": "Ghosty",
     "screenWidth": 1280,
     "screenHeight": 720,
-    "frameRateLimit": 60
+    "frameRateLimit": 60,
+    "windowIconPath": "../data/Images/Ghosty_icon.png"
 }
