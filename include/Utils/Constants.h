@@ -3,6 +3,9 @@
 // Game constants
 constexpr char* GAME_TITLE = "Ghosty";
 constexpr char* GAME_CONFIG_PATH = "../data/Config/game_config.json";
+constexpr char* TITLE_SCREEN_IMAGE_PATH = "../data/Images/UI/GhostyMainTitle.png";
+constexpr char* START_BUTTON_IMAGE_PATH = "../data/Images/UI/StartGameButton.png";
+
 
 // Config Constants
 constexpr char* DINO_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_dino.json";

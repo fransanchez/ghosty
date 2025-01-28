@@ -69,6 +69,7 @@ set(PROJECT_HEADERS
     include/UI/UIManager.h
     include/UI/UIScreen.h
     include/UI/UIScreenMainMenu.h
+    include/UI/UIScreenPlaying.h
 
     include/Utils/Constants.h
     include/Utils/GameConfigLoader.h
@@ -111,6 +112,7 @@ set(PROJECT_SOURCES
     src/UI/HUD.cpp
     src/UI/UIManager.cpp
     src/UI/UIScreenMainMenu.cpp
+    src/UI/UIScreenPlaying.cpp
 
     src/Utils/GameConfigLoader.cpp
 

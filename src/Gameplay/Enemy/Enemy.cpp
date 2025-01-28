@@ -8,10 +8,12 @@ Enemy::~Enemy()
     for (auto attack : m_attacks)
         delete attack;
 
-    for (auto& [type, animation] : *m_animations)
-        delete animation;
+    if (m_animations) {
+        for (auto& [type, animation] : *m_animations)
+            delete animation;
 
-    delete m_animations;
+        delete m_animations;
+    }
 
     // Enemy doesn't own the patrol areas, that's the level
     m_patrolArea = nullptr;

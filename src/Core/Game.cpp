@@ -2,15 +2,19 @@
 #include <Core/Game.h>
 #include <Core/World.h>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <UI/UIManager.h>
 #include <UI/UIScreenMainMenu.h>
+#include <UI/UIScreenPlaying.h>
 #include <Utils/GameConfigLoader.h>
+
 
 
 bool Game::init(GameCreateInfo& createInfo)
 {
-	assert(m_window == nullptr && m_world == nullptr && "Game is already initialized, we are about to leak memory");
+	assert(m_window == nullptr && "Game is already initialized");
 
 	m_window = new sf::RenderWindow({ createInfo.screenWidth, createInfo.screenHeight }, createInfo.gameTitle);
 	m_window->setFramerateLimit(createInfo.frameRateLimit);
@@ -26,20 +30,15 @@ bool Game::init(GameCreateInfo& createInfo)
 	}
 
 	m_uiManager = new UIManager();
-	m_mainMenu = new UIScreenMainMenu();
-	m_mainMenu->init();
-	m_uiManager->show(*m_mainMenu);
-	m_world = new World();
-	const bool loadOk = m_world->load(createInfo.screenWidth, createInfo.screenHeight);
+	m_uiManager->registerScreen(GameState::MainMenu, new UIScreenMainMenu(), createInfo.screenWidth, createInfo.screenHeight);
+	m_uiManager->registerScreen(GameState::Playing, new UIScreenPlaying(), createInfo.screenWidth, createInfo.screenHeight);
+	changeState(GameState::MainMenu);
 
-	return loadOk;
+	return true;
 }
 
 Game::~Game()
 {
-	// To-Do: make sure m_world is unloaded()
-	delete m_world;
-	delete m_mainMenu;
 	delete m_uiManager;
 	delete m_window;
 }
@@ -57,23 +56,40 @@ void Game::update(uint32_t deltaMilliseconds)
 		if (event.type == sf::Event::Closed)
 		{
 			m_window->close();
-			m_world->unload();
+		}
+		else if (event.type == sf::Event::MouseButtonPressed)
+		{
+			sf::Vector2f mousePosition = m_window->mapPixelToCoords(sf::Mouse::getPosition(*m_window));
+			if (m_uiManager->getActiveScreen())
+			{
+				m_uiManager->getActiveScreen()->handleMouseClick(mousePosition);
+			}
 		}
 	}
 
-	// Update scene here
-	m_world->update(deltaMilliseconds);
-
 	m_uiManager->update(deltaMilliseconds);
+
+	updateState();
 }
 
 void Game::render()
 {
 	m_window->clear();
-
-	m_world->render(*m_window);
-
 	m_uiManager->render(*m_window);
-
 	m_window->display();
+}
+
+void Game::changeState(GameState newState)
+{
+	m_currentState = newState;
+	m_uiManager->setActiveScreen(newState);
+}
+
+void Game::updateState() {
+	UIScreen* activeScreen = m_uiManager->getActiveScreen();
+	if (activeScreen && activeScreen->getNextGameState() != GameState::None)
+	{
+		changeState(activeScreen->getNextGameState());
+		activeScreen->clearNextGameState();
+	}
 }

@@ -15,6 +15,14 @@ class UIScreen;
 class Game
 {
 	public:
+		enum class GameState
+		{
+			None,
+			MainMenu,
+			Playing,
+			Paused,
+			GameOver
+		};
 
 		struct GameCreateInfo
 		{
@@ -33,11 +41,12 @@ class Game
 
 		void update(uint32_t deltaMilliseconds);
 		void render();
+		void changeState(GameState newState);
 
 	private:
+		void updateState();
 
 		UIManager* m_uiManager{ nullptr } ;
-		UIScreen* m_mainMenu{ nullptr };
 		sf::RenderWindow* m_window{ nullptr };
-		World* m_world{ nullptr };
+		GameState m_currentState = GameState::MainMenu;
 };
