@@ -25,10 +25,10 @@ void UIManager::render(sf::RenderWindow& window)
 	}
 }
 
-void UIManager::registerScreen(Game::GameState state, UIScreen* screen, uint32_t windowWidth, uint32_t windowHeight)
+void UIManager::registerScreen(Game::GameState state, UIScreen* screen, sf::RenderWindow* window)
 {
 	m_screens[state] = screen;
-	m_screens[state]->init(windowWidth, windowHeight);
+	m_screens[state]->init(window);
 }
 
 void UIManager::setActiveScreen(Game::GameState state)

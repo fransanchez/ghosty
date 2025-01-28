@@ -62,7 +62,6 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 
 void World::unload()
 {
-
 	delete m_enemyManager;
 	m_enemyManager = nullptr;
 
@@ -117,7 +116,6 @@ void World::render(sf::RenderWindow& window)
 {
 	window.setView(m_camera);
 
-
 	m_level->render(window);
 	if (m_player) {
 		m_player->render(window);
@@ -163,3 +161,7 @@ void World::updateCamera()
 	m_camera.setCenter(x, y);
 }
 
+bool World::isPlayerDead() const
+{
+	return m_player && m_player->isDead();
+}

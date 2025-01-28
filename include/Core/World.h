@@ -26,8 +26,11 @@ class World
 		void update(uint32_t deltaMilliseconds);
 		void render(sf::RenderWindow& window);
 
+		bool isPlayerDead() const;
+
 	private:
 		void updateCamera();
+
 		Level* m_level{};
 		Player* m_player{ nullptr };
 		CollisionManager* m_collisionManager{ nullptr };

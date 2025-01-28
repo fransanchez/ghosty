@@ -10,7 +10,7 @@ class UIScreen
 	public:
 		virtual ~UIScreen() = default;
 
-		virtual void init(uint32_t windowWidth, uint32_t windowHeight) = 0;
+		virtual void init(sf::RenderWindow* window) = 0;
 		virtual void deInit() = 0;
 		virtual void update(float deltaMilliseconds) = 0;
 		virtual void render(sf::RenderWindow& window) = 0;
@@ -20,6 +20,7 @@ class UIScreen
 		void clearNextGameState() { m_nextGameState = Game::GameState::None; }
 	protected:
 
+		sf::RenderWindow* m_window{ nullptr };
 		Game::GameState m_nextGameState{ Game::GameState::None };
 
 };

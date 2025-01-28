@@ -68,6 +68,7 @@ set(PROJECT_HEADERS
     include/UI/HUD.h
     include/UI/UIManager.h
     include/UI/UIScreen.h
+    include/UI/UIScreenGameOver.h
     include/UI/UIScreenMainMenu.h
     include/UI/UIScreenPlaying.h
 
@@ -111,6 +112,7 @@ set(PROJECT_SOURCES
 
     src/UI/HUD.cpp
     src/UI/UIManager.cpp
+    src/UI/UIScreenGameOver.cpp
     src/UI/UIScreenMainMenu.cpp
     src/UI/UIScreenPlaying.cpp
 

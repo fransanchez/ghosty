@@ -38,6 +38,7 @@ class Player : public Collisionable
         void setGrounded(bool grounded);
         bool isGrounded() const { return m_isGrounded; }
         bool isMarkedForDestruction() const { return m_markedForDestruction; };
+        bool isDead() const { return m_isDead; };
 
         void update(float deltaMilliseconds) override; // From GameObject
         void render(sf::RenderWindow& window) override; // From GameObject

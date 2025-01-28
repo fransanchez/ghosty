@@ -8,13 +8,13 @@ UIScreenPlaying::~UIScreenPlaying()
     deInit();
 }
 
-void UIScreenPlaying::init(uint32_t windowWidth, uint32_t windowHeight) 
+void UIScreenPlaying::init(sf::RenderWindow* window)
 {
-    m_windowWidth = windowWidth;
-    m_windowHeight = windowHeight;
+    m_window = window;
+    sf::Vector2u windowSize = m_window->getSize();
 
     m_world = new World();
-    if (!m_world->load(windowWidth, windowHeight))
+    if (!m_world->load(windowSize.x, windowSize.y))
     {
         printf("Error: Could not load the World.\n");
         delete m_world;
@@ -26,10 +26,12 @@ void UIScreenPlaying::deInit()
 {
     if (m_world)
     {
+        m_window->setView(m_window->getDefaultView());
         m_world->unload();
         delete m_world;
         m_world = nullptr;
     }
+    m_window = nullptr;
 }
 
 void UIScreenPlaying::update(float deltaMilliseconds)
@@ -37,6 +39,11 @@ void UIScreenPlaying::update(float deltaMilliseconds)
     if (m_world)
     {
         m_world->update(deltaMilliseconds);
+        if (m_world->isPlayerDead())
+        {
+            m_window->setView(m_window->getDefaultView());
+            m_nextGameState = Game::GameState::GameOver;
+        }
     }
 }
 

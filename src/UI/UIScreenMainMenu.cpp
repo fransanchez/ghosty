@@ -11,14 +11,15 @@ UIScreenMainMenu::~UIScreenMainMenu()
     deInit();
 }
 
-void UIScreenMainMenu::init(uint32_t windowWidth, uint32_t windowHeight)
+void UIScreenMainMenu::init(sf::RenderWindow* window)
 {
+    m_window = window;
     m_backgroundTexture = AssetManager::getInstance()->loadTexture(TITLE_SCREEN_IMAGE_PATH);
  
     m_backgroundSprite.setTexture(*m_backgroundTexture);
 
     sf::Vector2u textureSize = m_backgroundTexture->getSize();
-    sf::Vector2u windowSize = { windowWidth, windowHeight };
+    sf::Vector2u windowSize = m_window->getSize();
 
     float scaleX = static_cast<float>(windowSize.x) / textureSize.x;
     float scaleY = static_cast<float>(windowSize.y) / textureSize.y;
@@ -29,7 +30,7 @@ void UIScreenMainMenu::init(uint32_t windowWidth, uint32_t windowHeight)
     m_startButtonSprite.setTexture(*m_startButtonTexture);
     float buttonWidth = m_startButtonSprite.getGlobalBounds().width;
     float buttonHeight = m_startButtonSprite.getGlobalBounds().height;
-    m_startButtonSprite.setPosition((windowWidth - buttonWidth) / 2, windowHeight - buttonHeight - 50);
+    m_startButtonSprite.setPosition((windowSize.x - buttonWidth) / 2, windowSize.y - buttonHeight - 50);
 
     m_alpha = 0.f;
     m_fadingIn = true;
@@ -41,6 +42,7 @@ void UIScreenMainMenu::init(uint32_t windowWidth, uint32_t windowHeight)
 
 void UIScreenMainMenu::deInit()
 {
+    m_window = nullptr;
     delete m_backgroundTexture;
     m_backgroundTexture = nullptr;
     delete m_startButtonTexture;

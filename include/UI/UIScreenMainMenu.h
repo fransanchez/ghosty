@@ -13,7 +13,7 @@ class UIScreenMainMenu : public UIScreen
 {
     public:
         ~UIScreenMainMenu() override;
-        void init(uint32_t windowWidth, uint32_t windowHeight) override;
+        void init(sf::RenderWindow* window) override;
         void deInit() override;
         void update(float deltaMilliseconds) override;
         void render(sf::RenderWindow& window) override;

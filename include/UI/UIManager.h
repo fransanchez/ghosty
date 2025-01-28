@@ -15,7 +15,7 @@ class UIManager
 {
 	public:
 		~UIManager();
-		void registerScreen(Game::GameState state, UIScreen* screen, uint32_t windowWidth, uint32_t windowHeight);
+		void registerScreen(Game::GameState state, UIScreen* screen, sf::RenderWindow* window);
 		void setActiveScreen(Game::GameState state);
 		void update(float deltaMilliseconds);
 		void render(sf::RenderWindow& window);
