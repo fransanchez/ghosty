@@ -20,6 +20,8 @@ class UIScreenMainMenu : public UIScreen
         void handleMouseClick(sf::Vector2f mousePosition) override;
 
     private:
+        static constexpr float CLICK_FADE_DURATION = 300.0f;
+
         void updateButtonEffect(float deltaMilliseconds);
         void updateFadeInFadeOut(float deltaMilliseconds);
 

@@ -63,7 +63,8 @@ void UIScreenMainMenu::render(sf::RenderWindow& window)
 
 void UIScreenMainMenu::handleMouseClick(sf::Vector2f mousePosition)
 {
-    if (m_startButtonSprite.getGlobalBounds().contains(mousePosition))
+    // Ensure only clickable when we are not fading out
+    if (!m_fadingOut && m_startButtonSprite.getGlobalBounds().contains(mousePosition))
     {
         m_buttonClicked = true;
         m_buttonFadeTimer = 0.f;
@@ -75,13 +76,12 @@ void UIScreenMainMenu::updateButtonEffect(float deltaMilliseconds)
     if (m_buttonClicked)
     {
         m_buttonFadeTimer += deltaMilliseconds;
-        float clickFadeDuration = 200.f;
 
-        if (m_buttonFadeTimer < clickFadeDuration / 2)
+        if (m_buttonFadeTimer < CLICK_FADE_DURATION / 2)
         {
             m_buttonClickAlpha = 150.f;
         }
-        else if (m_buttonFadeTimer < clickFadeDuration)
+        else if (m_buttonFadeTimer < CLICK_FADE_DURATION)
         {
             m_buttonClickAlpha = 255.f;
         }
@@ -125,7 +125,9 @@ void UIScreenMainMenu::updateFadeInFadeOut(float deltaMilliseconds)
     spriteColor.a = static_cast<sf::Uint8>(std::round(m_alpha));
     m_backgroundSprite.setColor(spriteColor);
 
-    spriteColor = m_startButtonSprite.getColor();
-    spriteColor.a = static_cast<sf::Uint8>(std::round(m_alpha));
-    m_startButtonSprite.setColor(spriteColor);
+    if (!m_buttonClicked) {
+        spriteColor = m_startButtonSprite.getColor();
+        spriteColor.a = static_cast<sf::Uint8>(std::round(m_alpha));
+        m_startButtonSprite.setColor(spriteColor);
+    }
 }
