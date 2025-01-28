@@ -280,9 +280,8 @@ int CollisionManager::checkEnemyHurtingCollisions(const Collider* enemyCollider)
     // Check projectiles
     for (auto* projectile : m_playerProjectiles)
     {
-        if (projectile->getCollider()->getBounds().intersects(playerBounds))
+        if (!projectile->isMarkedForDestruction() && projectile->getCollider()->getBounds().intersects(playerBounds))
         {
-            printf("Marking for destruction");
             damage += projectile->getDamage();
             projectile->markForDestruction();
         }
