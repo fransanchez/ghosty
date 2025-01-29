@@ -29,12 +29,12 @@ const sf::Texture* Animation::getCurrentFrame() const
     return m_frames[m_currentFrame];
 }
 
-void Animation::update(float deltaTime)
+void Animation::update(float deltaMilliseconds)
 {
     if (m_frames.empty())
         return;
 
-    m_elapsedTime += deltaTime;
+    m_elapsedTime += deltaMilliseconds;
 
     while (m_elapsedTime >= m_frameDuration)
     {

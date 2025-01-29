@@ -24,42 +24,42 @@
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": true,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Walk": {
             "TexturePath": "../data/Images/Enemies/Ghost/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": true,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Attack": {
             "TexturePath": "../data/Images/Enemies/Ghost/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": false,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Hurt": {
             "TexturePath": "../data/Images/Enemies/Ghost/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 2,
             "Loop": false,
-            "FrameDuration": 0.4
+            "FrameDuration": 400
         },
         "Death": {
             "TexturePath": "../data/Images/Enemies/Ghost/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 5,
             "Loop": false,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         }
     },
     "Attacks": {
         "Melee": {
             "Damage": 1.0,
-            "Lifetime": 0.5,
-            "AttackRate": 3.0,
+            "LifetimeMilliseconds": 500,
+            "AttackRatePerSecond": 0.5,
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,

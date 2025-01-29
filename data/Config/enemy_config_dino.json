@@ -24,42 +24,42 @@
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": true,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Walk": {
             "TexturePath": "../data/Images/Enemies/Dino/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": true,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Attack": {
             "TexturePath": "../data/Images/Enemies/Dino/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 5,
             "Loop": false,
-            "FrameDuration": 0.15
+            "FrameDuration": 150
         },
         "Hurt": {
             "TexturePath": "../data/Images/Enemies/Dino/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": false,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Death": {
             "TexturePath": "../data/Images/Enemies/Dino/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 6,
             "Loop": false,
-            "FrameDuration": 0.12
+            "FrameDuration": 120
         }
     },
     "Attacks": {
         "Melee": {
             "Damage": 1.0,
-            "Lifetime": 1.0,
-            "AttackRate": 2.0,
+            "LifetimeMilliseconds": 1000,
+            "AttackRatePerSecond": 0.5,
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,

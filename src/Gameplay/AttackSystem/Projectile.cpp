@@ -45,22 +45,25 @@ const Animation* Projectile::getAnimation() const
     return m_animation;
 }
 
-void Projectile::update(float deltaTime)
+void Projectile::update(float deltaMilliseconds)
 {
     if (m_markedForDestruction) {
         return;
     }
     handleCollisions();
 
-    m_lifetime -= deltaTime;
-    m_position += m_direction * m_projectileSpeed * deltaTime;
+    float deltaSeconds = deltaMilliseconds / 1000.f;
+    m_lifetime -= deltaSeconds;
+
+    m_position += m_direction * m_projectileSpeed * deltaSeconds;
     if (m_direction.x > 0.f) {
         m_sprite.setScale(1.0f, 1.0f);
     }
     else {
         m_sprite.setScale(-1.0f, 1.0f);
     }
-    m_animation->update(deltaTime);
+
+    m_animation->update(deltaMilliseconds);
     m_sprite.setTexture(*m_animation->getCurrentFrame());
     m_sprite.setPosition(m_position);
     m_collider->setPosition(m_position);

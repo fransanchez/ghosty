@@ -24,43 +24,43 @@
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": true,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Walk": {
             "TexturePath": "../data/Images/Enemies/Vampire/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": true,
-            "FrameDuration": 0.2
+            "FrameDuration": 200
         },
         "Attack": {
             "TexturePath": "../data/Images/Enemies/Vampire/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": false,
-            "FrameDuration": 0.15
+            "FrameDuration": 150
         },
         "Hurt": {
             "TexturePath": "../data/Images/Enemies/Vampire/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 2,
             "Loop": false,
-            "FrameDuration": 0.3
+            "FrameDuration": 300
         },
         "Death": {
             "TexturePath": "../data/Images/Enemies/Vampire/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 5,
             "Loop": false,
-            "FrameDuration": 0.15
+            "FrameDuration": 150
         }
     },
     "Attacks": {
         "Ranged": {
             "Damage": 1,
-            "Lifetime": 1.5,
+            "LifetimeMilliseconds": 1500,
             "Speed": 500.0,
-            "FireRate": 0.66,
+            "FireRateSeconds": 0.66,
             "Range": 600.0,
             "Animation": {
                 "FireProjectile": {
@@ -68,7 +68,7 @@
                     "FrameCountRows": 1,
                     "FrameCountColumns": 6,
                     "Loop": false,
-                    "FrameDuration": 0.2
+                    "FrameDuration": 200
                 }
             },
             "Collider": {

@@ -10,13 +10,13 @@ class CollisionManager;
 class MeleeAttack : public Attack
 {
 public:
-    MeleeAttack(AttackFaction faction, float damage, float lifetime, float attackRate, Collider* collider, CollisionManager* collisionManager);
+    MeleeAttack(AttackFaction faction, float damage, float lifetime, float attackRatePerSecond, Collider* collider, CollisionManager* collisionManager);
     MeleeAttack(const MeleeAttack& other);
     MeleeAttack& operator=(const MeleeAttack& other);
     ~MeleeAttack() override;
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction) override;
-    void update(float deltaTime) override;
+    void update(float deltaMilliseconds) override;
     void render(sf::RenderWindow& window) override;
     bool canAttack() override;
     Attack* clone() const override { return new MeleeAttack(*this); }

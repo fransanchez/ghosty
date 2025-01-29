@@ -17,7 +17,7 @@ public:
     void addFrame(const sf::Texture* texture);
     const sf::Texture* getCurrentFrame() const;
 
-    void update(float deltaTime);
+    void update(float deltaMilliseconds);
     void setFrameDuration(float duration);
     void setLoop(bool loop);
     void reset();

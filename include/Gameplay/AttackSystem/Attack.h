@@ -20,7 +20,7 @@ class Attack
 
         virtual Attack* clone() const = 0;
         virtual void attack(const sf::Vector2f& position, const sf::Vector2f& direction) = 0;
-        virtual void update(float deltaTime) = 0;
+        virtual void update(float deltaMilliseconds) = 0;
         virtual void render(sf::RenderWindow& window) = 0;
         virtual bool canAttack() = 0;
         const float getRange() const {
@@ -40,7 +40,7 @@ class Attack
         int m_damage = 0;
         float m_range = 0.f;
         float m_cooldownTimer = 0.f;
-        float m_attackRate = 0.f;   // attacks per second
+        float m_attackRatePerSecond = 0.f;   // attacks per second
 
         AttackFaction m_faction{ AttackFaction::Player };
         Collider* m_collider{ nullptr };

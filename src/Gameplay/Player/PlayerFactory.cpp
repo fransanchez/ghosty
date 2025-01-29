@@ -79,9 +79,9 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config, CollisionMan
         for (const auto& [attackName, attackData] : config["Attacks"].items())
         {
             float damage = attackData["Damage"].get<float>();
-            float lifetime = attackData["Lifetime"].get<float>();
+            float lifetime = attackData["LifetimeMilliseconds"].get<float>();
             float speed = attackData["Speed"].get<float>();
-            float fireRate = attackData["FireRate"].get<float>();
+            float fireRate = attackData["FireRateSeconds"].get<float>();
             float range = attackData["Range"].get<float>();
 
             if (attackData.contains("Animation"))

@@ -7,7 +7,7 @@ RangedAttack::RangedAttack(
     const Animation* animation,
     float projectileLifetime,
     float projectileSpeed,
-    float fireRate,
+    float fireRateSeconds,
     float range,
     Collider* collider,
     CollisionManager* collisionManager)
@@ -15,7 +15,7 @@ RangedAttack::RangedAttack(
     m_projectileSpeed(projectileSpeed),
     m_animation(animation)
 {
-    m_attackRate = (1.0 / fireRate);
+    m_attackRatePerSecond = (1.f / fireRateSeconds);
     m_damage = damage;
     m_range = range;
     m_faction = faction;
@@ -29,7 +29,7 @@ RangedAttack::RangedAttack(const RangedAttack& other)
     m_animation(other.m_animation),
     m_projectilesPool(other.m_projectilesPool)
 {
-    m_attackRate = other.m_attackRate;
+    m_attackRatePerSecond = other.m_attackRatePerSecond;
     m_damage = other.m_damage;
     m_range = other.m_range;
     m_faction = other.m_faction;
@@ -47,7 +47,7 @@ RangedAttack& RangedAttack::operator=(const RangedAttack& other)
         m_projectileSpeed = other.m_projectileSpeed;
         m_animation = other.m_animation;
         m_projectilesPool = other.m_projectilesPool;
-        m_attackRate = other.m_attackRate;
+        m_attackRatePerSecond = other.m_attackRatePerSecond;
         m_damage = other.m_damage;
         m_range = other.m_range;
         m_faction = other.m_faction;
@@ -84,22 +84,24 @@ void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& dire
         Collider* projectileCollider = new Collider(*m_collider);
         projectile.init(descriptor, m_animation, projectileCollider, m_collisionManager);
         m_projectiles.push_front(&projectile);
-        m_cooldownTimer = m_attackRate;
+        m_cooldownTimer = m_attackRatePerSecond;
         m_collisionManager->registerProjectile(&projectile, m_faction);
     }
 }
 
-void RangedAttack::update(float deltaTime)
+void RangedAttack::update(float deltaMilliseconds)
 {
+    float deltaSeconds = deltaMilliseconds / 1000.f;
+
     if (m_cooldownTimer > 0.0f)
     {
-        m_cooldownTimer -= deltaTime;
+        m_cooldownTimer -= deltaSeconds;
     }
 
     for (auto it = m_projectiles.begin(); it != m_projectiles.end();)
     {
         Projectile* projectile = *it;
-        projectile->update(deltaTime);
+        projectile->update(deltaMilliseconds);
 
         if (projectile->isExpired() || projectile->isMarkedForDestruction())
         {

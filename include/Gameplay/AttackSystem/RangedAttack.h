@@ -16,7 +16,7 @@ public:
         const Animation* animation,
         float projectileLifetime,
         float projectileSpeed,
-        float fireRate,
+        float fireRateSeconds,
         float range,
         Collider* collider,
         CollisionManager* collisionManager);
@@ -25,7 +25,7 @@ public:
     ~RangedAttack() override;
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction) override;
-    void update(float deltaTime) override;
+    void update(float deltaMilliseconds) override;
     void render(sf::RenderWindow& window) override;
     bool canAttack() override;
 

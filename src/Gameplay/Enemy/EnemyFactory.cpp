@@ -92,7 +92,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
         for (const auto& [attackName, attackData] : config["Attacks"].items())
         {
             float damage = attackData["Damage"].get<float>();
-            float lifetime = attackData["Lifetime"].get<float>();
+            float lifetime = attackData["LifetimeMilliseconds"].get<float>();
 
             // Load collider for the attack
             Collider* attackCollider = loadCollider(attackData, { 0.f, 0.f });
@@ -105,7 +105,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
             // Create melee or ranged attack
             if (attackName == "Melee")
             {
-                float attackRate = attackData.contains("AttackRate") ? attackData["AttackRate"].get<float>() : 1.0f;
+                float attackRate = attackData.contains("AttackRatePerSecond") ? attackData["AttackRatePerSecond"].get<float>() : 1.0f;
                 attacks.push_back(new MeleeAttack(AttackFaction::Enemy, damage, lifetime, attackRate, attackCollider, collisionManager));
             }
             else if (attackName == "Ranged")
@@ -124,7 +124,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
                 }
 
                 float speed = attackData["Speed"].get<float>();
-                float fireRate = attackData["FireRate"].get<float>();
+                float fireRate = attackData["FireRateSeconds"].get<float>();
                 float range = attackData["Range"].get<float>();
 
                 attacks.push_back(new RangedAttack(

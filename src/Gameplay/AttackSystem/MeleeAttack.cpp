@@ -7,14 +7,14 @@ MeleeAttack::MeleeAttack(
     AttackFaction faction,
     float damage,
     float lifetime,
-    float attackRate,
+    float attackRatePerSecond,
     Collider* collider,
     CollisionManager* collisionManager)
     :m_lifetime(lifetime),
     m_isActive(false),
     m_lifetimeTimer(0.f)
 {
-    m_attackRate = attackRate;
+    m_attackRatePerSecond = 1.f / attackRatePerSecond;
     m_damage = damage;
     m_faction = faction;
     m_collider = new Collider(*collider);
@@ -26,7 +26,7 @@ MeleeAttack::MeleeAttack(const MeleeAttack& other)
     m_lifetimeTimer(other.m_lifetimeTimer),
     m_isActive(other.m_isActive)
 {
-    m_attackRate = other.m_attackRate;
+    m_attackRatePerSecond = other.m_attackRatePerSecond;
     m_damage = other.m_damage;
     m_faction = other.m_faction;
     m_collider = new Collider(*other.m_collider);
@@ -42,7 +42,7 @@ MeleeAttack& MeleeAttack::operator=(const MeleeAttack& other)
         m_lifetime = other.m_lifetime;
         m_lifetimeTimer = other.m_lifetimeTimer;
         m_isActive = other.m_isActive;
-        m_attackRate = other.m_attackRate;
+        m_attackRatePerSecond = other.m_attackRatePerSecond;
         m_damage = other.m_damage;
         m_faction = other.m_faction;
         m_collider = new Collider(*other.m_collider);
@@ -65,22 +65,23 @@ void MeleeAttack::attack(const sf::Vector2f& position, const sf::Vector2f& direc
         m_collider->setPosition(position);
         m_isActive = true;
         m_collisionManager->registerMeleeAttack(this);
-        m_cooldownTimer = m_attackRate;
+        m_cooldownTimer = m_attackRatePerSecond;
         m_lifetimeTimer = m_lifetime;
     }
 }
 
-void MeleeAttack::update(float deltaTime)
+void MeleeAttack::update(float deltaMilliseconds)
 {
     if (m_cooldownTimer > 0.f)
     {
-        m_cooldownTimer -= deltaTime;
+        m_cooldownTimer -= deltaMilliseconds / 1000.f;
     }
 
     if (!m_isActive)
         return;
 
-    m_lifetimeTimer -= deltaTime;
+    m_lifetimeTimer -= deltaMilliseconds;
+
     if (m_lifetimeTimer <= 0.f)
     {
         m_collisionManager->unregisterMeleeAttack(this);
