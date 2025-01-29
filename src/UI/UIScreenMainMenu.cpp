@@ -29,6 +29,7 @@ void UIScreenMainMenu::init(sf::RenderWindow* window)
     m_startButtonTexture = AssetManager::getInstance()->loadTexture(START_BUTTON_IMAGE_PATH);
 
     m_startButtonSprite.setTexture(*m_startButtonTexture);
+    m_startButtonSprite.setScale(0.5f, 0.5f);
     float buttonWidth = m_startButtonSprite.getGlobalBounds().width;
     float buttonHeight = m_startButtonSprite.getGlobalBounds().height;
     m_startButtonSprite.setPosition((windowSize.x - buttonWidth) / 2, windowSize.y - buttonHeight - 50);
