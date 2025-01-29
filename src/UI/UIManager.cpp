@@ -25,16 +25,18 @@ void UIManager::render(sf::RenderWindow& window)
 	}
 }
 
-void UIManager::registerScreen(Game::GameState state, UIScreen* screen, sf::RenderWindow* window)
+void UIManager::registerScreen(Game::GameState state, UIScreen* screen)
 {
 	m_screens[state] = screen;
-	m_screens[state]->init(window);
 }
 
-void UIManager::setActiveScreen(Game::GameState state)
+void UIManager::setActiveScreen(Game::GameState state, sf::RenderWindow* window)
 {
 	if (m_screens.find(state) != m_screens.end())
+	{
+		m_screens[state]->init(window);
 		m_currentUIScreen = m_screens[state];
+	}
 }
 
 UIScreen* UIManager::getActiveScreen()

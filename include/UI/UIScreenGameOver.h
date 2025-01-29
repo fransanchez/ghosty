@@ -9,7 +9,7 @@ class UIScreenGameOver : public UIScreen
 public:
     ~UIScreenGameOver() override;
     void init(sf::RenderWindow* window) override;
-    void deInit() override;
+    void unload() override;
     void update(float deltaMilliseconds) override;
     void render(sf::RenderWindow& window) override;
     void handleMouseClick(sf::Vector2f mousePosition) override;

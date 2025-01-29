@@ -1,3 +1,4 @@
+#include <Core/AssetManager.h>
 #include <cassert>
 #include <Core/Game.h>
 #include <Core/World.h>
@@ -31,9 +32,9 @@ bool Game::init(GameCreateInfo& createInfo)
 	}
 
 	m_uiManager = new UIManager();
-	m_uiManager->registerScreen(GameState::MainMenu, new UIScreenMainMenu(), m_window);
-	m_uiManager->registerScreen(GameState::Playing, new UIScreenPlaying(), m_window);
-	m_uiManager->registerScreen(GameState::GameOver, new UIScreenGameOver(), m_window);
+	m_uiManager->registerScreen(GameState::MainMenu, new UIScreenMainMenu());
+	m_uiManager->registerScreen(GameState::Playing, new UIScreenPlaying());
+	m_uiManager->registerScreen(GameState::GameOver, new UIScreenGameOver());
 
 	changeState(GameState::MainMenu);
 
@@ -44,6 +45,7 @@ Game::~Game()
 {
 	delete m_uiManager;
 	delete m_window;
+	AssetManager::getInstance()->~AssetManager();
 }
 
 bool Game::isRunning() const 
@@ -85,7 +87,7 @@ void Game::render()
 void Game::changeState(GameState newState)
 {
 	m_currentState = newState;
-	m_uiManager->setActiveScreen(newState);
+	m_uiManager->setActiveScreen(newState, m_window);
 }
 
 void Game::updateState() {

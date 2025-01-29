@@ -6,7 +6,7 @@
 
 UIScreenGameOver::~UIScreenGameOver()
 {
-    deInit();
+    unload();
 }
 
 void UIScreenGameOver::init(sf::RenderWindow* window)
@@ -38,10 +38,9 @@ void UIScreenGameOver::init(sf::RenderWindow* window)
     m_timer = 0.0f;
 }
 
-void UIScreenGameOver::deInit()
+void UIScreenGameOver::unload()
 {
     m_window = nullptr;
-    delete m_backgroundTexture;
     m_backgroundTexture = nullptr;
 }
 
@@ -72,6 +71,7 @@ void UIScreenGameOver::update(float deltaMilliseconds)
         {
             m_alpha = 0;
             m_fadingOut = false;
+            unload();
             m_nextGameState = Game::GameState::MainMenu;
         }
     }

@@ -8,12 +8,13 @@
 
 UIScreenMainMenu::~UIScreenMainMenu() 
 {
-    deInit();
+    unload();
 }
 
 void UIScreenMainMenu::init(sf::RenderWindow* window)
 {
     m_window = window;
+
     m_backgroundTexture = AssetManager::getInstance()->loadTexture(TITLE_SCREEN_IMAGE_PATH);
  
     m_backgroundSprite.setTexture(*m_backgroundTexture);
@@ -40,12 +41,10 @@ void UIScreenMainMenu::init(sf::RenderWindow* window)
     m_buttonFadeTimer = 0.f;
 }
 
-void UIScreenMainMenu::deInit()
+void UIScreenMainMenu::unload()
 {
     m_window = nullptr;
-    delete m_backgroundTexture;
     m_backgroundTexture = nullptr;
-    delete m_startButtonTexture;
     m_startButtonTexture = nullptr;
 }
 
@@ -117,6 +116,7 @@ void UIScreenMainMenu::updateFadeInFadeOut(float deltaMilliseconds)
         {
             m_alpha = 0;
             m_fadingOut = false;
+            unload();
             m_nextGameState = Game::GameState::Playing;
         }
     }

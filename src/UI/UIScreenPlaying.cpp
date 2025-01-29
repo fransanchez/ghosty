@@ -6,7 +6,7 @@
 
 UIScreenPlaying::~UIScreenPlaying()
 {
-    deInit();
+    unload();
 }
 
 void UIScreenPlaying::init(sf::RenderWindow* window)
@@ -27,7 +27,7 @@ void UIScreenPlaying::init(sf::RenderWindow* window)
     m_fadeAlpha = 0.f;
 }
 
-void UIScreenPlaying::deInit()
+void UIScreenPlaying::unload()
 {
     if (m_world)
     {
@@ -60,6 +60,8 @@ void UIScreenPlaying::update(float deltaMilliseconds)
             if (m_deathDelayTimer >= DEATH_DELAY)
             {
                 m_window->setView(m_window->getDefaultView());
+                // To-Do - Fix memory nullpointer
+                // unload();
                 m_nextGameState = Game::GameState::GameOver;
             }
         }
