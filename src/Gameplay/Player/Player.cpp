@@ -7,8 +7,6 @@
 #include <SFML/Window/Keyboard.hpp>
 
 Player::~Player() {
-    m_collisionManager->unregisterPlayer();
-
     for (auto& attack : m_attacks) {
         delete attack;
     }

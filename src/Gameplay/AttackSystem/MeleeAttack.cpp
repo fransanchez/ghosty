@@ -17,8 +17,38 @@ MeleeAttack::MeleeAttack(
     m_attackRate = attackRate;
     m_damage = damage;
     m_faction = faction;
-    m_collider = collider;
+    m_collider = new Collider(*collider);
     m_collisionManager = collisionManager;
+}
+
+MeleeAttack::MeleeAttack(const MeleeAttack& other)
+    : m_lifetime(other.m_lifetime),
+    m_lifetimeTimer(other.m_lifetimeTimer),
+    m_isActive(other.m_isActive)
+{
+    m_attackRate = other.m_attackRate;
+    m_damage = other.m_damage;
+    m_faction = other.m_faction;
+    m_collider = new Collider(*other.m_collider);
+    m_collisionManager = other.m_collisionManager;
+}
+
+MeleeAttack& MeleeAttack::operator=(const MeleeAttack& other)
+{
+    if (this != &other)
+    {
+        delete m_collider;
+
+        m_lifetime = other.m_lifetime;
+        m_lifetimeTimer = other.m_lifetimeTimer;
+        m_isActive = other.m_isActive;
+        m_attackRate = other.m_attackRate;
+        m_damage = other.m_damage;
+        m_faction = other.m_faction;
+        m_collider = new Collider(*other.m_collider);
+        m_collisionManager = other.m_collisionManager;
+    }
+    return *this;
 }
 
 MeleeAttack::~MeleeAttack()

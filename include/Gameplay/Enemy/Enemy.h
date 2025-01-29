@@ -55,6 +55,8 @@ class Enemy : public Collisionable
 		virtual void render(sf::RenderWindow& window) override; // From GameObject
 		void handleCollisions() override; // From Collisionable
 
+		void reset();
+
 	protected:
 		virtual void handleIdleState() = 0;
 		virtual void handlePatrolState() = 0;

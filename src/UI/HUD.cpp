@@ -13,7 +13,6 @@ HUD::~HUD() {
     }
     m_heartSprites.clear();
 
-    delete m_heartTexture;
     m_heartTexture = nullptr;
 }
 

@@ -67,13 +67,12 @@ void World::unload()
 
 	m_collisionManager->unregisterPlayer();
 
-	delete m_collisionManager;
-	m_collisionManager = nullptr;
-
 	delete m_player;
 	m_player = nullptr;
 
-	m_level->unload();
+	delete m_collisionManager;
+	m_collisionManager = nullptr;
+
 	delete m_level;
 	m_level = nullptr;
 
@@ -100,12 +99,6 @@ void World::update(uint32_t deltaMilliseconds)
 			{
 				m_hud->update(m_player->getCurrentLives());
 			}
-		}
-		else 
-		{
-			m_collisionManager->unregisterPlayer();
-			delete(m_player);
-			m_player = nullptr;
 		}
 	}
 }

@@ -20,12 +20,16 @@ public:
         float range,
         Collider* collider,
         CollisionManager* collisionManager);
+    RangedAttack(const RangedAttack& other);
+    RangedAttack& operator=(const RangedAttack& other);
     ~RangedAttack() override;
 
     void attack(const sf::Vector2f& position, const sf::Vector2f& direction) override;
     void update(float deltaTime) override;
     void render(sf::RenderWindow& window) override;
     bool canAttack() override;
+
+    Attack* clone() const override { return new RangedAttack(*this); }
 
 private:
     float m_projectileLifetime;

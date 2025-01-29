@@ -318,3 +318,24 @@ bool Enemy::isPlayerInSight() {
 bool Enemy::isPlayerInArea() {
     return m_collisionManager->isPlayerInsideArea(m_patrolArea->getGlobalBounds());
 }
+void Enemy::reset()
+{
+    m_markedForDestruction = false;
+    m_isDead = false;
+    m_canBeHurt = true;
+    m_currentState = EnemyState::Idle;
+
+    m_life = EntityLife(m_life.getMaxLife());
+
+    setPosition(m_originalPosition);
+    m_sprite.setPosition(m_originalPosition);
+
+    delete m_animations;
+    m_animations = nullptr;
+
+    for (auto attack : m_attacks)
+    {
+        delete attack;
+    }
+    m_attacks.clear();
+}

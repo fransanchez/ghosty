@@ -22,11 +22,11 @@ public:
     void update(uint32_t deltaMilliseconds);
     void render(sf::RenderWindow& window);
     void unload();
-    void clearPools();
 
 private:
     Enemy* getFromPools(EnemyType type);
     void releaseFromPools(EnemyType type, Enemy* enemy);
+    bool initEnemyFromCachedDescriptor(Enemy* enemy, EnemyType enemyType, sf::Vector2f position);
 
     CollisionManager* m_collisionManager;
     std::unordered_map<EnemyType, Enemy::EnemyDescriptor*> m_enemyDescriptors; // Cached descriptors so we don't have to load from file each time

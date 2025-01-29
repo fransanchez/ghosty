@@ -23,6 +23,39 @@ RangedAttack::RangedAttack(
     m_collisionManager = collisionManager;
 }
 
+RangedAttack::RangedAttack(const RangedAttack& other)
+    : m_projectileLifetime(other.m_projectileLifetime),
+    m_projectileSpeed(other.m_projectileSpeed),
+    m_animation(other.m_animation),
+    m_projectilesPool(other.m_projectilesPool)
+{
+    m_attackRate = other.m_attackRate;
+    m_damage = other.m_damage;
+    m_range = other.m_range;
+    m_faction = other.m_faction;
+    m_collider = new Collider(*other.m_collider);
+    m_collisionManager = other.m_collisionManager;
+}
+
+RangedAttack& RangedAttack::operator=(const RangedAttack& other)
+{
+    if (this != &other)
+    {
+        delete m_collider;
+
+        m_projectileLifetime = other.m_projectileLifetime;
+        m_projectileSpeed = other.m_projectileSpeed;
+        m_animation = other.m_animation;
+        m_projectilesPool = other.m_projectilesPool;
+        m_attackRate = other.m_attackRate;
+        m_damage = other.m_damage;
+        m_range = other.m_range;
+        m_faction = other.m_faction;
+        m_collider = new Collider(*other.m_collider);
+        m_collisionManager = other.m_collisionManager;
+    }
+    return *this;
+}
 RangedAttack::~RangedAttack()
 {
     m_collisionManager = nullptr;

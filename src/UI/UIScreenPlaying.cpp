@@ -31,7 +31,6 @@ void UIScreenPlaying::unload()
 {
     if (m_world)
     {
-        m_world->unload();
         delete m_world;
         m_world = nullptr;
     }
@@ -61,7 +60,7 @@ void UIScreenPlaying::update(float deltaMilliseconds)
             {
                 m_window->setView(m_window->getDefaultView());
                 // To-Do - Fix memory nullpointer
-                // unload();
+                unload();
                 m_nextGameState = Game::GameState::GameOver;
             }
         }

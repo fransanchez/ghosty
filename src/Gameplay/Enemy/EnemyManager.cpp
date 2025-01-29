@@ -1,3 +1,6 @@
+#include <Gameplay/AttackSystem/Attack.h>
+#include <Gameplay/AttackSystem/MeleeAttack.h>
+#include <Gameplay/AttackSystem/RangedAttack.h>
 #include <Gameplay/Enemy/DinoEnemy.h>
 #include <Gameplay/Enemy/EnemyManager.h>
 #include <Gameplay/Enemy/EnemyFactory.h>
@@ -44,12 +47,8 @@ bool EnemyManager::loadEnemies(const std::vector<std::pair<sf::Vector2f, std::un
                 continue;
             }
 
-            Enemy::EnemyDescriptor descriptor = *m_enemyDescriptors[enemyType];
-            // Update position and patrolArea
-            descriptor.position = position;
-            descriptor.patrolArea = m_collisionManager->getClosestPatrolArea(position);
 
-            if (!enemy->init(descriptor, m_collisionManager))
+            if (!initEnemyFromCachedDescriptor(enemy, enemyType, position))
             {
                 printf("Error: Could not initialize enemy of type '%s'.\n", typeString.c_str());
                 releaseFromPools(enemyType, enemy);
@@ -111,6 +110,8 @@ Enemy* EnemyManager::getFromPools(EnemyType type)
 
 void EnemyManager::releaseFromPools(EnemyType type, Enemy* enemy)
 {
+    enemy->reset();
+
     switch (type)
     {
     case EnemyType::Ghost:
@@ -140,8 +141,6 @@ void EnemyManager::unload()
     }
     m_activeEnemies.clear();
 
-    clearPools();
-
     for (auto& [type, descriptor] : m_enemyDescriptors)
     {
         if (descriptor->animations)
@@ -164,29 +163,28 @@ void EnemyManager::unload()
     m_enemyDescriptors.clear();
 }
 
-void EnemyManager::clearPools()
+bool EnemyManager::initEnemyFromCachedDescriptor(Enemy* enemy, EnemyType enemyType, sf::Vector2f position)
 {
-    while (m_ghostPool.getSize() > 0)
+    Enemy::EnemyDescriptor cachedDescriptor = *m_enemyDescriptors[enemyType];
+
+    Enemy::EnemyDescriptor descriptorCopy;
+    descriptorCopy.position = position;
+    descriptorCopy.patrolArea = m_collisionManager->getClosestPatrolArea(position);
+    descriptorCopy.speed = cachedDescriptor.speed;
+    descriptorCopy.sightArea = cachedDescriptor.sightArea;
+    descriptorCopy.maxLife = cachedDescriptor.maxLife;
+    descriptorCopy.type = cachedDescriptor.type;
+    descriptorCopy.collider = new Collider(*cachedDescriptor.collider);
+    descriptorCopy.animations = new std::unordered_map<AnimationType, Animation*>();
+    descriptorCopy.animations = new std::unordered_map<AnimationType, Animation*>();
+    for (const auto& [type, animation] : *cachedDescriptor.animations)
     {
-        Enemy* enemy = &m_ghostPool.get();
-        delete enemy;
+        (*descriptorCopy.animations)[type] = new Animation(*animation);
+    }
+    for (const auto* attack : cachedDescriptor.attacks)
+    {
+        descriptorCopy.attacks.push_back(attack->clone());
     }
 
-    while (m_skeletonPool.getSize() > 0)
-    {
-        Enemy* enemy = &m_skeletonPool.get();
-        delete enemy;
-    }
-
-    while (m_dinoPool.getSize() > 0)
-    {
-        Enemy* enemy = &m_dinoPool.get();
-        delete enemy;
-    }
-
-    while (m_vampirePool.getSize() > 0)
-    {
-        Enemy* enemy = &m_vampirePool.get();
-        delete enemy;
-    }
+    return enemy->init(descriptorCopy, m_collisionManager);
 }
