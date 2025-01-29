@@ -22,3 +22,13 @@ CollisionManager* Collisionable::getCollisionManager() const
 {
     return m_collisionManager;
 }
+
+void Collisionable::update(float deltaMilliseconds)
+{
+    m_collider->setPosition(getPosition());
+    m_collider->setDirection(getDirection());
+}
+void Collisionable::render(sf::RenderWindow& window)
+{
+    m_collider->render(window);
+}

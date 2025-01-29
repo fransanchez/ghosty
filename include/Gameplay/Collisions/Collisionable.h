@@ -14,9 +14,10 @@ public:
     virtual ~Collisionable();
 
     Collider* getCollider() const;
-
     CollisionManager* getCollisionManager() const;
 
+    virtual void update(float deltaMilliseconds) override;
+    virtual void render(sf::RenderWindow& window) override;
     virtual void handleCollisions() = 0;
 protected:
     Collider* m_collider{ nullptr };

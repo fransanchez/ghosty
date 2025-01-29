@@ -7,111 +7,46 @@
 #include <SFML/Window/Keyboard.hpp>
 
 Player::~Player() {
-    for (auto& attack : m_attacks) {
-        delete attack;
-    }
-    m_attacks.clear();
-    if (m_animations)
-    {
-        for (auto& [type, animation] : *m_animations)
-        {
-            delete animation;
-        }
-        delete m_animations;
-        m_animations = nullptr;
-    }
-    m_currentAnimation = nullptr;
 }
 
 bool Player::init(const PlayerDescriptor& descriptor,
     Collider* collider,
     CollisionManager* collisionManager)
 {
-    m_animations = descriptor.animations;
-    m_attacks = descriptor.attacks;
-    m_collider = collider;
-    m_collisionManager = collisionManager;
-    m_life = EntityLife(descriptor.maxLife);
-
-    m_collisionManager->registerPlayer(this);
-
-    if (m_animations->count(AnimationType::Idle))
+    if (!initEntity(descriptor.animations, descriptor.attacks, descriptor.maxLife, descriptor.position))
     {
-        m_currentAnimation = (*m_animations)[AnimationType::Idle];
-        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
-    }
-    else
-    {
-        printf("Error: Idle animation is missing\n");
         return false;
     }
 
-    m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
+    m_collider = collider;
+    m_collisionManager = collisionManager;
+    m_collisionManager->registerPlayer(this);
     setPosition(descriptor.position);
-    m_sprite.setPosition(descriptor.position);
-
-    m_speed = descriptor.speed;
+    setSpeed(descriptor.speed);
+    setMovingRight(true);
     return true;
 }
 
 void Player::update(float deltaMilliseconds)
 {
-
+    // First always update player position before calling parent
+    // to update sprites and other items
     float deltaSeconds = deltaMilliseconds / 1000.f;
 
-    if (!m_isDead) {
+    if (!isDead()) {
 
-        checkIsHurt();
+        if (shouldEndInvincibility()) {
+            setInvincibility(false);
+        }
 
         handleInput();
 
         handleCollisions();
 
         updatePlayerPosition(deltaSeconds);
-
-        for (auto& attack : m_attacks)
-        {
-            attack->update(deltaSeconds);
-        }
-    }
-    else {
-        if (m_currentAnimation->isFinished()) {
-            m_markedForDestruction = true;
-        }
     }
 
-    updateSpriteSelection(deltaSeconds);
-
-}
-
-void Player::checkIsHurt() {
-    if (!m_canBeHurt) {
-        if (m_currentAnimation == (*m_animations)[AnimationType::Hurt] && m_currentAnimation->isFinished()) {
-            m_canBeHurt = true;
-        }
-    }
-}
-
-void Player::render(sf::RenderWindow& window)
-{
-
-    window.draw(m_sprite);
-
-    for (auto& attack : m_attacks)
-    {
-        attack->render(window);
-    }
-
-    m_collider->render(window);
-
- /*   sf::FloatRect bounds = m_sprite.getGlobalBounds();
-    sf::RectangleShape debugRect(sf::Vector2f(bounds.width, bounds.height));
-    debugRect.setPosition(bounds.left, bounds.top);
-    debugRect.setOutlineColor(sf::Color::Red);
-    debugRect.setOutlineThickness(1.0f);
-    debugRect.setFillColor(sf::Color::Transparent);
-
-    window.draw(debugRect);*/
+    Entity::update(deltaMilliseconds);
 }
 
 void Player::updatePlayerPosition(float deltaSeconds)
@@ -119,7 +54,6 @@ void Player::updatePlayerPosition(float deltaSeconds)
     if (!m_isGrounded)
     {
         m_verticalVelocity += GRAVITY * deltaSeconds;
-
         const float maxFallSpeed = 1000.0f;
         if (m_verticalVelocity > maxFallSpeed)
         {
@@ -130,31 +64,8 @@ void Player::updatePlayerPosition(float deltaSeconds)
     {
         m_verticalVelocity = 0.0f;
     }
-
     m_position.x += m_direction.x * m_speed.x * deltaSeconds;
     m_position.y += m_verticalVelocity * deltaSeconds;
-
-    m_sprite.setPosition(m_position);
-    m_collider->setPosition(m_position);
-    m_collider->setDirection(m_direction);
-}
-
-void Player::updateSpriteSelection(float deltaSeconds)
-{
-    if (m_currentAnimation && !m_currentAnimation->getFrames().empty())
-    {
-        m_currentAnimation->update(deltaSeconds);
-        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
-
-        if (m_isAttacking && m_currentAnimation->isFinished())
-        {
-            m_isAttacking = false;
-        }
-    }
-    else
-    {
-        printf("Error: Current animation is not set or has no frames\n");
-    }
 }
 
 void Player::handleInput()
@@ -171,7 +82,7 @@ void Player::handleInput()
         {
             m_verticalVelocity = JUMP_INITIAL_VELOCITY;
             m_isGrounded = false;
-            setAnimation();
+            updateAnimationType();
         }
     }
 
@@ -184,7 +95,7 @@ void Player::handleInput()
             // Use the weapon to attack
             if (!m_attacks.empty() && m_attacks[m_currentAttackIndex]->canAttack())
             {
-                m_isAttacking = true;
+                setIsAttacking(true);
                 sf::Vector2f attackDirection = (m_sprite.getScale().x > 0.f) ? sf::Vector2f(1.f, 0.f) : sf::Vector2f(-1.f, 0.f);
                 sf::Vector2f attackPosition = m_sprite.getPosition();
 
@@ -196,35 +107,23 @@ void Player::handleInput()
         m_attackKeyPressed = false;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        //m_direction.y = -1.f * horizontalVelocity;
-        //setAnimation();
-
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
-        //m_direction.y = 1.f * horizontalVelocity;
-        //setAnimation();
-    }
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         m_direction.x = -1.f * horizontalVelocity;
-        m_sprite.setScale(-1.0f, 1.0f);
-        setAnimation();
+        setMovingRight(false);
+        updateAnimationType();
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
 
         m_direction.x = 1.f * horizontalVelocity;
-        m_sprite.setScale(1.0f, 1.0f);
-        setAnimation();
+        setMovingRight(true);
+        updateAnimationType();
     }
 
     if (m_direction == sf::Vector2f(0.f, 0.f) && m_isGrounded)
     {
-        setAnimation();
+        updateAnimationType();
     }
 }
 
@@ -237,15 +136,15 @@ void Player::setGrounded(bool grounded) {
     }
 }
 
-void Player::setAnimation()
+void Player::updateAnimationType()
 {
 
     AnimationType desiredAnimationType = AnimationType::Idle;
 
-    if (!m_canBeHurt) {
+    if (isInvincible()) {
         desiredAnimationType = AnimationType::Hurt;
     }
-    else if (m_isDead) {
+    else if (isDead()) {
         desiredAnimationType = AnimationType::Death;
     }
     else 
@@ -257,7 +156,7 @@ void Player::setAnimation()
         else if (m_direction == sf::Vector2f(0.f, 0.f))
         {
             // Idle
-            if (m_isAttacking) {
+            if (isAttacking()) {
                 desiredAnimationType = AnimationType::Attack;
             }
             else {
@@ -266,7 +165,7 @@ void Player::setAnimation()
         }
         else {
             // Movement
-            if (m_isAttacking) {
+            if (isAttacking()) {
                 desiredAnimationType = m_isRunning ? AnimationType::RunAttack : AnimationType::WalkAttack;
             }
             else
@@ -276,37 +175,14 @@ void Player::setAnimation()
         }
     }
 
-    // Check if it's not the same as the one desired, otherwise return
-    if (m_currentAnimation && m_currentAnimation == (*m_animations)[desiredAnimationType])
-    {
-        return;
-    }
-
-    if (m_animations->count(desiredAnimationType))
-    {
-        m_currentAnimation = (*m_animations)[desiredAnimationType];
-        if (m_currentAnimation->getFrames().empty())
-        {
-            printf("Animation has no frames\n");
-            m_currentAnimation = nullptr;
-        }
-        else
-        {
-            m_currentAnimation->reset();
-        }
-    }
-    else
-    {
-        printf("Animation not found\n");
-        m_currentAnimation = nullptr;
-    }
+    setAnimationType(desiredAnimationType);
 }
 
 void Player::handleCollisions()
 {
     handleScenarioCollisions();
 
-    if (m_canBeHurt) {
+    if (!isInvincible()) {
         handleHurtingCollisions();
     }
 }
@@ -347,26 +223,16 @@ void Player::handleHurtingCollisions()
 
     if (damage > 0)
     {
-        m_life.subtractLife(damage);
+        reduceLives(damage);
 
-        if (m_life.getLife() == 0)
+        if (getCurrentLives() == 0)
         {
-            m_isDead = true;
+            setIsDead(true);
         }
         else
         {
-            m_canBeHurt = false;
+            setInvincibility(true);
         }
-        setAnimation();
+        updateAnimationType();
     }
-}
-
-int Player::getCurrentLives()
-{
-    return m_life.getLife();
-}
-
-int Player::getMaxLives()
-{
-    return m_life.getMaxLife();
 }

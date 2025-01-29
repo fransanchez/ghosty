@@ -23,7 +23,6 @@ void Projectile::init(ProjectileDescriptor descriptor,
     }
     m_collider = collider;
     m_collisionManager = collisionManager;
-
     m_collider->setPosition(m_position);
     m_sprite.setTexture(*m_animation->getCurrentFrame());
     m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
@@ -66,7 +65,9 @@ void Projectile::update(float deltaMilliseconds)
     m_animation->update(deltaMilliseconds);
     m_sprite.setTexture(*m_animation->getCurrentFrame());
     m_sprite.setPosition(m_position);
-    m_collider->setPosition(m_position);
+
+    // Update collider
+    Collisionable::update(deltaMilliseconds);
 }
 
 bool Projectile::isExpired() const
@@ -93,7 +94,7 @@ void Projectile::render(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
 
-    m_collider->render(window);
+    Collisionable::render(window);
 }
 
 void Projectile::handleCollisions()

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Gameplay/Collisions/Collisionable.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyType.h>
+#include <Gameplay/Entity.h>
 #include <Gameplay/EntityLife.h>
 #include <Render/Animation.h>
 #include <Render/AnimationType.h>
@@ -13,7 +13,7 @@
 class Attack;
 class Collider;
 
-class Enemy : public Collisionable
+class Enemy : public Entity
 {
 	public:
 		enum class EnemyState
@@ -47,8 +47,6 @@ class Enemy : public Collisionable
 
 		sf::FloatRect getBounds() const { return m_sprite.getGlobalBounds(); };
 
-		bool isMarkedForDestruction() const { return m_markedForDestruction; };
-
 		EnemyType getType() const { return m_type; }
 
 		virtual void update(float deltaMilliseconds) override; // From GameObject
@@ -66,39 +64,26 @@ class Enemy : public Collisionable
 		virtual void handleAttackState() = 0;
 
 		void changeState(EnemyState newState);
-		void updateAnimation();
+		void updateAnimationType();
 		void setSpeedForState();
 
 		void updateEnemyPosition(float deltaSeconds);
-		void updateEnemySprite(float deltaSeconds);
 		void updateSight();
 		void handleState(float deltaMilliseconds);
 		void moveWithinAreaEdges();
 		bool isPlayerInSight();
 		bool isPlayerInArea();
-		void checkIsHurt();
 
-		sf::Sprite m_sprite;
-		sf::Vector2f m_speed{ 0.f, 0.f };
 		sf::Vector2f m_patrolSpeed;
 		sf::Vector2f m_chaseSpeed;
 		sf::Vector2f m_originalPosition;
-		std::unordered_map<AnimationType, Animation*>* m_animations { nullptr };
-		std::vector<Attack*> m_attacks;
 
-		Animation* m_currentAnimation{ nullptr };
-		int m_currentAttackIndex{ 0 };
 		EnemyState m_currentState{ EnemyState::Idle };
 
 		sf::Vector2f m_sightArea{ 300.f, 150.f };
 		sf::RectangleShape m_enemySight;
-		bool m_movingRight{ false };
 
 		const sf::Shape* m_patrolArea = nullptr;
-		bool m_canBeHurt{ true };
-		bool m_isDead{ false };
-		bool m_markedForDestruction{ false };
-		EntityLife m_life;
 
 		EnemyType m_type;
 };

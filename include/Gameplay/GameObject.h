@@ -20,12 +20,15 @@ class GameObject
 		virtual void setPosition(const sf::Vector2f& newPosition) { m_position = newPosition; }
 		sf::Vector2f& getDirection() { return m_direction; }
 		virtual void setDirection(const sf::Vector2f& newDirection) { m_direction = newDirection; }
+		sf::Vector2f& getSpeed() { return m_speed; }
+		virtual void setSpeed(const sf::Vector2f& newSpeed) { m_speed = newSpeed; }
 
 		virtual void update(float delta) = 0;
 		virtual void render(sf::RenderWindow& window) = 0;
 
 	protected:
 
+		sf::Vector2f m_speed{ 0.f, 0.f };
 		sf::Vector2f m_position{ .0f, .0f };
 		sf::Vector2f m_direction{ .0f, .0f };
 };

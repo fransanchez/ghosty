@@ -57,6 +57,7 @@ set(PROJECT_HEADERS
     include/Gameplay/Player/Player.h
     include/Gameplay/Player/PlayerFactory.h
 
+    include/Gameplay/Entity.h
     include/Gameplay/EntityLife.h
     include/Gameplay/GameObject.h
 
@@ -104,8 +105,8 @@ set(PROJECT_SOURCES
     src/Gameplay/Player/Player.cpp
     src/Gameplay/Player/PlayerFactory.cpp
 
+    src/Gameplay/Entity.cpp
     src/Gameplay/EntityLife.cpp
-
 
     src/Render/Animation.cpp
     src/Render/AnimationLoader.cpp
