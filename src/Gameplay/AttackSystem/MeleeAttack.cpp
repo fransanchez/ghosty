@@ -53,6 +53,7 @@ MeleeAttack& MeleeAttack::operator=(const MeleeAttack& other)
 
 MeleeAttack::~MeleeAttack()
 {
+    m_collisionManager->unregisterMeleeAttack(this);
     m_collisionManager = nullptr;
     delete m_collider;
     m_collider = nullptr;
