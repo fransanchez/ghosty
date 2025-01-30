@@ -28,6 +28,7 @@ class World
 		void render(sf::RenderWindow& window);
 
 		bool isPlayerDead() const;
+		bool isPlayerAtEndLevel() const;
 
 	private:
 		void updateCamera();
@@ -40,4 +41,6 @@ class World
 		HUD* m_hud{ nullptr };
 		sf::View m_camera;
 		sf::View m_uiView;
+		sf::Shape* m_endOfLevelTrigger{ nullptr };
+		bool m_playerReachedEndLevel{ false };
 };

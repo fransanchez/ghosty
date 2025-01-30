@@ -22,8 +22,8 @@ void UIScreenPlaying::init(sf::RenderWindow* window)
         m_world = nullptr;
     }
 
-    m_transitioningToGameOver = false;
-    m_deathDelayTimer = 0.f;
+    m_transitioningToNextScreen = false;
+    m_screenTransitionDelayTimer = 0.f;
     m_fadeAlpha = 0.f;
 }
 
@@ -43,27 +43,37 @@ void UIScreenPlaying::update(float deltaMilliseconds)
     {
         m_world->update(deltaMilliseconds);
 
-        if (m_world->isPlayerDead() && !m_transitioningToGameOver)
+        if (!m_transitioningToNextScreen &&
+            (m_world->isPlayerDead() || m_world->isPlayerAtEndLevel()))
         {
-            m_transitioningToGameOver = true;
-            m_deathDelayTimer = 0.f;
+            m_transitioningToNextScreen = true;
+            m_screenTransitionDelayTimer = 0.f;
         }
 
-        if (m_transitioningToGameOver)
-        {
-            m_deathDelayTimer += deltaMilliseconds / 1000.f;
-
-            m_fadeAlpha += FADEOUT_SPEED * (deltaMilliseconds / 1000.f);
-            if (m_fadeAlpha > 255.f) m_fadeAlpha = 255.f;
-
-            if (m_deathDelayTimer >= DEATH_DELAY)
-            {
-                m_window->setView(m_window->getDefaultView());
-                // To-Do - Fix memory nullpointer
-                unload();
-                m_nextGameState = Game::GameState::GameOver;
-            }
+        if (m_transitioningToNextScreen) {
+            updateTransitionToNextLevel(deltaMilliseconds);
         }
+    }
+}
+
+void UIScreenPlaying::updateTransitionToNextLevel(float deltaMilliseconds) {
+    float deltaSeconds = deltaMilliseconds / 1000.f;
+
+    m_screenTransitionDelayTimer += deltaSeconds;
+    m_fadeAlpha += FADEOUT_SPEED * deltaSeconds;
+
+    if (m_fadeAlpha > 255.f) m_fadeAlpha = 255.f;
+
+    if (m_screenTransitionDelayTimer >= SCREEN_TRANSITION_DELAY)
+    {
+        m_window->setView(m_window->getDefaultView());
+        if (m_world->isPlayerDead()) {
+            m_nextGameState = Game::GameState::GameOver;
+        }
+        else {
+            m_nextGameState = Game::GameState::MainMenu;
+        }
+        unload();
     }
 }
 
@@ -73,7 +83,7 @@ void UIScreenPlaying::render(sf::RenderWindow& window)
     {
         m_world->render(window);
     }
-    if (m_transitioningToGameOver)
+    if (m_transitioningToNextScreen)
     {
         // Same trick as we use to render the HUD in world. Change view -> paint -> restore view
         const sf::View originalView = window.getView();

@@ -25,6 +25,7 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 		return false;
 	}
 
+	m_endOfLevelTrigger = m_level->getEndOfLevelShape();
 	// Create and initialize the CollisionManager
 	m_collisionManager = new CollisionManager();
 	m_collisionManager->setGroundShapes(m_level->getFloorsCollisionShapes());
@@ -70,6 +71,8 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 
 void World::unload()
 {
+	m_endOfLevelTrigger = nullptr;
+
 	delete m_enemyManager;
 	m_enemyManager = nullptr;
 
@@ -114,6 +117,11 @@ void World::update(uint32_t deltaMilliseconds)
 			if (m_player && m_hud)
 			{
 				m_hud->update(m_player->getCurrentLives());
+			}
+
+			if (m_collisionManager->isPlayerInsideArea(m_endOfLevelTrigger->getGlobalBounds()))
+			{
+				m_playerReachedEndLevel = true;
 			}
 		}
 	}
@@ -176,4 +184,9 @@ void World::updateCamera()
 bool World::isPlayerDead() const
 {
 	return m_player && m_player->isMarkedForDestruction();
+}
+
+bool World::isPlayerAtEndLevel() const
+{
+	return m_playerReachedEndLevel;
 }

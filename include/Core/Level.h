@@ -40,7 +40,9 @@ class Level
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getPlayerSpawnPoints() const;
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getEnemySpawnPoints() const;
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getCollectiblesSpawnPoints() const;
-        std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> getPlayerSpawnPoint() const;
+        const std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> getPlayerSpawnPoint() const;
+        sf::Shape* getEndOfLevelShape() const;
+
 
         float getWidth() const;
         float getHeight() const;
@@ -57,5 +59,5 @@ class Level
         ObjectLayer* m_enemySpawnsLayer{ nullptr };
         ObjectLayer* m_enemyPatrolAreasLayer{ nullptr };
         ObjectLayer* m_collectiblesSpawnsLayer{ nullptr };
-
+        ObjectLayer* m_endOfLevelLayer{ nullptr };
 };

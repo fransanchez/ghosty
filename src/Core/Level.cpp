@@ -68,6 +68,7 @@ bool Level::load(const std::string& filePath)
     m_enemySpawnsLayer = new ObjectLayer(*m_map, 7);
     m_enemyPatrolAreasLayer = new ObjectLayer(*m_map, 8);
     m_collectiblesSpawnsLayer = new ObjectLayer(*m_map, 9);
+    m_endOfLevelLayer = new ObjectLayer(*m_map, 10);
 
     return true;
 }
@@ -88,6 +89,7 @@ void Level::unload()
     delete m_enemySpawnsLayer;
     delete m_enemyPatrolAreasLayer;
     delete m_collectiblesSpawnsLayer;
+    delete m_endOfLevelLayer;
     delete m_map;
     m_decorations = nullptr;
     m_fillers = nullptr;
@@ -98,6 +100,7 @@ void Level::unload()
     m_enemySpawnsLayer = nullptr;
     m_enemyPatrolAreasLayer = nullptr;
     m_collectiblesSpawnsLayer = nullptr;
+    m_endOfLevelLayer = nullptr;
     m_map = nullptr;
 }
 
@@ -132,6 +135,8 @@ void Level::render(sf::RenderWindow& window)
         window.draw(*m_enemyPatrolAreasLayer);
     if (m_collectiblesSpawnsLayer)
         window.draw(*m_collectiblesSpawnsLayer);
+    if (m_endOfLevelLayer)
+        window.draw(*m_endOfLevelLayer);
 }
 const std::vector<sf::Shape*>& Level::getFloorsCollisionShapes() const
 {
@@ -146,6 +151,11 @@ const std::vector<sf::Shape*>& Level::getWallsCollisionShapes() const
 const std::vector<sf::Shape*>& Level::getEnemyPatrolAreasShapes() const
 {
     return m_enemyPatrolAreasLayer->getShapes();
+}
+
+sf::Shape* Level::getEndOfLevelShape() const
+{
+    return m_endOfLevelLayer->getShapes().front();
 }
 
 const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& Level::getPlayerSpawnPoints() const
@@ -163,7 +173,7 @@ const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::s
     return m_collectiblesSpawnsLayer->getPoints();
 }
 
-std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> Level::getPlayerSpawnPoint() const
+const std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> Level::getPlayerSpawnPoint() const
 {
     if (!m_playerSpawnsLayer || m_playerSpawnsLayer->getPoints().empty())
     {
