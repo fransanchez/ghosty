@@ -1,3 +1,4 @@
+#include <Gameplay/Collectibles/Collectible.h>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Player/Player.h>
@@ -182,6 +183,8 @@ void Player::handleCollisions()
 {
     handleScenarioCollisions();
 
+    handleCollectibleCollisions();
+
     if (!isInvincible()) {
         handleHurtingCollisions();
     }
@@ -234,5 +237,14 @@ void Player::handleHurtingCollisions()
             setInvincibility(true);
         }
         updateAnimationType();
+    }
+}
+
+void Player::handleCollectibleCollisions()
+{
+    Collectible* collectible = m_collisionManager->checkPlayerCollectibleCollision();
+    if (collectible)
+    {
+        collectible->applyEffect(this);
     }
 }

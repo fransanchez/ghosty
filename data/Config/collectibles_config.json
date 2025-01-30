@@ -1,0 +1,34 @@
+{
+    "Collectibles": [
+        {
+            "Type": "Life",
+            "Animation": {
+                "TexturePath": "../data/Images/Collectibles/life.png",
+                "FrameCountRows": 1,
+                "FrameCountColumns": 10,
+                "Loop": true,
+                "FrameDuration": 150
+            }
+        },
+        {
+            "Type": "Ice",
+            "Animation": {
+                "TexturePath": "../data/Images/Collectibles/ice2.png",
+                "FrameCountRows": 1,
+                "FrameCountColumns": 10,
+                "Loop": true,
+                "FrameDuration": 150
+            }
+        },
+        {
+            "Type": "Fire",
+            "Animation": {
+                "TexturePath": "../data/Images/Collectibles/fire.png",
+                "FrameCountRows": 1,
+                "FrameCountColumns": 10,
+                "Loop": true,
+                "FrameDuration": 150
+            }
+        }
+    ]
+}

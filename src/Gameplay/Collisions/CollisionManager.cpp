@@ -1,5 +1,6 @@
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/AttackSystem/Projectile.h>
+#include <Gameplay/Collectibles/Collectible.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Enemy/Enemy.h>
@@ -31,6 +32,11 @@ CollisionManager::~CollisionManager()
         enemy = nullptr;
     }
     m_enemies.clear();
+    for (Collectible* collectible : m_collectibles) {
+        collectible = nullptr;
+    }
+    m_collectibles.clear();
+
     m_player = nullptr;
 }
 
@@ -96,6 +102,38 @@ void CollisionManager::unregisterMeleeAttack(Attack* attack)
     }
 }
 
+void CollisionManager::registerCollectible(Collectible* collectible)
+{
+    m_collectibles.push_back(collectible);
+}
+
+void CollisionManager::unregisterCollectible(Collectible* collectible)
+{
+    auto it = std::find(m_collectibles.begin(), m_collectibles.end(), collectible);
+    if (it != m_collectibles.end()) {
+        m_collectibles.erase(it);
+    }
+}
+
+Collectible* CollisionManager::checkPlayerCollectibleCollision()
+{
+    if (!m_player)
+    {
+        return nullptr;
+    }
+    sf::FloatRect playerBounds = m_player->getCollider()->getBounds();
+    for (Collectible* collectible : m_collectibles)
+    {
+        if (!collectible->isMarkedForDestruction() &&
+            collectible->getCollider()->getBounds().intersects(playerBounds))
+        {
+            return collectible;
+        }
+    }
+
+    return nullptr;
+}
+
 void CollisionManager::setGroundShapes(const std::vector<sf::Shape*>& groundShapes)
 {
     m_groundShapes = groundShapes;
@@ -110,7 +148,6 @@ void CollisionManager::setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& 
 {
     m_enemyPatrolAreasShapes = patrolAreasShapes;
 }
-
 
 bool CollisionManager::checkIsGrounded(const Collider* collider) const
 {

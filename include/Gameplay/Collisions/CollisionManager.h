@@ -5,11 +5,12 @@
 #include <vector>
 
 class Attack;
+enum class AttackFaction;
+class Collectible;
 class Collider;
 class Enemy;
 class Player;
 class Projectile;
-enum class AttackFaction;
 
 namespace sf
 {
@@ -45,6 +46,9 @@ class CollisionManager
         void unregisterProjectile(Projectile* projectile, AttackFaction faction);
         void registerMeleeAttack(Attack* attack);
         void unregisterMeleeAttack(Attack* attack);
+        void registerCollectible(Collectible* collectible);
+        void unregisterCollectible(Collectible* collectible);
+        Collectible* checkPlayerCollectibleCollision();
 
         void setGroundShapes(const std::vector<sf::Shape*>& groundShapes);
         void setWallShapes(const std::vector<sf::Shape*>& wallShapes);
@@ -74,4 +78,5 @@ class CollisionManager
         std::vector<Enemy*> m_enemies;
         std::vector<Projectile*> m_enemyProjectiles;
         std::vector<Attack*> m_enemyMeleeAttacks;
+        std::vector<Collectible*> m_collectibles;
 };

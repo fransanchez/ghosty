@@ -44,6 +44,7 @@ class Player : public Entity
         void handleInput();
         void handleScenarioCollisions();
         void handleHurtingCollisions();
+        void handleCollectibleCollisions();
 
         bool m_isGrounded{ false };
         bool m_isRunning{ false };

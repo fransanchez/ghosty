@@ -21,6 +21,8 @@ class Entity : public Collisionable
         int getCurrentLives();
         int getMaxLives();
         void reduceLives(int damage);
+        void addLives(int lives);
+        void setAttackIndex(int index);
         bool isMarkedForDestruction() const { return m_markedForDestruction; };
 
         virtual void update(float deltaMilliseconds) override;

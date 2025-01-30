@@ -148,6 +148,18 @@ void Entity::reduceLives(int damage)
     m_life.subtractLife(damage);
 }
 
+void Entity::addLives(int lives)
+{
+    m_life.addLife(lives);
+}
+
+void Entity::setAttackIndex(int index)
+{
+    if (index >= 0 && index < m_attacks.size()) {
+        m_currentAttackIndex = index;
+    }
+}
+
 bool Entity::shouldEndInvincibility() {
     return (m_isInvincible &&
         m_currentAnimation == (*m_animations)[AnimationType::Hurt] &&

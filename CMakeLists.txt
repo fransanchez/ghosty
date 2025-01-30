@@ -40,6 +40,10 @@ set(PROJECT_HEADERS
     include/Gameplay/AttackSystem/MeleeAttack.h
     include/Gameplay/AttackSystem/Projectile.h
     include/Gameplay/AttackSystem/RangedAttack.h
+    include/Gameplay/Collectibles/Collectible.h
+    include/Gameplay/Collectibles/CollectibleFactory.h
+    include/Gameplay/Collectibles/CollectibleManager.h
+    include/Gameplay/Collectibles/CollectibleType.h
     include/Gameplay/Collisions/Collider.h
     include/Gameplay/Collisions/Collisionable.h
     include/Gameplay/Collisions/CollisionManager.h
@@ -88,6 +92,9 @@ set(PROJECT_SOURCES
     src/Gameplay/AttackSystem/MeleeAttack.cpp
     src/Gameplay/AttackSystem/Projectile.cpp
     src/Gameplay/AttackSystem/RangedAttack.cpp
+    src/Gameplay/Collectibles/Collectible.cpp
+    src/Gameplay/Collectibles/CollectibleFactory.cpp
+    src/Gameplay/Collectibles/CollectibleManager.cpp
     src/Gameplay/Collisions/Collider.cpp
     src/Gameplay/Collisions/Collisionable.cpp
     src/Gameplay/Collisions/CollisionManager.cpp

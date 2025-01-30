@@ -5,6 +5,7 @@
 #include <Gameplay/Player/Player.h>
 #include <SFML/Graphics/View.hpp>
 
+class CollectibleManager;
 class CollisionsManager;
 class EnemyManager;
 class HUD;
@@ -35,6 +36,7 @@ class World
 		Player* m_player{ nullptr };
 		CollisionManager* m_collisionManager{ nullptr };
 		EnemyManager* m_enemyManager{ nullptr };
+		CollectibleManager* m_collectibleManager{ nullptr };
 		HUD* m_hud{ nullptr };
 		sf::View m_camera;
 		sf::View m_uiView;

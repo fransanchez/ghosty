@@ -67,7 +67,7 @@ bool Level::load(const std::string& filePath)
     m_playerSpawnsLayer = new ObjectLayer(*m_map, 6);
     m_enemySpawnsLayer = new ObjectLayer(*m_map, 7);
     m_enemyPatrolAreasLayer = new ObjectLayer(*m_map, 8);
-
+    m_collectiblesSpawnsLayer = new ObjectLayer(*m_map, 9);
 
     return true;
 }
@@ -87,6 +87,7 @@ void Level::unload()
     delete m_playerSpawnsLayer;
     delete m_enemySpawnsLayer;
     delete m_enemyPatrolAreasLayer;
+    delete m_collectiblesSpawnsLayer;
     delete m_map;
     m_decorations = nullptr;
     m_fillers = nullptr;
@@ -96,6 +97,7 @@ void Level::unload()
     m_playerSpawnsLayer = nullptr;
     m_enemySpawnsLayer = nullptr;
     m_enemyPatrolAreasLayer = nullptr;
+    m_collectiblesSpawnsLayer = nullptr;
     m_map = nullptr;
 }
 
@@ -128,6 +130,8 @@ void Level::render(sf::RenderWindow& window)
         window.draw(*m_enemySpawnsLayer);
     if (m_enemyPatrolAreasLayer)
         window.draw(*m_enemyPatrolAreasLayer);
+    if (m_collectiblesSpawnsLayer)
+        window.draw(*m_collectiblesSpawnsLayer);
 }
 const std::vector<sf::Shape*>& Level::getFloorsCollisionShapes() const
 {
@@ -152,6 +156,11 @@ const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::s
 const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& Level::getEnemySpawnPoints() const
 {
     return m_enemySpawnsLayer->getPoints();
+}
+
+const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& Level::getCollectiblesSpawnPoints() const
+{
+    return m_collectiblesSpawnsLayer->getPoints();
 }
 
 std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> Level::getPlayerSpawnPoint() const

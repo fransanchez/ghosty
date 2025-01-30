@@ -1,5 +1,6 @@
 #include <Core/World.h>
 #include <Core/AssetManager.h>
+#include <Gameplay/Collectibles/CollectibleManager.h>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <Gameplay/Enemy/Enemy.h>
@@ -51,6 +52,13 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 		return false;
 	}
 
+	m_collectibleManager = new CollectibleManager(m_collisionManager);
+	if (!m_collectibleManager->loadCollectibles(m_level->getCollectiblesSpawnPoints()))
+	{
+		printf("Failed to load collectibles.\n");
+		return false;
+	}
+
 	m_hud = new HUD();
 	if (!m_hud->init(m_player->getMaxLives()))
 	{
@@ -64,6 +72,9 @@ void World::unload()
 {
 	delete m_enemyManager;
 	m_enemyManager = nullptr;
+
+	delete m_collectibleManager;
+	m_collectibleManager = nullptr;
 
 	m_collisionManager->unregisterPlayer();
 
@@ -93,6 +104,11 @@ void World::update(uint32_t deltaMilliseconds)
 				m_enemyManager->update(deltaMilliseconds);
 			}
 
+			if (m_collectibleManager)
+			{
+				m_collectibleManager->update(deltaMilliseconds);
+			}
+
 			updateCamera();
 
 			if (m_player && m_hud)
@@ -112,6 +128,11 @@ void World::render(sf::RenderWindow& window)
 		m_player->render(window);
 	}
 	m_enemyManager->render(window);
+
+	if (m_collectibleManager)
+	{
+		m_collectibleManager->render(window);
+	}
 
 	if (m_hud)
 	{

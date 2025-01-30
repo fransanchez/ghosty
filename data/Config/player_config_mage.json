@@ -140,17 +140,17 @@
                     "FrameCountRows": 1,
                     "FrameCountColumns": 9,
                     "Loop": false,
-                    "FrameDuration": 50
+                    "FrameDuration": 100
                 }
             },
             "Collider": {
                 "CenterOffset": {
-                    "X": -10.0,
-                    "Y": 0.0
+                    "X": -5.0,
+                    "Y": -5.0
                 },
                 "Size": {
-                    "Width": 65.0,
-                    "Height": 70.0
+                    "Width": 64.0,
+                    "Height": 64.0
                 }
             }
         }
