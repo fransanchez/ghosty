@@ -1,8 +1,9 @@
+#include <cstdio>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <Gameplay/Entity.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <cstdio>
+#include <Utils/Constants.h>
 
 Entity::~Entity()
 {
@@ -52,6 +53,8 @@ bool Entity::initEntity(
 
 void Entity::update(float deltaMilliseconds)
 {
+    checkTemporaryAttack(deltaMilliseconds);
+
     // This is always called after update from player or enemy
     if (!isDead()) {
         updateAttacks(deltaMilliseconds);
@@ -98,6 +101,19 @@ void Entity::updateAttacks(float deltaMilliseconds)
     for (auto& attack : m_attacks)
     {
         attack->update(deltaMilliseconds);
+    }
+}
+
+void Entity::checkTemporaryAttack(float deltaMilliseconds)
+{
+    if (m_attackTimer > 0.f)
+    {
+        m_attackTimer -= deltaMilliseconds / 1000.f;
+        if (m_attackTimer <= 0.f)
+        {
+            // Restore original attack
+            m_currentAttackIndex = m_originalAttackIndex;
+        }
     }
 }
 
@@ -153,10 +169,16 @@ void Entity::addLives(int lives)
     m_life.addLife(lives);
 }
 
-void Entity::setAttackIndex(int index)
+void Entity::setTemporaryAttackIndex(int index)
 {
-    if (index >= 0 && index < m_attacks.size()) {
+    if (index >= 0 && index < m_attacks.size())
+    {
+        if (m_attackTimer <= 0.f)
+        {
+            m_originalAttackIndex = m_currentAttackIndex;
+        }
         m_currentAttackIndex = index;
+        m_attackTimer = POWER_UP_SECONDS_DURATION;
     }
 }
 

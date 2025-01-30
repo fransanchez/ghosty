@@ -58,13 +58,13 @@ void Collectible::applyEffect(Player* player)
             player->addLives(1);
             break;
         case CollectibleType::Fire:
-            player->setAttackIndex(1);
+            player->setTemporaryAttackIndex(1);
             break;
         case CollectibleType::Ice:
-            player->setAttackIndex(2);
+            player->setTemporaryAttackIndex(2);
             break;
         case CollectibleType::Wind:
-            player->setAttackIndex(3);
+            player->setTemporaryAttackIndex(3);
             break;
         }
     }

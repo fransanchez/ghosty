@@ -22,7 +22,7 @@ class Entity : public Collisionable
         int getMaxLives();
         void reduceLives(int damage);
         void addLives(int lives);
-        void setAttackIndex(int index);
+        void setTemporaryAttackIndex(int index);
         bool isMarkedForDestruction() const { return m_markedForDestruction; };
 
         virtual void update(float deltaMilliseconds) override;
@@ -33,6 +33,7 @@ class Entity : public Collisionable
         void updateAttacks(float deltaMilliseconds);
         bool shouldEndInvincibility();
         void setAnimationType(AnimationType desiredAnimationType);
+        void checkTemporaryAttack(float deltaMilliseconds);
 
         bool isInvincible() const{ return m_isInvincible; };
         void setInvincibility(bool newValue) { m_isInvincible = newValue; };
@@ -57,4 +58,7 @@ class Entity : public Collisionable
         bool m_isInvincible{ false };
         bool m_isAttacking{ false };
         bool m_movingRight{ false };
+
+        int m_originalAttackIndex{ 0 };
+        float m_attackTimer{ 0.f };
 };
