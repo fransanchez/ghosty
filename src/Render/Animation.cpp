@@ -3,6 +3,7 @@
 Animation::Animation(const Animation& baseAnimation)
 {
     // Copy from the BaseAnimation
+    m_texture = baseAnimation.m_texture;
     m_frames = baseAnimation.m_frames;
     m_frameDuration = baseAnimation.m_frameDuration;
     m_loop = baseAnimation.m_loop;
@@ -13,20 +14,23 @@ Animation::Animation(const Animation& baseAnimation)
 
 Animation::~Animation()
 {
+    m_texture = nullptr;
     m_frames.clear();
 }
 
-void Animation::addFrame(const sf::Texture* texture)
+void Animation::applyToSprite(sf::Sprite& sprite)
 {
-    m_frames.push_back(texture);
+    if (!m_frames.empty())
+    {
+        sprite.setTexture(*m_texture);
+        sprite.setTextureRect(m_frames[m_currentFrame]);
+    }
 }
 
-const sf::Texture* Animation::getCurrentFrame() const
+void Animation::addFrame(sf::Texture* texture, sf::IntRect frameRect)
 {
-    if (m_frames.empty())
-        return nullptr;
-
-    return m_frames[m_currentFrame];
+    m_texture = texture;
+    m_frames.push_back(frameRect);
 }
 
 void Animation::update(float deltaMilliseconds)

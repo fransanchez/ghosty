@@ -87,7 +87,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config, CollisionMan
             if (attackData.contains("Animation"))
             {
                 const auto& animationData = attackData["Animation"].begin().value();
-                Animation* attackAnimation = AnimationLoader::LoadSingleAttackAnimation(animationData);
+                Animation* attackAnimation = AnimationLoader::LoadSingleAnimationFromJson(animationData);
 
                 // Load Collider for the attack
                 Collider* collider = loadCollider(attackData, { 0.f, 0.f });

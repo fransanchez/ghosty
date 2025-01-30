@@ -29,7 +29,7 @@ std::unordered_map<AnimationType, Animation*> AnimationLoader::LoadAnimations(co
     return animations;
 }
 
-Animation* AnimationLoader::LoadSingleAttackAnimation(const json& animationData)
+Animation* AnimationLoader::LoadSingleAnimationFromJson(const json& animationData)
 {
     return LoadAnimation(
         animationData["TexturePath"].get<std::string>(),
@@ -56,20 +56,8 @@ Animation* AnimationLoader::LoadAnimation(const std::string& texturePath, int fr
     {
         for (int col = 0; col < frameColumns; ++col)
         {
-            sf::Texture* frameTexture = new sf::Texture();
-            if (frameTexture->loadFromImage(
-                texture->copyToImage(),
-                sf::IntRect(col * frameWidth, row * frameHeight, frameWidth, frameHeight)))
-            {
-                frameTexture->setSmooth(true);
-                frameTexture->setRepeated(false);
-                animation->addFrame(frameTexture);
-            }
-            else
-            {
-                delete frameTexture;
-                printf("Error: Could not extract frame (%d, %d) from %s\n", row, col, texturePath.c_str());
-            }
+            sf::IntRect frameRect(col * frameWidth, row * frameHeight, frameWidth, frameHeight);
+            animation->addFrame(texture, frameRect);
         }
     }
 

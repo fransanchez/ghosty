@@ -36,7 +36,7 @@ bool Entity::initEntity(
     if (m_animations->count(AnimationType::Idle))
     {
         m_currentAnimation = (*m_animations)[AnimationType::Idle];
-        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
+        m_currentAnimation->applyToSprite(m_sprite);
     }
     else
     {
@@ -85,7 +85,7 @@ void Entity::updateAnimationSprite(float deltaMilliseconds)
             m_sprite.setScale(-1.0f, 1.0f);
         }
         m_sprite.setPosition(m_position);
-        m_sprite.setTexture(*m_currentAnimation->getCurrentFrame());
+        m_currentAnimation->applyToSprite(m_sprite);
     }
     else
     {

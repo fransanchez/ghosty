@@ -114,7 +114,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
                 if (attackData.contains("Animation"))
                 {
                     const auto& animData = attackData["Animation"].begin().value();
-                    animation = AnimationLoader::LoadSingleAttackAnimation(animData);
+                    animation = AnimationLoader::LoadSingleAnimationFromJson(animData);
                 }
                 if (!animation)
                 {

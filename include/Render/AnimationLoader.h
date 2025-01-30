@@ -12,7 +12,7 @@ class AnimationLoader
 public:
     static std::unordered_map<AnimationType, Animation*> LoadPlayerAnimations(const nlohmann::json& configFile);
     static std::unordered_map<AnimationType, Animation*> LoadAnimations(const nlohmann::json& animationsJson);
-    static Animation* LoadSingleAttackAnimation(const nlohmann::json& animationData);
+    static Animation* LoadSingleAnimationFromJson(const nlohmann::json& animationData);
 
 private:
     static Animation* LoadAnimation(const std::string& texturePath, int frameRows, int frameColumns, float frameDuration, bool loop);

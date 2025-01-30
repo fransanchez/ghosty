@@ -47,7 +47,6 @@ bool EnemyManager::loadEnemies(const std::vector<std::pair<sf::Vector2f, std::un
                 continue;
             }
 
-
             if (!initEnemyFromCachedDescriptor(enemy, enemyType, position))
             {
                 printf("Error: Could not initialize enemy of type '%s'.\n", typeString.c_str());

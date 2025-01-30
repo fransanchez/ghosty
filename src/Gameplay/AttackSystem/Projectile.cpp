@@ -24,7 +24,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
     m_collider = collider;
     m_collisionManager = collisionManager;
     m_collider->setPosition(m_position);
-    m_sprite.setTexture(*m_animation->getCurrentFrame());
+    m_animation->applyToSprite(m_sprite);
     m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
 }
 
@@ -63,7 +63,7 @@ void Projectile::update(float deltaMilliseconds)
     }
 
     m_animation->update(deltaMilliseconds);
-    m_sprite.setTexture(*m_animation->getCurrentFrame());
+    m_animation->applyToSprite(m_sprite);
     m_sprite.setPosition(m_position);
 
     // Update collider
