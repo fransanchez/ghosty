@@ -26,5 +26,5 @@ private:
     std::unordered_map<CollectibleType, Animation*> m_collectibleAnimations;
     std::vector<Collectible*> m_activeCollectibles;
 
-    ObjectPool<Collectible, 5> m_collectiblePool;
+    ObjectPool<Collectible, 8> m_collectiblePool;
 };

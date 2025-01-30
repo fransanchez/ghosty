@@ -32,11 +32,6 @@ bool CollectibleManager::loadCollectibles(const std::vector<std::pair<sf::Vector
             }
 
             Collectible* collectible = getFromPool();
-            if (!collectible)
-            {
-                printf("Error: Could not get collectible from pool for type '%s'.\n", typeString.c_str());
-                continue;
-            }
 
             Animation* animationCopy = new Animation(*m_collectibleAnimations[collectibleType]);
             if (!collectible->init(collectibleType, animationCopy, m_collisionManager, position))

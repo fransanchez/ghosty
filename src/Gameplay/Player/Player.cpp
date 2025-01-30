@@ -18,7 +18,6 @@ bool Player::init(const PlayerDescriptor& descriptor,
     {
         return false;
     }
-
     m_collider = collider;
     m_collisionManager = collisionManager;
     m_collisionManager->registerPlayer(this);

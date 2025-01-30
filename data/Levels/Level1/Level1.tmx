@@ -93,13 +93,13 @@
  <objectgroup id="17" name="CollectibleSpawns">
   <object id="31" name="Spawn1" x="1334" y="473.333">
    <properties>
-    <property name="type" value="Life"/>
+    <property name="type" value="Fire"/>
    </properties>
    <point/>
   </object>
   <object id="32" name="Spawn2" x="1644.67" y="476.667">
    <properties>
-    <property name="type" value="Ice"/>
+    <property name="type" value="Wind"/>
    </properties>
    <point/>
   </object>

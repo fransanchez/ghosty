@@ -63,6 +63,9 @@ void Collectible::applyEffect(Player* player)
         case CollectibleType::Ice:
             player->setAttackIndex(2);
             break;
+        case CollectibleType::Wind:
+            player->setAttackIndex(3);
+            break;
         }
     }
     m_markedForDestruction = true;

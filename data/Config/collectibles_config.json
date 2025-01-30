@@ -13,7 +13,7 @@
         {
             "Type": "Ice",
             "Animation": {
-                "TexturePath": "../data/Images/Collectibles/ice2.png",
+                "TexturePath": "../data/Images/Collectibles/ice.png",
                 "FrameCountRows": 1,
                 "FrameCountColumns": 10,
                 "Loop": true,
@@ -29,6 +29,17 @@
                 "Loop": true,
                 "FrameDuration": 150
             }
+        },
+        {
+            "Type": "Wind",
+            "Animation": {
+                "TexturePath": "../data/Images/Collectibles/wind.png",
+                "FrameCountRows": 1,
+                "FrameCountColumns": 10,
+                "Loop": true,
+                "FrameDuration": 150
+            }
         }
+
     ]
 }
