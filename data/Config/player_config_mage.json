@@ -49,7 +49,7 @@
         "Death": {
             "TexturePath": "../data/Images/Player/Mage/Death/death.png",
             "FrameCountRows": 1,
-            "FrameCountColumns": 4,
+            "FrameCountColumns": 10,
             "Loop": false,
             "FrameDuration": 200
         },
