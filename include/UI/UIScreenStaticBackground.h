@@ -4,10 +4,11 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-class UIScreenGameOver : public UIScreen
+class UIScreenStaticBackground : public UIScreen
 {
 public:
-    ~UIScreenGameOver() override;
+    UIScreenStaticBackground(char* backgroundPath);
+    ~UIScreenStaticBackground() override;
     void init(sf::RenderWindow* window) override;
     void unload() override;
     void update(float deltaMilliseconds) override;
@@ -21,8 +22,9 @@ private:
     sf::Texture* m_backgroundTexture{ nullptr };
     sf::Sprite m_backgroundSprite;
 
-    bool m_fadingIn;
-    bool m_fadingOut;
-    float m_alpha;
-    float m_timer;
+    bool m_fadingIn{ false };
+    bool m_fadingOut{ false };
+    float m_alpha{ 0 };
+    float m_timer{ 0 };
+    char* m_backgroundPath;
 };

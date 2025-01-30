@@ -21,7 +21,8 @@ class Game
 			MainMenu,
 			Playing,
 			Paused,
-			GameOver
+			GameOver,
+			Victory
 		};
 
 		struct GameCreateInfo

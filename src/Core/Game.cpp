@@ -7,9 +7,9 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
 #include <UI/UIManager.h>
-#include <UI/UIScreenGameOver.h>
 #include <UI/UIScreenMainMenu.h>
 #include <UI/UIScreenPlaying.h>
+#include <UI/UIScreenStaticBackground.h>
 #include <Utils/GameConfigLoader.h>
 
 
@@ -34,7 +34,8 @@ bool Game::init(GameCreateInfo& createInfo)
 	m_uiManager = new UIManager();
 	m_uiManager->registerScreen(GameState::MainMenu, new UIScreenMainMenu());
 	m_uiManager->registerScreen(GameState::Playing, new UIScreenPlaying());
-	m_uiManager->registerScreen(GameState::GameOver, new UIScreenGameOver());
+	m_uiManager->registerScreen(GameState::GameOver, new UIScreenStaticBackground(GAME_OVER_SCREEN_IMAGE_PATH));
+	m_uiManager->registerScreen(GameState::Victory, new UIScreenStaticBackground(VICTORY_SCREEN_IMAGE_PATH));
 
 	changeState(GameState::MainMenu);
 

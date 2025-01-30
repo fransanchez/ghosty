@@ -6,7 +6,7 @@ constexpr char* GAME_CONFIG_PATH = "../data/Config/game_config.json";
 constexpr char* TITLE_SCREEN_IMAGE_PATH = "../data/Images/UI/GhostyMainTitle.png";
 constexpr char* START_BUTTON_IMAGE_PATH = "../data/Images/UI/StartGameButton.png";
 constexpr char* GAME_OVER_SCREEN_IMAGE_PATH = "../data/Images/UI/GameOver.png";
-
+constexpr char* VICTORY_SCREEN_IMAGE_PATH = "../data/Images/UI/Victory.png";
 
 // Config Constants
 constexpr char* DINO_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_dino.json";

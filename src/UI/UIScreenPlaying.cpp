@@ -71,7 +71,7 @@ void UIScreenPlaying::updateTransitionToNextLevel(float deltaMilliseconds) {
             m_nextGameState = Game::GameState::GameOver;
         }
         else {
-            m_nextGameState = Game::GameState::MainMenu;
+            m_nextGameState = Game::GameState::Victory;
         }
         unload();
     }

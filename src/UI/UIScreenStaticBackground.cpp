@@ -1,19 +1,24 @@
-#include <UI/UIScreenGameOver.h>
+#include <UI/UIScreenStaticBackground.h>
 #include <Core/AssetManager.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <Utils/Constants.h>
 
-UIScreenGameOver::~UIScreenGameOver()
+UIScreenStaticBackground::UIScreenStaticBackground(char* backgroundPath)
+    : m_backgroundPath(backgroundPath)
+{
+}
+
+UIScreenStaticBackground::~UIScreenStaticBackground()
 {
     unload();
 }
 
-void UIScreenGameOver::init(sf::RenderWindow* window)
+void UIScreenStaticBackground::init(sf::RenderWindow* window)
 {
     m_window = window;
 
-    m_backgroundTexture = AssetManager::getInstance()->loadTexture(GAME_OVER_SCREEN_IMAGE_PATH);
+    m_backgroundTexture = AssetManager::getInstance()->loadTexture(m_backgroundPath);
     if (!m_backgroundTexture)
     {
         printf("Error loading Game Over texture\n");
@@ -38,13 +43,13 @@ void UIScreenGameOver::init(sf::RenderWindow* window)
     m_timer = 0.0f;
 }
 
-void UIScreenGameOver::unload()
+void UIScreenStaticBackground::unload()
 {
     m_window = nullptr;
     m_backgroundTexture = nullptr;
 }
 
-void UIScreenGameOver::update(float deltaMilliseconds)
+void UIScreenStaticBackground::update(float deltaMilliseconds)
 {
     if (m_fadingIn)
     {
@@ -81,12 +86,12 @@ void UIScreenGameOver::update(float deltaMilliseconds)
     m_backgroundSprite.setColor(spriteColor);
 }
 
-void UIScreenGameOver::render(sf::RenderWindow& window)
+void UIScreenStaticBackground::render(sf::RenderWindow& window)
 {
     window.draw(m_backgroundSprite);
 }
 
-void UIScreenGameOver::handleMouseClick(sf::Vector2f mousePosition)
+void UIScreenStaticBackground::handleMouseClick(sf::Vector2f mousePosition)
 {
     if (!m_fadingOut)
     {
