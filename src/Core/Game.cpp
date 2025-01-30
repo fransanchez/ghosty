@@ -45,7 +45,7 @@ Game::~Game()
 {
 	delete m_uiManager;
 	delete m_window;
-	AssetManager::getInstance()->~AssetManager();
+	AssetManager::getInstance()->clear();
 }
 
 bool Game::isRunning() const 

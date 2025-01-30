@@ -231,18 +231,7 @@ bool Enemy::isPlayerInArea() {
 }
 void Enemy::reset()
 {
-    m_markedForDestruction = false;
-    setIsDead(false);
-    setInvincibility(false);
     m_currentState = EnemyState::Idle;
-    m_life = EntityLife(m_life.getMaxLife());
     setPosition(m_originalPosition);
-    m_sprite.setPosition(m_originalPosition);
-    delete m_animations;
-    m_animations = nullptr;
-    for (auto attack : m_attacks)
-    {
-        delete attack;
-    }
-    m_attacks.clear();
+    Entity::reset();
 }

@@ -15,10 +15,16 @@ AssetManager* AssetManager::getInstance()
 
 AssetManager::~AssetManager()
 {
+	clear();
+}
+
+void AssetManager::clear()
+{
 	for (auto it : m_texturePathToTexture)
 	{
 		delete it.second;
 	}
+	m_texturePathToTexture.clear();
 }
 
 sf::Texture* AssetManager::loadTexture(const char* assetPath)
@@ -26,7 +32,7 @@ sf::Texture* AssetManager::loadTexture(const char* assetPath)
 	auto it = m_texturePathToTexture.find(assetPath);
 	if (it != m_texturePathToTexture.end())
 	{
-		return it->second; // Already loaded, reuse
+		return it->second;
 	}
 	else
 	{
@@ -38,7 +44,7 @@ sf::Texture* AssetManager::loadTexture(const char* assetPath)
 			return nullptr;
 		}
 		m_texturePathToTexture[assetPath] = newTexture;
-		return newTexture; // just created a new one
+		return newTexture;
 	}
 }
 

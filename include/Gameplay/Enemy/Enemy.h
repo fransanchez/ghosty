@@ -53,7 +53,7 @@ class Enemy : public Entity
 		virtual void render(sf::RenderWindow& window) override; // From GameObject
 		void handleCollisions() override; // From Collisionable
 
-		void reset();
+		void reset() override;
 
 	protected:
 		virtual void handleIdleState() = 0;
@@ -67,7 +67,6 @@ class Enemy : public Entity
 		void updateAnimationType();
 		void setSpeedForState();
 
-		void updateEnemyPosition(float deltaSeconds);
 		void updateSight();
 		void handleState(float deltaMilliseconds);
 		void moveWithinAreaEdges();

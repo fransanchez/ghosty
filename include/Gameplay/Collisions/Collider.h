@@ -9,6 +9,7 @@ class Collider : public GameObject
     public:
 
         Collider(const sf::Vector2f& center, const sf::Vector2f& size, const sf::Vector2f& centerOffset);
+        ~Collider() = default;
 
         sf::Vector2f getCenterOffset() const;
         sf::Vector2f getCenter() const;

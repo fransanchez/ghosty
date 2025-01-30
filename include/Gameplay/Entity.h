@@ -24,6 +24,7 @@ class Entity : public Collisionable
         void addLives(int lives);
         void setTemporaryAttackIndex(int index);
         bool isMarkedForDestruction() const { return m_markedForDestruction; };
+        virtual void reset();
 
         virtual void update(float deltaMilliseconds) override;
         virtual void render(sf::RenderWindow& window) override;

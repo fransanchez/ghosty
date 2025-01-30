@@ -33,7 +33,7 @@ public:
 
 private:
     std::vector<sf::IntRect> m_frames;
-    sf::Texture* m_texture;
+    sf::Texture* m_texture{ nullptr };
     float m_frameDuration{ 0.1f };
     float m_elapsedTime{ 0.f };
     size_t m_currentFrame{ 0 };

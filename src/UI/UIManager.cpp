@@ -34,6 +34,10 @@ void UIManager::setActiveScreen(Game::GameState state, sf::RenderWindow* window)
 {
 	if (m_screens.find(state) != m_screens.end())
 	{
+		if (m_currentUIScreen)
+		{
+			m_currentUIScreen->unload();
+		}
 		m_screens[state]->init(window);
 		m_currentUIScreen = m_screens[state];
 	}

@@ -13,28 +13,14 @@ CollisionManager::~CollisionManager()
     m_wallShapes.clear();
     m_enemyPatrolAreasShapes.clear();
 
-    for (Projectile* proj : m_enemyProjectiles) {
-        proj = nullptr;
-    }
     m_enemyProjectiles.clear();
 
-    for (Projectile* proj : m_playerProjectiles) {
-        proj = nullptr;
-    }
     m_playerProjectiles.clear();
 
-    for (Attack* attack : m_enemyMeleeAttacks) {
-        attack = nullptr;
-    }
     m_enemyMeleeAttacks.clear();
 
-    for (Enemy* enemy : m_enemies) {
-        enemy = nullptr;
-    }
     m_enemies.clear();
-    for (Collectible* collectible : m_collectibles) {
-        collectible = nullptr;
-    }
+
     m_collectibles.clear();
 
     m_player = nullptr;

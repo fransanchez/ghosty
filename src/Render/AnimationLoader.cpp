@@ -60,7 +60,6 @@ Animation* AnimationLoader::LoadAnimation(const std::string& texturePath, int fr
             animation->addFrame(texture, frameRect);
         }
     }
-
     animation->setFrameDuration(frameDuration);
     animation->setLoop(loop);
     return animation;

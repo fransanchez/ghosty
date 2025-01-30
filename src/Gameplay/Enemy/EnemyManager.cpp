@@ -140,6 +140,7 @@ void EnemyManager::unload()
     }
     m_activeEnemies.clear();
 
+    // Delete cached copies of descriptors and attacks
     for (auto& [type, descriptor] : m_enemyDescriptors)
     {
         if (descriptor->animations)

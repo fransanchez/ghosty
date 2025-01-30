@@ -14,7 +14,6 @@ Animation::Animation(const Animation& baseAnimation)
 
 Animation::~Animation()
 {
-    m_texture = nullptr;
     m_frames.clear();
 }
 

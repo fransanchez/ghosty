@@ -16,10 +16,9 @@ class AssetManager
 
 		~AssetManager();
 
-		// To-Do: Implement a clear()
-
 		sf::Texture* loadTexture(const char* assetPath);
 		void unloadTexture(sf::Texture* texture);
+		void clear();
 
 		sf::Texture* getTexture(const char* assetPath) const;
 

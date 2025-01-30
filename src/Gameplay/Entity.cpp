@@ -187,3 +187,23 @@ bool Entity::shouldEndInvincibility() {
         m_currentAnimation == (*m_animations)[AnimationType::Hurt] &&
         m_currentAnimation->isFinished());
 }
+
+void Entity::reset()
+{
+    m_markedForDestruction = false;
+    m_isDead = false;
+    m_isInvincible = false;
+    m_life.addLife(m_life.getMaxLife());
+    m_sprite.setPosition(m_position);
+    for (auto& [type, animation] : *m_animations)
+    {
+        delete animation;
+    }
+    delete m_animations;
+    m_animations = nullptr;
+    for (auto attack : m_attacks)
+    {
+        delete attack;
+    }
+    m_attacks.clear();
+}
