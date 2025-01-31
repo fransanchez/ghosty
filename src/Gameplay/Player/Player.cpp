@@ -1,3 +1,4 @@
+#include <Core/AudioManager.h>
 #include <Gameplay/Collectibles/Collectible.h>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
@@ -83,6 +84,7 @@ void Player::handleInput()
             m_verticalVelocity = JUMP_INITIAL_VELOCITY;
             m_isGrounded = false;
             updateAnimationType();
+            AudioManager::getInstance()->playSoundEffect(SoundType::Jump);
         }
     }
 

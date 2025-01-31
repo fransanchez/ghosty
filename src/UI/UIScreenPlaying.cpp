@@ -1,7 +1,8 @@
-#include <UI/UIScreenPlaying.h>
+#include <Core/AudioManager.h>
 #include <Core/World.h>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <UI/UIScreenPlaying.h>
 #include <Utils/Constants.h>
 
 UIScreenPlaying::~UIScreenPlaying()
@@ -25,6 +26,7 @@ void UIScreenPlaying::init(sf::RenderWindow* window)
     m_transitioningToNextScreen = false;
     m_screenTransitionDelayTimer = 0.f;
     m_fadeAlpha = 0.f;
+    AudioManager::getInstance()->playMusic(MusicType::Game, true);
 }
 
 void UIScreenPlaying::unload()

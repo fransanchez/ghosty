@@ -1,4 +1,5 @@
 #include <Core/AssetManager.h>
+#include <Core/AudioManager.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -40,6 +41,7 @@ void UIScreenMainMenu::init(sf::RenderWindow* window)
     m_buttonClicked = false;
     m_buttonClickAlpha = 255.f;
     m_buttonFadeTimer = 0.f;
+    AudioManager::getInstance()->playMusic(MusicType::MainMenu, true);
 }
 
 void UIScreenMainMenu::unload()
@@ -68,6 +70,7 @@ void UIScreenMainMenu::handleMouseClick(sf::Vector2f mousePosition)
     {
         m_buttonClicked = true;
         m_buttonFadeTimer = 0.f;
+        AudioManager::getInstance()->playSoundEffect(SoundType::ButtonClick);
     }
 }
 

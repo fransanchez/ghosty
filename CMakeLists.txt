@@ -32,6 +32,7 @@ FetchContent_MakeAvailable(JSON)
 set(PROJECT_HEADERS 
 
     include/Core/AssetManager.h
+    include/Core/AudioManager.h
     include/Core/Game.h
     include/Core/World.h
     include/Core/Level.h
@@ -85,6 +86,7 @@ set(PROJECT_HEADERS
 set(PROJECT_SOURCES 
 
     src/Core/AssetManager.cpp
+    src/Core/AudioManager.cpp
     src/Core/Game.cpp
     src/Core/World.cpp
     src/Core/Level.cpp
@@ -140,7 +142,7 @@ add_executable(${PROJECT_NAME} ${PROJECT_FILES})
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics tmxlite nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-audio tmxlite nlohmann_json::nlohmann_json)
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_MODE=0)

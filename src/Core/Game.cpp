@@ -1,4 +1,5 @@
 #include <Core/AssetManager.h>
+#include <Core/AudioManager.h>
 #include <cassert>
 #include <Core/Game.h>
 #include <Core/World.h>
@@ -36,6 +37,8 @@ bool Game::init(GameCreateInfo& createInfo)
 	m_uiManager->registerScreen(GameState::Playing, new UIScreenPlaying());
 	m_uiManager->registerScreen(GameState::GameOver, new UIScreenStaticBackground(GAME_OVER_SCREEN_IMAGE_PATH));
 	m_uiManager->registerScreen(GameState::Victory, new UIScreenStaticBackground(VICTORY_SCREEN_IMAGE_PATH));
+
+	AudioManager::getInstance()->loadAllSounds();
 
 	changeState(GameState::MainMenu);
 

@@ -22,7 +22,6 @@ class AssetManager
 
 		sf::Texture* getTexture(const char* assetPath) const;
 
-
 	private:
 
 		static AssetManager* s_instance;
