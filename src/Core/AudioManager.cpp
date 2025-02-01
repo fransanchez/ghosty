@@ -33,6 +33,7 @@ void AudioManager::clear() {
 
     m_sounds.clear();
     m_soundBuffers.clear();
+    m_loadedSoundPaths.clear();
 }
 
 bool AudioManager::loadMusic(MusicType type, const std::string& filePath)
@@ -50,6 +51,11 @@ bool AudioManager::loadMusic(MusicType type, const std::string& filePath)
 
 bool AudioManager::loadSoundEffect(SoundType type, const std::string& filePath)
 {
+    if (m_loadedSoundPaths.find(type) != m_loadedSoundPaths.end() && m_loadedSoundPaths[type] == filePath)
+    {
+        return true;
+    }
+
     sf::SoundBuffer buffer;
     if (!buffer.loadFromFile(filePath))
     {
@@ -59,6 +65,8 @@ bool AudioManager::loadSoundEffect(SoundType type, const std::string& filePath)
 
     m_soundBuffers[type] = buffer;
     m_sounds[type].setBuffer(m_soundBuffers[type]);
+    m_loadedSoundPaths[type] = filePath;
+
     return true;
 }
 
@@ -128,3 +136,4 @@ bool AudioManager::loadAudioConfig(const std::string& configFilePath) {
 
     return true;
 }
+

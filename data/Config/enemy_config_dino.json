@@ -61,6 +61,7 @@
             "LifetimeMilliseconds": 1000,
             "AttackRatePerSecond": 0.5,
             "SoundType": "DinoAttack",
+            "SoundPath": "../data/Sound/DinoAttack.wav",
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,
@@ -72,5 +73,11 @@
                 }
             }
         }
-    }
+    },
+    "Sounds": [
+        {
+            "SoundType": "DinoHurt",
+            "SoundPath": "../data/Sound/DinoHurt.wav"
+        }
+    ]
 }

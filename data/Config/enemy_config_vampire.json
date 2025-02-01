@@ -63,6 +63,7 @@
             "FireRateSeconds": 0.66,
             "Range": 600.0,
             "SoundType": "VampireAttack",
+            "SoundPath": "../data/Sound/VampireAttack.wav",
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Enemies/Vampire/fire.png",
@@ -83,5 +84,11 @@
                 }
             }
         }
-    }
+    },
+    "Sounds": [
+        {
+            "SoundType": "VampireHurt",
+            "SoundPath": "../data/Sound/VampireHurt.wav"
+        }
+    ]
 }

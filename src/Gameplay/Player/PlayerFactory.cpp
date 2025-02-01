@@ -1,4 +1,5 @@
 #include <Core/AssetManager.h>
+#include <Core/AudioManager.h>
 #include <Core/AudioTypes.h>
 #include <fstream>
 #include <Gameplay/Collisions/Collider.h>
@@ -29,6 +30,8 @@ Player* PlayerFactory::createPlayer(const std::string& configPath,
 
     json config;
     file >> config;
+
+    loadPlayerSounds(config);
 
     // Load player movement animations
     std::unordered_map<AnimationType, Animation*> playerAnimations = AnimationLoader::LoadPlayerAnimations(config);
@@ -86,10 +89,12 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config, CollisionMan
             float range = attackData["Range"].get<float>();
 
             SoundType soundType = SoundType::DarkBall;
-            if (attackData.contains("SoundType"))
+            if (attackData.contains("SoundType") && attackData.contains("SoundPath"))
             {
                 std::string soundTypeStr = attackData["SoundType"].get<std::string>();
                 soundType = parseSoundType(soundTypeStr);
+                std::string soundPath = attackData["SoundPath"].get<std::string>();
+                AudioManager::getInstance()->loadSoundEffect(soundType, soundPath);
             }
 
             if (attackData.contains("Animation"))
@@ -147,4 +152,20 @@ Collider* PlayerFactory::loadCollider(const json& parentData, const sf::Vector2f
 
     // Align the collider relative to the center of the sprite
     return new Collider(position, size, centerOffset);
+}
+
+void PlayerFactory::loadPlayerSounds(const json& config)
+{
+    if (config.contains("Sounds")) {
+        const auto& soundsConfig = config["Sounds"];
+        for (const auto& soundData : soundsConfig) {
+            if (soundData.contains("SoundType") && soundData.contains("SoundPath")) {
+                std::string soundTypeStr = soundData["SoundType"].get<std::string>();
+                SoundType soundType = parseSoundType(soundTypeStr);
+                std::string soundPath = soundData["SoundPath"].get<std::string>();
+
+                AudioManager::getInstance()->loadSoundEffect(soundType, soundPath);
+            }
+        }
+    }
 }

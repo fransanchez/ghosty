@@ -1,4 +1,5 @@
 #include <Core/AssetManager.h>
+#include <Core/AudioManager.h>
 #include <fstream>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
@@ -44,6 +45,8 @@ Enemy::EnemyDescriptor* EnemyFactory::loadEnemyDescriptor(const EnemyType enemyT
 
     json config;
     file >> config;
+
+    loadEnemySounds(config);
 
     auto animations = loadAnimations(config);
     auto attacks = loadAttacks(config, collisionManager);
@@ -103,10 +106,12 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
             }
 
             SoundType soundType = SoundType::GhostAttack;
-            if (attackData.contains("SoundType"))
+            if (attackData.contains("SoundType") && attackData.contains("SoundPath"))
             {
                 std::string soundTypeStr = attackData["SoundType"].get<std::string>();
                 soundType = parseSoundType(soundTypeStr);
+                std::string soundPath = attackData["SoundPath"].get<std::string>();
+                AudioManager::getInstance()->loadSoundEffect(soundType, soundPath);
             }
 
             // Create melee or ranged attack
@@ -184,4 +189,20 @@ Collider* EnemyFactory::loadCollider(const json& parentData, const sf::Vector2f&
     };
 
     return new Collider(position, size, centerOffset);
+}
+
+void EnemyFactory::loadEnemySounds(const json& config)
+{
+    if (config.contains("Sounds")) {
+        const auto& soundsConfig = config["Sounds"];
+        for (const auto& soundData : soundsConfig) {
+            if (soundData.contains("SoundType") && soundData.contains("SoundPath")) {
+                std::string soundTypeStr = soundData["SoundType"].get<std::string>();
+                SoundType soundType = parseSoundType(soundTypeStr);
+                std::string soundPath = soundData["SoundPath"].get<std::string>();
+
+                AudioManager::getInstance()->loadSoundEffect(soundType, soundPath);
+            }
+        }
+    }
 }

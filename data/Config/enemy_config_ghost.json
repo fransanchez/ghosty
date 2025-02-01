@@ -61,6 +61,7 @@
             "LifetimeMilliseconds": 500,
             "AttackRatePerSecond": 0.5,
             "SoundType": "GhostAttack",
+            "SoundPath": "../data/Sound/GhostAttack.wav",
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,
@@ -72,5 +73,11 @@
                 }
             }
         }
-    }
+    },
+    "Sounds": [
+        {
+            "SoundType": "GhostHurt",
+            "SoundPath": "../data/Sound/GhostHurt.wav"
+        }
+    ]
 }

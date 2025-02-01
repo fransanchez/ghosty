@@ -29,6 +29,7 @@ class AudioManager
         std::unordered_map<MusicType, sf::Music*> m_musics;
         std::unordered_map<SoundType, sf::SoundBuffer> m_soundBuffers;
         std::unordered_map<SoundType, sf::Sound> m_sounds;
+        std::unordered_map<SoundType, std::string> m_loadedSoundPaths;
 
         static AudioManager* s_instance;
 };

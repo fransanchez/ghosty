@@ -83,6 +83,7 @@
             "FireRateSeconds": 2.5,
             "Range": 1000.0,
             "SoundType": "DarkBall",
+            "SoundPath": "../data/Sound/DarkBall.wav",
             "Animation": {
                 "DarkProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",
@@ -110,6 +111,7 @@
             "FireRateSeconds": 1.5,
             "Range": 1000.0,
             "SoundType": "FireBall",
+            "SoundPath": "../data/Sound/FireBall.wav",
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/fire_big.png",
@@ -137,6 +139,7 @@
             "FireRateSeconds": 1.5,
             "Range": 600.0,
             "SoundType": "IceSpike",
+            "SoundPath": "../data/Sound/IceSpike.wav",
             "Animation": {
                 "IceProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/ice.png",
@@ -164,6 +167,7 @@
             "FireRateSeconds": 1.5,
             "Range": 600.0,
             "SoundType": "WindMagic",
+            "SoundPath": "../data/Sound/WindMagic.wav",
             "Animation": {
                 "Wind": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/wind.png",
@@ -184,5 +188,19 @@
                 }
             }
         }
-    }
+    },
+    "Sounds": [
+        {
+            "SoundType": "PlayerJump",
+            "SoundPath": "../data/Sound/PlayerJump.wav"
+        },
+        {
+            "SoundType": "PlayerDeath",
+            "SoundPath": "../data/Sound/PlayerDeath.wav"
+        },
+        {
+            "SoundType": "PlayerHurt",
+            "SoundPath": "../data/Sound/PlayerHurt.wav"
+        }
+    ]
 }

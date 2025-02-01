@@ -84,7 +84,7 @@ void Player::handleInput()
             m_verticalVelocity = JUMP_INITIAL_VELOCITY;
             m_isGrounded = false;
             updateAnimationType();
-            AudioManager::getInstance()->playSoundEffect(SoundType::Jump);
+            AudioManager::getInstance()->playSoundEffect(SoundType::PlayerJump);
         }
     }
 

@@ -61,6 +61,7 @@
             "LifetimeMilliseconds": 500,
             "AttackRatePerSecond": 0.5,
             "SoundType": "SkeletonAttack",
+            "SoundPath": "../data/Sound/SkeletonAttack.wav",
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,
@@ -72,5 +73,11 @@
                 }
             }
         }
-    }
+    },
+    "Sounds": [
+        {
+            "SoundType": "SkeletonHurt",
+            "SoundPath": "../data/Sound/SkeletonHurt.wav"
+        }
+    ]
 }
