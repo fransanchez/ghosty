@@ -4,3 +4,8 @@
 bool DinoEnemy::isPlayerInRange() {
     return m_collisionManager->isPlayerInsideArea(m_collider->getBounds());
 }
+
+SoundType DinoEnemy::getHurtSoundType()
+{
+    return SoundType::DinoHurt;
+}

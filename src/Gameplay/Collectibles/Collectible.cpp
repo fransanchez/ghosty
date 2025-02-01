@@ -1,3 +1,4 @@
+#include <Core/AudioManager.h>
 #include <Gameplay/Collectibles/Collectible.h>
 #include <Gameplay/Player/Player.h>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -69,6 +70,7 @@ void Collectible::applyEffect(Player* player)
         }
     }
     m_markedForDestruction = true;
+    AudioManager::getInstance()->playSoundEffect(SoundType::ItemPickup);
 }
 
 void Collectible::reset()

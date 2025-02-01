@@ -1,0 +1,27 @@
+{
+    "music": {
+        "MainMenu": "../data/Sound/MainMenu.wav",
+        "Game": "../data/Sound/Game.wav"
+    },
+    "sounds": {
+        "ButtonClick": "../data/Sound/ButtonClick.wav",
+        "DarkBall": "../data/Sound/DarkBall.wav",
+        "DinoAttack": "../data/Sound/DinoAttack.wav",
+        "DinoHurt": "../data/Sound/DinoHurt.wav",
+        "FireBall": "../data/Sound/FireBall.wav",
+        "GameOver": "../data/Sound/GameOver.wav",
+        "GhostAttack": "../data/Sound/GhostAttack.wav",
+        "GhostHurt": "../data/Sound/GhostHurt.wav",
+        "IceSpike": "../data/Sound/IceSpike.wav",
+        "ItemPickup": "../data/Sound/ItemPickup.wav",
+        "Jump": "../data/Sound/Jump.wav",
+        "PlayerDeath": "../data/Sound/PlayerDeath.wav",
+        "PlayerHurt": "../data/Sound/PlayerHurt.wav",
+        "SkeletonAttack": "../data/Sound/SkeletonAttack.wav",
+        "SkeletonHurt": "../data/Sound/SkeletonHurt.wav",
+        "VampireAttack": "../data/Sound/VampireAttack.wav",
+        "VampireHurt": "../data/Sound/VampireHurt.wav",
+        "Victory": "../data/Sound/Victory.wav",
+        "WindMagic": "../data/Sound/WindMagic.wav"
+    }
+}

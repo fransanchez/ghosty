@@ -18,6 +18,7 @@ public:
         float projectileSpeed,
         float fireRateSeconds,
         float range,
+        SoundType soundType,
         Collider* collider,
         CollisionManager* collisionManager);
     RangedAttack(const RangedAttack& other);

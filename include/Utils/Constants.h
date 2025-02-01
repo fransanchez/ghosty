@@ -16,6 +16,7 @@ constexpr char* PLAYER_CONFIG_PATH = "../data/Config/player_config_mage.json";
 constexpr char* SKELETON_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_skeleton.json";
 constexpr char* VAMPIRE_ENEMY_CONFIG_PATH = "../data/Config/enemy_config_vampire.json";
 constexpr char* COLLECTIBLES_CONFIG_PATH = "../data/Config/collectibles_config.json";
+constexpr char* AUDIO_CONFIG_PATH = "../data/Config/audio_config.json";
 
 // Player Constants
 constexpr float JUMP_INITIAL_VELOCITY = -500.0f;

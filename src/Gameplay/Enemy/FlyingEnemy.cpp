@@ -103,6 +103,8 @@ void FlyingEnemy::handleAttackState()
         }
 
         m_attacks[m_currentAttackIndex]->attack(m_position, attackDirection);
+        SoundType sound = m_attacks[m_currentAttackIndex]->getSoundType();
+        AudioManager::getInstance()->playSoundEffect(sound);
     }
 
     if (m_currentAnimation && m_currentAnimation->isFinished())

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core/AudioTypes.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -35,6 +36,9 @@ class Attack
         const int getDamage() const {
             return m_damage;
         }
+        const SoundType getSoundType() const {
+            return m_sound;
+        }
 
     protected:
         int m_damage = 0;
@@ -45,4 +49,6 @@ class Attack
         AttackFaction m_faction{ AttackFaction::Player };
         Collider* m_collider{ nullptr };
         CollisionManager* m_collisionManager{ nullptr };
+
+        SoundType m_sound;
 };

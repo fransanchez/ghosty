@@ -10,4 +10,5 @@ public:
 
 private:
     bool VampireEnemy::isPlayerInRange() override;
+    SoundType getHurtSoundType() override;
 };

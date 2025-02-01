@@ -10,4 +10,5 @@ public:
 
 private:
     bool DinoEnemy::isPlayerInRange() override;
+    SoundType getHurtSoundType() override;
 };

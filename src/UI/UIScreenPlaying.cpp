@@ -26,7 +26,7 @@ void UIScreenPlaying::init(sf::RenderWindow* window)
     m_transitioningToNextScreen = false;
     m_screenTransitionDelayTimer = 0.f;
     m_fadeAlpha = 0.f;
-    AudioManager::getInstance()->playMusic(MusicType::Game, true);
+    AudioManager::getInstance()->playMusic(MusicType::Game, true, 50.f);
 }
 
 void UIScreenPlaying::unload()
@@ -69,11 +69,14 @@ void UIScreenPlaying::updateTransitionToNextLevel(float deltaMilliseconds) {
     if (m_screenTransitionDelayTimer >= SCREEN_TRANSITION_DELAY)
     {
         m_window->setView(m_window->getDefaultView());
+        AudioManager::getInstance()->stopCurrentMusic();
         if (m_world->isPlayerDead()) {
             m_nextGameState = Game::GameState::GameOver;
+            AudioManager::getInstance()->playSoundEffect(SoundType::GameOver);
         }
         else {
             m_nextGameState = Game::GameState::Victory;
+            AudioManager::getInstance()->playSoundEffect(SoundType::Victory);
         }
         unload();
     }

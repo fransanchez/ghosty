@@ -102,11 +102,25 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
                 continue;
             }
 
+            SoundType soundType = SoundType::GhostAttack;
+            if (attackData.contains("SoundType"))
+            {
+                std::string soundTypeStr = attackData["SoundType"].get<std::string>();
+                soundType = parseSoundType(soundTypeStr);
+            }
+
             // Create melee or ranged attack
             if (attackName == "Melee")
             {
                 float attackRate = attackData.contains("AttackRatePerSecond") ? attackData["AttackRatePerSecond"].get<float>() : 1.0f;
-                attacks.push_back(new MeleeAttack(AttackFaction::Enemy, damage, lifetime, attackRate, attackCollider, collisionManager));
+                attacks.push_back(new MeleeAttack(
+                    AttackFaction::Enemy,
+                    damage,
+                    lifetime,
+                    attackRate,
+                    soundType,
+                    attackCollider,
+                    collisionManager));
             }
             else if (attackName == "Ranged")
             {
@@ -135,6 +149,7 @@ std::vector<Attack*> EnemyFactory::loadAttacks(const json& config, CollisionMana
                     speed,
                     fireRate,
                     range,
+                    soundType,
                     attackCollider,
                     collisionManager));
             }

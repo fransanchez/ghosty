@@ -1,5 +1,8 @@
 #include <Core/AudioManager.h>
+#include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
+#include <unordered_map>
 
 AudioManager* AudioManager::s_instance{ nullptr };
 
@@ -59,13 +62,14 @@ bool AudioManager::loadSoundEffect(SoundType type, const std::string& filePath)
     return true;
 }
 
-void AudioManager::playMusic(MusicType type, bool loop)
+void AudioManager::playMusic(MusicType type, bool loop, float volume)
 {
     stopCurrentMusic();
     auto it = m_musics.find(type);
     if (it != m_musics.end()) {
         m_currentMusicType = type;
         it->second->setLoop(loop);
+        it->second->setVolume(volume);
         it->second->play();
     }
     else {
@@ -83,6 +87,7 @@ void AudioManager::playSoundEffect(SoundType type)
     auto it = m_sounds.find(type);
     if (it != m_sounds.end())
     {
+        it->second.setVolume(50.f);
         it->second.play();
     }
     else
@@ -99,10 +104,27 @@ void AudioManager::stopAllSounds()
     }
 }
 
-void AudioManager::loadAllSounds() {
+bool AudioManager::loadAudioConfig(const std::string& configFilePath) {
+    std::ifstream file(configFilePath);
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open config file " << configFilePath << std::endl;
+        return false;
+    }
 
-    s_instance->loadMusic(MusicType::MainMenu, "../data/Sound/MainMenu.wav");
-    s_instance->loadMusic(MusicType::Game, "../data/Sound/Game.wav");
-    s_instance->loadSoundEffect(SoundType::ButtonClick, "../data/Sound/ButtonClick.wav");
-    s_instance->loadSoundEffect(SoundType::Jump, "../data/Sound/Jump.wav");
+    nlohmann::json config;
+    file >> config;
+
+    const auto& musicConfig = config["music"];
+    for (auto& [key, value] : musicConfig.items()) {
+        MusicType musicType = parseMusicType(key);
+        loadMusic(musicType, value.get<std::string>());
+    }
+
+    const auto& soundConfig = config["sounds"];
+    for (auto& [key, value] : soundConfig.items()) {
+        SoundType soundType = parseSoundType(key);
+        loadSoundEffect(soundType, value.get<std::string>());
+    }
+
+    return true;
 }

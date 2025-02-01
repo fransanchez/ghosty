@@ -62,6 +62,7 @@
             "Speed": 500.0,
             "FireRateSeconds": 0.66,
             "Range": 600.0,
+            "SoundType": "VampireAttack",
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Enemies/Vampire/fire.png",

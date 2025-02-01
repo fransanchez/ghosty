@@ -10,3 +10,8 @@ bool VampireEnemy::isPlayerInRange() {
     }
     return false;
 }
+
+SoundType VampireEnemy::getHurtSoundType()
+{
+    return SoundType::VampireHurt;
+}

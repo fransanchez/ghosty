@@ -1,3 +1,4 @@
+#include <Core/AudioTypes.h>
 #include <Gameplay/AttackSystem/MeleeAttack.h>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
@@ -8,6 +9,7 @@ MeleeAttack::MeleeAttack(
     float damage,
     float lifetime,
     float attackRatePerSecond,
+    SoundType soundType,
     Collider* collider,
     CollisionManager* collisionManager)
     :m_lifetime(lifetime),
@@ -17,6 +19,7 @@ MeleeAttack::MeleeAttack(
     m_attackRatePerSecond = 1.f / attackRatePerSecond;
     m_damage = damage;
     m_faction = faction;
+    m_sound = soundType;
     m_collider = new Collider(*collider);
     m_collisionManager = collisionManager;
 }
@@ -29,6 +32,7 @@ MeleeAttack::MeleeAttack(const MeleeAttack& other)
     m_attackRatePerSecond = other.m_attackRatePerSecond;
     m_damage = other.m_damage;
     m_faction = other.m_faction;
+    m_sound = other.m_sound;
     m_collider = new Collider(*other.m_collider);
     m_collisionManager = other.m_collisionManager;
 }

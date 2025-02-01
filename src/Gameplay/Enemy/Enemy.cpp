@@ -79,7 +79,6 @@ void Enemy::handleCollisions()
         if (damage > 0)
         {
             reduceLives(damage);
-
             if (getCurrentLives() == 0)
             {
                 setIsDead(true);
@@ -90,6 +89,7 @@ void Enemy::handleCollisions()
                 setInvincibility(true);
                 changeState(EnemyState::Hurt);
             }
+            AudioManager::getInstance()->playSoundEffect(getHurtSoundType());
         }
     }
 }

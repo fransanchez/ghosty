@@ -10,5 +10,5 @@ class GhostEnemy : public FlyingEnemy
 
     private:
         bool isPlayerInRange() override;
-
+        SoundType getHurtSoundType() override;
 };

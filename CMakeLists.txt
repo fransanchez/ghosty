@@ -33,6 +33,7 @@ set(PROJECT_HEADERS
 
     include/Core/AssetManager.h
     include/Core/AudioManager.h
+    include/Core/AudioTypes.h
     include/Core/Game.h
     include/Core/World.h
     include/Core/Level.h

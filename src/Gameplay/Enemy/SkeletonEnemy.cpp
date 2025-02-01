@@ -4,3 +4,8 @@
 bool SkeletonEnemy::isPlayerInRange() {
     return m_collisionManager->isPlayerInsideArea(m_collider->getBounds());
 }
+
+SoundType SkeletonEnemy::getHurtSoundType()
+{
+    return SoundType::SkeletonHurt;
+}

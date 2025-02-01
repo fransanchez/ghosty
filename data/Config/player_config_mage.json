@@ -82,6 +82,7 @@
             "Speed": 500.0,
             "FireRateSeconds": 2.5,
             "Range": 1000.0,
+            "SoundType": "DarkBall",
             "Animation": {
                 "DarkProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",
@@ -108,6 +109,7 @@
             "Speed": 500.0,
             "FireRateSeconds": 1.5,
             "Range": 1000.0,
+            "SoundType": "FireBall",
             "Animation": {
                 "FireProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/fire_big.png",
@@ -134,6 +136,7 @@
             "Speed": 500.0,
             "FireRateSeconds": 1.5,
             "Range": 600.0,
+            "SoundType": "IceSpike",
             "Animation": {
                 "IceProjectile": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/ice.png",
@@ -160,6 +163,7 @@
             "Speed": 500.0,
             "FireRateSeconds": 1.5,
             "Range": 600.0,
+            "SoundType": "WindMagic",
             "Animation": {
                 "Wind": {
                     "TexturePath": "../data/Images/Player/Mage/Attack_Effects/wind.png",

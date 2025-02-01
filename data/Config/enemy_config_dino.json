@@ -60,6 +60,7 @@
             "Damage": 1.0,
             "LifetimeMilliseconds": 1000,
             "AttackRatePerSecond": 0.5,
+            "SoundType": "DinoAttack",
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,

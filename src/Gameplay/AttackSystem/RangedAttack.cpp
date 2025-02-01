@@ -1,3 +1,4 @@
+#include <Core/AudioTypes.h>
 #include <Gameplay/AttackSystem/Projectile.h>
 #include <Gameplay/AttackSystem/RangedAttack.h>
 
@@ -9,6 +10,7 @@ RangedAttack::RangedAttack(
     float projectileSpeed,
     float fireRateSeconds,
     float range,
+    SoundType soundType,
     Collider* collider,
     CollisionManager* collisionManager)
     : m_projectileLifetime(projectileLifetime),
@@ -19,6 +21,7 @@ RangedAttack::RangedAttack(
     m_damage = damage;
     m_range = range;
     m_faction = faction;
+    m_sound = soundType;
     m_collider = collider;
     m_collisionManager = collisionManager;
 }
@@ -33,6 +36,7 @@ RangedAttack::RangedAttack(const RangedAttack& other)
     m_damage = other.m_damage;
     m_range = other.m_range;
     m_faction = other.m_faction;
+    m_sound = other.m_sound;
     m_collider = new Collider(*other.m_collider);
     m_collisionManager = other.m_collisionManager;
 }

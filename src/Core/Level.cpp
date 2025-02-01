@@ -106,7 +106,6 @@ void Level::unload()
 
 void Level::update(uint32_t deltaMilliseconds)
 {
-    // To-Do
 }
 
 void Level::render(sf::RenderWindow& window)

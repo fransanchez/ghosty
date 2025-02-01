@@ -10,4 +10,5 @@ class SkeletonEnemy : public WalkingEnemy
 
     private:
         bool SkeletonEnemy::isPlayerInRange() override;
+        SoundType getHurtSoundType() override;
 };

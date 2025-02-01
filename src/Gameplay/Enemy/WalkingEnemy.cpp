@@ -129,6 +129,8 @@ void WalkingEnemy::handleAttackState()
             attackDirection.y /= magnitude;
         }
         m_attacks[m_currentAttackIndex]->attack(m_position, attackDirection);
+        SoundType sound = m_attacks[m_currentAttackIndex]->getSoundType();
+        AudioManager::getInstance()->playSoundEffect(sound);
     }
 
     if (m_currentAnimation && m_currentAnimation->isFinished())
@@ -153,7 +155,6 @@ void WalkingEnemy::handleTargetLockedState()
 }
 void WalkingEnemy::handleReturnToOriginState()
 {
-    // We should never enter this state, but if for any reason we do, throw an exception
     assert(false && "ReturnToOriginState should be unreachable for walking enemy");
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core/AudioManager.h>
 #include <Gameplay/Enemy/Enemy.h>
 #include <Gameplay/Enemy/EnemyType.h>
 #include <Gameplay/Entity.h>
@@ -54,6 +55,8 @@ class Enemy : public Entity
 		void handleCollisions() override; // From Collisionable
 
 		void reset() override;
+
+		virtual SoundType getHurtSoundType() = 0;
 
 	protected:
 		virtual void handleIdleState() = 0;

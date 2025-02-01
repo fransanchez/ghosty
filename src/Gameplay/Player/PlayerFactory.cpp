@@ -1,4 +1,5 @@
 #include <Core/AssetManager.h>
+#include <Core/AudioTypes.h>
 #include <fstream>
 #include <Gameplay/Collisions/Collider.h>
 #include <Gameplay/Collisions/CollisionManager.h>
@@ -84,6 +85,13 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config, CollisionMan
             float fireRate = attackData["FireRateSeconds"].get<float>();
             float range = attackData["Range"].get<float>();
 
+            SoundType soundType = SoundType::DarkBall;
+            if (attackData.contains("SoundType"))
+            {
+                std::string soundTypeStr = attackData["SoundType"].get<std::string>();
+                soundType = parseSoundType(soundTypeStr);
+            }
+
             if (attackData.contains("Animation"))
             {
                 const auto& animationData = attackData["Animation"].begin().value();
@@ -100,6 +108,7 @@ std::vector<Attack*> PlayerFactory::loadAttacks(const json& config, CollisionMan
                     speed,
                     fireRate,
                     range,
+                    soundType,
                     collider,
                     collisionManager
                 );

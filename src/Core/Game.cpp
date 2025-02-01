@@ -38,7 +38,7 @@ bool Game::init(GameCreateInfo& createInfo)
 	m_uiManager->registerScreen(GameState::GameOver, new UIScreenStaticBackground(GAME_OVER_SCREEN_IMAGE_PATH));
 	m_uiManager->registerScreen(GameState::Victory, new UIScreenStaticBackground(VICTORY_SCREEN_IMAGE_PATH));
 
-	AudioManager::getInstance()->loadAllSounds();
+	AudioManager::getInstance()->loadAudioConfig(AUDIO_CONFIG_PATH);
 
 	changeState(GameState::MainMenu);
 
@@ -50,6 +50,7 @@ Game::~Game()
 	delete m_uiManager;
 	delete m_window;
 	AssetManager::getInstance()->clear();
+	AudioManager::getInstance()->clear();
 }
 
 bool Game::isRunning() const 
@@ -59,7 +60,6 @@ bool Game::isRunning() const
 
 void Game::update(uint32_t deltaMilliseconds)
 {
-	// Check if user closed the window
 	for (auto event = sf::Event(); m_window->pollEvent(event);)
 	{
 		if (event.type == sf::Event::Closed)

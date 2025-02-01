@@ -10,7 +10,14 @@ class CollisionManager;
 class MeleeAttack : public Attack
 {
 public:
-    MeleeAttack(AttackFaction faction, float damage, float lifetime, float attackRatePerSecond, Collider* collider, CollisionManager* collisionManager);
+    MeleeAttack(
+        AttackFaction faction,
+        float damage,
+        float lifetime,
+        float attackRatePerSecond,
+        SoundType soundType,
+        Collider* collider,
+        CollisionManager* collisionManager);
     MeleeAttack(const MeleeAttack& other);
     MeleeAttack& operator=(const MeleeAttack& other);
     ~MeleeAttack() override;
