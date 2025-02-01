@@ -32,8 +32,8 @@ private:
     std::unordered_map<EnemyType, Enemy::EnemyDescriptor*> m_enemyDescriptors; // Cached descriptors so we don't have to load from file each time
     std::vector<Enemy*> m_activeEnemies;
 
-    ObjectPool<GhostEnemy, 4> m_ghostPool;
-    ObjectPool<SkeletonEnemy, 4> m_skeletonPool;
-    ObjectPool<DinoEnemy, 4> m_dinoPool;
-    ObjectPool<VampireEnemy, 4> m_vampirePool;
+    ObjectPool<GhostEnemy, 8> m_ghostPool;
+    ObjectPool<SkeletonEnemy, 8> m_skeletonPool;
+    ObjectPool<DinoEnemy, 8> m_dinoPool;
+    ObjectPool<VampireEnemy, 8> m_vampirePool;
 };
