@@ -98,10 +98,12 @@ void MeleeAttack::update(float deltaMilliseconds)
 
 void MeleeAttack::render(sf::RenderWindow& window)
 {
+#ifdef DEBUG_MODE
     if (m_isActive)
     {
         m_collider->render(window);
     }
+#endif
 }
 
 bool MeleeAttack::canAttack()

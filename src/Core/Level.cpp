@@ -125,10 +125,12 @@ void Level::render(sf::RenderWindow& window)
         window.draw(*m_fillers);
     if (m_ground)
         window.draw(*m_ground);
-    //if (m_floorsCollisionLayer)
-    //    window.draw(*m_floorsCollisionLayer);
-    //if (m_wallsCollisionLayer)
-    //    window.draw(*m_wallsCollisionLayer);
+
+#ifdef DEBUG_MODE
+    if (m_floorsCollisionLayer)
+        window.draw(*m_floorsCollisionLayer);
+    if (m_wallsCollisionLayer)
+        window.draw(*m_wallsCollisionLayer);
     if (m_playerSpawnsLayer)
         window.draw(*m_playerSpawnsLayer);
     if (m_enemySpawnsLayer)
@@ -141,6 +143,7 @@ void Level::render(sf::RenderWindow& window)
         window.draw(*m_fallDeathLayer);
     if (m_endOfLevelLayer)
         window.draw(*m_endOfLevelLayer);
+#endif
 }
 const std::vector<sf::Shape*>& Level::getFloorsCollisionShapes() const
 {

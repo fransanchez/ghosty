@@ -65,10 +65,12 @@ void Enemy::render(sf::RenderWindow& window)
 {
     Entity::render(window);
 
-    m_enemySight.setFillColor(sf::Color(0, 0, 255, 50)); // Semi-transparent blue
+#ifdef DEBUG_MODE
+    m_enemySight.setFillColor(sf::Color(0, 0, 255, 50));
     m_enemySight.setOutlineColor(sf::Color::Blue);
     m_enemySight.setOutlineThickness(1.0f);
     window.draw(m_enemySight);
+#endif
 }
 
 void Enemy::handleCollisions()

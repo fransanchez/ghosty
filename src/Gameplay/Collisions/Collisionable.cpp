@@ -30,5 +30,7 @@ void Collisionable::update(float deltaMilliseconds)
 }
 void Collisionable::render(sf::RenderWindow& window)
 {
+#ifdef DEBUG_MODE
     m_collider->render(window);
+#endif
 }
