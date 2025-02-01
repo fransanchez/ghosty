@@ -15,8 +15,8 @@
         "Y": 70.0
     },
     "SightArea": {
-        "Width": 400.0,
-        "Height": 800.0
+        "Width": 700.0,
+        "Height": 1000.0
     },
     "Animations": {
         "Idle": {
