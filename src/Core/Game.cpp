@@ -13,13 +13,12 @@
 #include <UI/UIScreenStaticBackground.h>
 #include <Utils/GameConfigLoader.h>
 
-
-
 bool Game::init(GameCreateInfo& createInfo)
 {
 	assert(m_window == nullptr && "Game is already initialized");
 
-	m_window = new sf::RenderWindow({ createInfo.screenWidth, createInfo.screenHeight }, createInfo.gameTitle);
+	sf::Uint32 windowStyle = GameConfigLoader::getWindowStyleFromString(createInfo.windowStyle);
+	m_window = new sf::RenderWindow({ createInfo.screenWidth, createInfo.screenHeight }, createInfo.gameTitle, windowStyle);
 	m_window->setFramerateLimit(createInfo.frameRateLimit);
 
 	sf::Image icon;
@@ -62,7 +61,8 @@ void Game::update(uint32_t deltaMilliseconds)
 {
 	for (auto event = sf::Event(); m_window->pollEvent(event);)
 	{
-		if (event.type == sf::Event::Closed)
+		if (event.type == sf::Event::Closed ||
+			(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
 		{
 			m_window->close();
 		}

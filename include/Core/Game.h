@@ -32,6 +32,7 @@ class Game
 			uint32_t screenHeight;
 			uint32_t frameRateLimit;
 			std::string windowIconPath;
+			std::string windowStyle;
 		};
 
 		~Game();

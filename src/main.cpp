@@ -23,6 +23,7 @@ int main()
     gameCI.screenHeight = config.value("screenHeight", 720u);
     gameCI.frameRateLimit = config.value("frameRateLimit", 60u);
     gameCI.windowIconPath = config.value("windowIconPath", "");
+    gameCI.windowStyle = config.value("windowStyle", "FullScreen");
     config.clear();
 
     Game game;
