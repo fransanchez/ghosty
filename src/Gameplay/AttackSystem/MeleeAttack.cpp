@@ -93,7 +93,6 @@ void MeleeAttack::update(float deltaMilliseconds)
         m_isActive = false;
         return;
     }
-
 }
 
 void MeleeAttack::render(sf::RenderWindow& window)
@@ -109,4 +108,12 @@ void MeleeAttack::render(sf::RenderWindow& window)
 bool MeleeAttack::canAttack()
 {
     return !m_isActive && m_cooldownTimer <= 0.f;
+}
+
+void MeleeAttack::stopAttack()
+{
+    m_collisionManager->unregisterMeleeAttack(this);
+    m_isActive = false;
+    m_lifetimeTimer = 0.f;
+    m_cooldownTimer = 0.f;
 }

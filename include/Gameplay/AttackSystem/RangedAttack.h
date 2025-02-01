@@ -29,6 +29,7 @@ public:
     void update(float deltaMilliseconds) override;
     void render(sf::RenderWindow& window) override;
     bool canAttack() override;
+    void stopAttack() override;
 
     Attack* clone() const override { return new RangedAttack(*this); }
 

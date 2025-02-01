@@ -84,6 +84,7 @@ void Enemy::handleCollisions()
             if (getCurrentLives() == 0)
             {
                 setIsDead(true);
+                m_attacks[m_currentAttackIndex]->stopAttack();
                 changeState(EnemyState::Dead);
             }
             else

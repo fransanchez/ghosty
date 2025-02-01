@@ -24,6 +24,7 @@ class Attack
         virtual void update(float deltaMilliseconds) = 0;
         virtual void render(sf::RenderWindow& window) = 0;
         virtual bool canAttack() = 0;
+        virtual void stopAttack() = 0;
         const float getRange() const {
             return m_range;
         }

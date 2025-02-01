@@ -131,3 +131,14 @@ void RangedAttack::render(sf::RenderWindow& window)
 bool RangedAttack::canAttack() {
     return m_cooldownTimer <= 0.0f;
 }
+
+void RangedAttack::stopAttack()
+{
+    for (auto it = m_projectiles.begin(); it != m_projectiles.end();)
+    {
+        Projectile* projectile = *it;
+        m_collisionManager->unregisterProjectile(projectile, m_faction);
+        m_projectilesPool.release(*projectile);
+        it = m_projectiles.erase(it);
+    }
+}
