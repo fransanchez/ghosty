@@ -31,6 +31,7 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 	m_collisionManager->setGroundShapes(m_level->getFloorsCollisionShapes());
 	m_collisionManager->setWallShapes(m_level->getWallsCollisionShapes());
 	m_collisionManager->setEnemyPatrolAreasShapes(m_level->getEnemyPatrolAreasShapes());
+	m_collisionManager->setFallDeathAreaShapes(m_level->getFallDeathAreasShapes());
 
 	std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>> playerSpawnPoint = m_level->getPlayerSpawnPoint();
 	m_player = PlayerFactory::createPlayer(PLAYER_CONFIG_PATH, playerSpawnPoint.first, { 200.f, 150.f }, m_collisionManager);
@@ -100,24 +101,18 @@ void World::update(uint32_t deltaMilliseconds)
 	if (m_player)
 	{
 		if (!m_player->isMarkedForDestruction()) {
-			m_level->update(deltaMilliseconds);
-			m_player->update(deltaMilliseconds);
-			if (m_enemyManager)
-			{
-				m_enemyManager->update(deltaMilliseconds);
-			}
 
-			if (m_collectibleManager)
-			{
-				m_collectibleManager->update(deltaMilliseconds);
-			}
+			m_level->update(deltaMilliseconds);
+
+			m_player->update(deltaMilliseconds);
+
+			m_enemyManager->update(deltaMilliseconds);
+
+			m_collectibleManager->update(deltaMilliseconds);
 
 			updateCamera();
 
-			if (m_player && m_hud)
-			{
-				m_hud->update(m_player->getCurrentLives());
-			}
+			m_hud->update(m_player->getCurrentLives());
 
 			if (m_collisionManager->isPlayerInsideArea(m_endOfLevelTrigger->getGlobalBounds()))
 			{

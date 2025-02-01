@@ -37,6 +37,7 @@ class Level
         const std::vector<sf::Shape*>& getFloorsCollisionShapes() const;
         const std::vector<sf::Shape*>& getWallsCollisionShapes() const;
         const std::vector<sf::Shape*>& getEnemyPatrolAreasShapes() const;
+        const std::vector<sf::Shape*>& getFallDeathAreasShapes() const;
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getPlayerSpawnPoints() const;
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getEnemySpawnPoints() const;
         const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& getCollectiblesSpawnPoints() const;
@@ -59,5 +60,6 @@ class Level
         ObjectLayer* m_enemySpawnsLayer{ nullptr };
         ObjectLayer* m_enemyPatrolAreasLayer{ nullptr };
         ObjectLayer* m_collectiblesSpawnsLayer{ nullptr };
+        ObjectLayer* m_fallDeathLayer{ nullptr };
         ObjectLayer* m_endOfLevelLayer{ nullptr };
 };

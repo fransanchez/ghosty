@@ -220,6 +220,12 @@ void Player::handleScenarioCollisions()
             m_verticalVelocity = 0.f;
         }
     }
+
+    if (m_collisionManager->isPlayerFallingToDeath()) {
+        AudioManager::getInstance()->playSoundEffect(SoundType::PlayerDeath);
+        setIsDead(true);
+        updateAnimationType();
+    }
 }
 
 void Player::handleHurtingCollisions()

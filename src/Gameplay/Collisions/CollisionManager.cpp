@@ -12,6 +12,7 @@ CollisionManager::~CollisionManager()
     m_groundShapes.clear();
     m_wallShapes.clear();
     m_enemyPatrolAreasShapes.clear();
+    m_fallDeathAreaShapes.clear();
 
     m_enemyProjectiles.clear();
 
@@ -135,6 +136,11 @@ void CollisionManager::setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& 
     m_enemyPatrolAreasShapes = patrolAreasShapes;
 }
 
+void CollisionManager::setFallDeathAreaShapes(const std::vector<sf::Shape*>& fallDeathAreaShapes)
+{
+    m_fallDeathAreaShapes = fallDeathAreaShapes;
+}
+
 bool CollisionManager::checkIsGrounded(const Collider* collider) const
 {
     sf::FloatRect colliderBounds = collider->getBounds();
@@ -241,6 +247,30 @@ bool CollisionManager::isPlayerInsideArea(const sf::FloatRect& area) const
 
     sf::FloatRect playerBounds = m_player->getCollider()->getBounds();
     return area.intersects(playerBounds);
+}
+
+bool CollisionManager::isPlayerFallingToDeath()
+{
+    if (!m_player)
+    {
+        return false;
+    }
+
+    sf::FloatRect playerBounds = m_player->getCollider()->getBounds();
+
+    for (const auto* fallDeathAreaShape : m_fallDeathAreaShapes)
+    {
+        sf::FloatRect fallDeathAreaBounds = fallDeathAreaShape->getGlobalBounds();
+
+        if (fallDeathAreaBounds.intersects(playerBounds))
+        {
+            if (playerBounds.top + playerBounds.height > fallDeathAreaBounds.top + fallDeathAreaBounds.height)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 const sf::Shape* CollisionManager::getClosestPatrolArea(const sf::Vector2f& spawnPoint) const

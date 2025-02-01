@@ -53,11 +53,13 @@ class CollisionManager
         void setGroundShapes(const std::vector<sf::Shape*>& groundShapes);
         void setWallShapes(const std::vector<sf::Shape*>& wallShapes);
         void setEnemyPatrolAreasShapes(const std::vector<sf::Shape*>& patrolAreasShapes);
+        void setFallDeathAreaShapes(const std::vector<sf::Shape*>& fallDeathShapes);
 
         bool checkIsGrounded(const Collider* collider) const;
         WallCollision checkWalls(const Collider* collider) const;
         PatrolAreaCollision checkPatrolArea(const Collider* collider, const sf::Shape* patrolArea) const;
         bool isPlayerInsideArea(const sf::FloatRect& area) const;
+        bool isPlayerFallingToDeath();
 
         const sf::Shape* getClosestPatrolArea(const sf::Vector2f& spawnPoint) const;
 
@@ -72,6 +74,7 @@ class CollisionManager
         std::vector<sf::Shape*> m_groundShapes;
         std::vector<sf::Shape*> m_wallShapes;
         std::vector<sf::Shape*> m_enemyPatrolAreasShapes;
+        std::vector<sf::Shape*> m_fallDeathAreaShapes;
 
         Player* m_player = nullptr;
         std::vector<Projectile*> m_playerProjectiles;

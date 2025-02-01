@@ -68,7 +68,8 @@ bool Level::load(const std::string& filePath)
     m_enemySpawnsLayer = new ObjectLayer(*m_map, 7);
     m_enemyPatrolAreasLayer = new ObjectLayer(*m_map, 8);
     m_collectiblesSpawnsLayer = new ObjectLayer(*m_map, 9);
-    m_endOfLevelLayer = new ObjectLayer(*m_map, 10);
+    m_fallDeathLayer = new ObjectLayer(*m_map, 10);
+    m_endOfLevelLayer = new ObjectLayer(*m_map, 11);
 
     return true;
 }
@@ -89,6 +90,7 @@ void Level::unload()
     delete m_enemySpawnsLayer;
     delete m_enemyPatrolAreasLayer;
     delete m_collectiblesSpawnsLayer;
+    delete m_fallDeathLayer;
     delete m_endOfLevelLayer;
     delete m_map;
     m_decorations = nullptr;
@@ -100,6 +102,7 @@ void Level::unload()
     m_enemySpawnsLayer = nullptr;
     m_enemyPatrolAreasLayer = nullptr;
     m_collectiblesSpawnsLayer = nullptr;
+    m_fallDeathLayer = nullptr;
     m_endOfLevelLayer = nullptr;
     m_map = nullptr;
 }
@@ -134,6 +137,8 @@ void Level::render(sf::RenderWindow& window)
         window.draw(*m_enemyPatrolAreasLayer);
     if (m_collectiblesSpawnsLayer)
         window.draw(*m_collectiblesSpawnsLayer);
+    if (m_fallDeathLayer)
+        window.draw(*m_fallDeathLayer);
     if (m_endOfLevelLayer)
         window.draw(*m_endOfLevelLayer);
 }
@@ -150,6 +155,11 @@ const std::vector<sf::Shape*>& Level::getWallsCollisionShapes() const
 const std::vector<sf::Shape*>& Level::getEnemyPatrolAreasShapes() const
 {
     return m_enemyPatrolAreasLayer->getShapes();
+}
+
+const std::vector<sf::Shape*>& Level::getFallDeathAreasShapes() const
+{
+    return m_fallDeathLayer->getShapes();
 }
 
 sf::Shape* Level::getEndOfLevelShape() const
