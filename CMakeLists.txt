@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(TMXLITE)
 FetchContent_Declare(
     JSON
     GIT_REPOSITORY https://github.com/nlohmann/json.git
-    GIT_TAG v3.11.2 # Reemplaza con la versión que prefieras
+    GIT_TAG v3.11.2
 )
 FetchContent_MakeAvailable(JSON)
 
