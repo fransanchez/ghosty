@@ -13,7 +13,10 @@ Ghosty is a platform-style game inspired by Ghosts 'n Goblins, where you control
 
 ### Steps to Build
 
-1. Clone the Repository: git clone https://github.com/fransanchez/ghosty.git
+1. Clone the Repository: 
+	```bash
+	git clone https://github.com/fransanchez/ghosty.git
+
 2. Call CMake from the root directory (make sure to have a build folder created):
     ```bash
 	cmake -B build
