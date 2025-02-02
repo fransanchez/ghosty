@@ -18,8 +18,11 @@ public:
     EnemyManager(CollisionManager* collisionManager);
     ~EnemyManager();
 
-    bool loadEnemies(const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& spawnPoints);
-    void update(uint32_t deltaMilliseconds);
+    bool loadEnemiesInRange(
+        const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& spawnPoints,
+        const sf::View& cameraView);
+
+    void update(uint32_t deltaMilliseconds, const sf::View& cameraView);
     void render(sf::RenderWindow& window);
     void unload();
 
@@ -31,9 +34,11 @@ private:
     CollisionManager* m_collisionManager;
     std::unordered_map<EnemyType, Enemy::EnemyDescriptor*> m_enemyDescriptors; // Cached descriptors so we don't have to load from file each time
     std::vector<Enemy*> m_activeEnemies;
+    std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>> m_spawnPoints;
+    std::vector<sf::Vector2f> m_loadedSpawnPoints;
 
-    ObjectPool<GhostEnemy, 8> m_ghostPool;
-    ObjectPool<SkeletonEnemy, 8> m_skeletonPool;
-    ObjectPool<DinoEnemy, 8> m_dinoPool;
-    ObjectPool<VampireEnemy, 8> m_vampirePool;
+    ObjectPool<GhostEnemy, 3> m_ghostPool;
+    ObjectPool<SkeletonEnemy, 3> m_skeletonPool;
+    ObjectPool<DinoEnemy, 3> m_dinoPool;
+    ObjectPool<VampireEnemy, 3> m_vampirePool;
 };

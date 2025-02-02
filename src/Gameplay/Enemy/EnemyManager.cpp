@@ -9,6 +9,7 @@
 #include <Gameplay/Enemy/VampireEnemy.h>
 #include <Gameplay/Collisions/CollisionManager.h>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <Utils/Constants.h>
 
 EnemyManager::EnemyManager(CollisionManager* collisionManager)
     : m_collisionManager(collisionManager)
@@ -24,46 +25,68 @@ EnemyManager::~EnemyManager()
     unload();
 }
 
-bool EnemyManager::loadEnemies(const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& spawnPoints)
+bool EnemyManager::loadEnemiesInRange(
+    const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& spawnPoints,
+    const sf::View& cameraView)
 {
+    sf::FloatRect preloadBounds;
+    sf::Vector2f center = cameraView.getCenter();
+    sf::Vector2f size = cameraView.getSize();
+    preloadBounds.left = center.x - size.x / 2;
+    preloadBounds.top = center.y - size.y / 2;
+    preloadBounds.width = size.x + PRELOAD_ADVANCE_RANGE;
+    preloadBounds.height = size.y;
+
+    m_spawnPoints = spawnPoints;
+
     for (const auto& [position, properties] : spawnPoints)
     {
-        auto it = properties.find("type");
-        if (it != properties.end())
+        if (std::find(m_loadedSpawnPoints.begin(), m_loadedSpawnPoints.end(), position) != m_loadedSpawnPoints.end())
         {
-            const std::string& typeString = it->second;
-            EnemyType enemyType = stringToEnemyType(typeString);
+            continue;
+        }
 
-            if (enemyType == EnemyType::Unknown)
+        if (preloadBounds.contains(position))
+        {
+            auto it = properties.find("type");
+            if (it != properties.end())
             {
-                printf("Warning: Unsupported enemy type '%s' at spawn point.\n", typeString.c_str());
-                continue;
-            }
+                const std::string& typeString = it->second;
+                EnemyType enemyType = stringToEnemyType(typeString);
 
-            Enemy* enemy = getFromPools(enemyType);
-            if (!enemy)
-            {
-                printf("Error: Could not get enemy from pool for type '%s'.\n", typeString.c_str());
-                continue;
-            }
+                if (enemyType == EnemyType::Unknown)
+                {
+                    printf("Warning: Unsupported enemy type '%s' at spawn point.\n", typeString.c_str());
+                    continue;
+                }
 
-            if (!initEnemyFromCachedDescriptor(enemy, enemyType, position))
-            {
-                printf("Error: Could not initialize enemy of type '%s'.\n", typeString.c_str());
-                releaseFromPools(enemyType, enemy);
-            }
-            else
-            {
-                m_activeEnemies.push_back(enemy);
-                m_collisionManager->registerEnemy(enemy);
+                Enemy* enemy = getFromPools(enemyType);
+                if (!enemy)
+                {
+                    printf("Error: Could not get enemy from pool for type '%s'.\n", typeString.c_str());
+                    continue;
+                }
+                if (!initEnemyFromCachedDescriptor(enemy, enemyType, position))
+                {
+                    printf("Error: Could not initialize enemy of type '%s'.\n", typeString.c_str());
+                    releaseFromPools(enemyType, enemy);
+                }
+                else
+                {
+                    m_activeEnemies.push_back(enemy);
+                    m_collisionManager->registerEnemy(enemy);
+                    m_loadedSpawnPoints.push_back(position);
+                }
             }
         }
     }
     return true;
 }
 
-void EnemyManager::update(uint32_t deltaMilliseconds)
+void EnemyManager::update(uint32_t deltaMilliseconds, const sf::View& cameraView)
 {
+    loadEnemiesInRange(m_spawnPoints, cameraView);
+
     for (auto it = m_activeEnemies.begin(); it != m_activeEnemies.end();)
     {
         Enemy* enemy = *it;
@@ -139,6 +162,9 @@ void EnemyManager::unload()
         releaseFromPools(enemy->getType(), enemy);
     }
     m_activeEnemies.clear();
+
+    m_spawnPoints.clear();
+    m_loadedSpawnPoints.clear();
 
     // Delete cached copies of descriptors and attacks
     for (auto& [type, descriptor] : m_enemyDescriptors)

@@ -34,3 +34,5 @@ constexpr float STATIC_ENEMY_WATCH_DURATION = 5000.0f;
 constexpr float WALKING_ENEMY_IDLE_DURATION = 2000.0f;
 constexpr float WALKING_ENEMY_PATROL_DURATION = 5000.0f;
 
+constexpr float PRELOAD_ADVANCE_RANGE = 1000.f;
+

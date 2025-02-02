@@ -48,7 +48,7 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 	m_uiView = sf::View(sf::FloatRect(0.f, 0.f, static_cast<float>(cameraWidth), static_cast<float>(cameraHeight)));
 
 	m_enemyManager = new EnemyManager(m_collisionManager);
-	if (!m_enemyManager->loadEnemies(m_level->getEnemySpawnPoints()))
+	if (!m_enemyManager->loadEnemiesInRange(m_level->getEnemySpawnPoints(), m_camera))
 	{
 		printf("Failed to load enemies.\n");
 		return false;
@@ -106,7 +106,7 @@ void World::update(uint32_t deltaMilliseconds)
 
 			m_player->update(deltaMilliseconds);
 
-			m_enemyManager->update(deltaMilliseconds);
+			m_enemyManager->update(deltaMilliseconds, m_camera);
 
 			m_collectibleManager->update(deltaMilliseconds);
 
