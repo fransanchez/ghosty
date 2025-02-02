@@ -14,9 +14,11 @@ Ghosty is a platform-style game inspired by Ghosts 'n Goblins, where you control
 ### Steps to Build
 
 1. Clone the Repository: git clone https://github.com/fransanchez/ghosty.git
-2. Call CMake from the root directory:
-   cmake -B build
-   cmake --build ../build
+2. Call CMake from the root directory (make sure to have a build folder created):
+    ```bash
+	cmake -B build
+	cmake --build ./build
+
 3. (Optional) If you are on Windows, go to scripts folder and run build.bat.
 4. (Optional) If you want to use Visual Studio 2022, run generate.bat from the scripts folder to generarte the solution
 5. (Optional) If you want to see Debug rendering change the target_compile_definitions line with target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_MODE=0)
