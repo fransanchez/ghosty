@@ -1,103 +1,94 @@
-# CMake SFML Project Template
+# Ghosty - Platformer Game
+Ghosty is a platform-style game inspired by Ghosts 'n Goblins, where you control Ghosty, the main character, using ranged spells to defeat monsters and survive through different levels filled with enemies, collectibles, and obstacles.
 
-This repository template should allow for a fast and hassle-free kick start of your next SFML project using CMake.
-Thanks to [GitHub's nature of templates](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template), you can fork this repository without inheriting its Git history.
-
-The template starts out very basic, but might receive additional features over time:
-
-- Basic CMake script to build your project and link SFML on any operating system
-- Basic [GitHub Actions](https://github.com/features/actions) script for all major platforms
-
-## How to Use
-
+## How to Build and Run
+### Prerequisites
 1. Install [Git](https://git-scm.com/downloads) and [CMake](https://cmake.org/download/). Use your system's package manager if available.
-2. Follow [GitHub's instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for how to use their project template feature to create your own project. If you don't want to use GitHub, see the section below.
-3. Clone your new GitHub repo and open the repo in your text editor of choice.
-4. Open [CMakeLists.txt](CMakeLists.txt). Rename the project and the target name of the executable to whatever name you want. Make sure to change all occurrences.
-5. If you want to add or remove any .cpp files, change the source files listed in the `add_executable` call in CMakeLists.txt to match the source files your project requires. If you plan on keeping the default main.cpp file then no changes are required.
-6. If your code uses the Audio or Network modules then add `sfml-audio` or `sfml-network` to the `target_link_libraries` call alongside the existing `sfml-graphics` library that is being linked.
-7. If you use Linux, install SFML's dependencies using your system package manager. On Ubuntu and other Debian-based distributions you can use the following commands:
-   ```
-   sudo apt update
-   sudo apt install \
-       libxrandr-dev \
-       libxcursor-dev \
-       libudev-dev \
-       libfreetype-dev \
-       libopenal-dev \
-       libflac-dev \
-       libvorbis-dev \
-       libgl1-mesa-dev \
-       libegl1-mesa-dev
-   ```
-8. Configure and build your project. Most popular IDEs support CMake projects with very little effort on your part.
 
-   - [VS Code](https://code.visualstudio.com) via the [CMake extension](https://code.visualstudio.com/docs/cpp/cmake-linux)
-   - [Visual Studio](https://docs.microsoft.com/en-us/cpp/build/cmake-projects-in-visual-studio?view=msvc-170)
-   - [CLion](https://www.jetbrains.com/clion/features/cmake-support.html)
-   - [Qt Creator](https://doc.qt.io/qtcreator/creator-project-cmake.html)
+### Steps to Build
 
-   Using CMake from the command line is straightforward as well.
-   Be sure to run these commands in the root directory of the project you just created.
-
-   ```
+1. Clone the Repository: git clone https://github.com/fransanchez/ghosty.git
+2. Call CMake from the root directory:  
    cmake -B build
-   cmake --build build
-   ```
+   cmake --build ../build
+3. (Optional) If you are on Windows, go to scripts folder and run build.bat.
+4. (Optional) If you want to use Visual Studio 2022, run generate.bat from the scripts folder to generarte the solution
 
-9. Enjoy!
+## Features
 
-## Upgrading SFML
+- Character: Play as Ghosty, a character equipped with a variety of magical ranged attacks.
+- Enemies: Fight 4 types of enemies: Dino, Ghost, Skeleton, and Vampire.
+- Collectibles: Includes power-ups like extra lives and magic enhancements (Fire, Ice, Wind).
+- AI: Enemies have basic AI with patrolling, chasing, and attacking behaviors.
+- Collision Detection: Integrated collision management for characters, enemies, and projectiles.
 
-SFML is found via CMake's [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) module.
-FetchContent automatically downloads SFML from GitHub and builds it alongside your own code.
-Beyond the convenience of not having to install SFML yourself, this ensures ABI compatibility and simplifies things like specifying static versus shared libraries.
+## Game Controls
 
-Modifying what version of SFML you want is as easy as changing the [`GIT_TAG`](CMakeLists.txt#L7) argument.
-Currently it uses the latest in-development version of SFML 2 via the `2.6.x` tag.
-If you're feeling adventurous and want to give SFML 3 a try, use the `master` tag.
-Beware, this requires changing your code to suit the modified API!
-The nice folks in the [SFML community](https://github.com/SFML/SFML#community) can help you with that transition and the bugs you may encounter along the way.
+- A/D: Move left / right
+- W / Space: Jump
+- F: Attack with magic spells
+- LShift: Sprint
+- Escape: Exit the game
 
-## But I want to...
+## Power ups and lives
 
-Modify CMake options by adding them as configuration parameters (with a `-D` flag) or by modifying the contents of CMakeCache.txt and rebuilding.
+- Temporary power-ups last 15 seconds and enhance your magic abilities with more damage and range.
+- You have 5 lives. If you lose all of them or fall into water, the game ends.
 
-### Not use GitHub
+## Game Architecture
 
-You can use this project without a GitHub account by [downloading the contents](https://github.com/SFML/cmake-sfml-project/archive/refs/heads/master.zip) of the repository as a ZIP archive and unpacking it locally.
-This approach also avoids using Git entirely if you would prefer to not do that.
+### Modules Overview
 
-### Change Compilers
+#### Core System
+- AssetManager: Manages loading of game assets like textures and sounds.
+- AudioManager: Handles background music and sound effects during gameplay.
+- Game: Controls the main game loop and coordinates between the different subsystems.
+- World: Contains the game world, managing entities and interactions.
 
-See the variety of [`CMAKE_<LANG>_COMPILER`](https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER.html) options.
-In particular you'll want to modify `CMAKE_CXX_COMPILER` to point to the C++ compiler you wish to use.
+#### Gameplay
+- AttackSystem: Manages attack types like melee and ranged attacks.
+- Collectibles: Manages collectible items such as extra lives and magic power-ups.
+- Collisions: Handles collision detection for all game entities.
+- Enemies: Defines the behavior of different types of enemies (Flying, Walking, Static).
+- Player: The player entity, including movement, health, and attacks.
+- Entity: Base class for all game entities (Player, Enemies), managing attributes and behavior.
 
-### Change Compiler Optimizations
+#### Rendering
+- Animation: Manages sprite animations for characters and enemies.
+- Chunk: Handles map tiles and manages the rendering of large levels.
+- MapLayer: Organizes and renders different layers of the map (e.g., floors, background).
+- ObjectLayer: Organizes and renders different layers with objects of the map (e.g., enemy spawns, collectibles, patrol areas).
 
-CMake abstracts away specific optimizer flags through the [`CMAKE_BUILD_TYPE`](https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html) option.
-By default this project recommends `Release` builds which enable optimizations.
-Other build types include `Debug` builds which enable debug symbols but disable optimizations.
-If you're using a multi-configuration generator (as is often the case on Windows), you can modify the [`CMAKE_CONFIGURATION_TYPES`](https://cmake.org/cmake/help/latest/variable/CMAKE_CONFIGURATION_TYPES.html#variable:CMAKE_CONFIGURATION_TYPES) option.
+#### UI
+- UIManager: Controls the game's UI, including HUD and menus.
+- HUD: Displays health, magic power-ups, and other player information.
+- UIScreen: Handles various screens like the main menu, in-game UI, and game-over screens.
 
-### Change Generators
+#### Utils
+- GameConfigLoader: Loads game settings and configurations from JSON files.
+- ObjectPool: Manages the pooling of reusable objects, like projectiles and enemies.
 
-While CMake will attempt to pick a suitable default generator, some systems offer a number of generators to choose from.
-Ubuntu, for example, offers Makefiles and Ninja as two potential options.
-For a list of generators, click [here](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).
-To modify the generator you're using you must reconfigure your project providing a `-G` flag with a value corresponding to the generator you want.
-You can't simply modify an entry in the CMakeCache.txt file unlike the above options.
-Then you may rebuild your project with this new generator.
 
-## More Reading
+## Technical Decisions
 
-Here are some useful resources if you want to learn more about CMake:
+1. Pointer Management (Raw Pointers): Raw pointers were used instead of smart pointers for better control over memory management. This approach helped with managing object lifecycles and dependencies.
 
-- [Official CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/)
-- [How to Use CMake Without the Agonizing Pain - Part 1](https://alexreinking.com/blog/how-to-use-cmake-without-the-agonizing-pain-part-1.html)
-- [How to Use CMake Without the Agonizing Pain - Part 2](https://alexreinking.com/blog/how-to-use-cmake-without-the-agonizing-pain-part-2.html)
-- [Better CMake YouTube series by Jefferon Amstutz](https://www.youtube.com/playlist?list=PL8i3OhJb4FNV10aIZ8oF0AA46HgA2ed8g)
+2. Map and Layers: The game uses an efficient map system where each layer is loaded separately, including enemy spawn points and collectible locations. This system allows easy extension by adding new entities or items without modifying the code.
+
+3. Enemy Management: The EnemyManager uses pooling to manage enemies efficiently. Each type of enemy has its own pool, and only enemies within the camera view are loaded to optimize performance.
+
+4. Entity System: The Entity class is the backbone for all game entities (Player and Enemy for now). It manages health, animations, and interactions. AttackSystem allows easy extension of attack types via JSON configuration files.
+
+## Future Enhancements
+
+- Improved Enemy AI: Simplify AI by implementing decision trees or finite state machines to make enemy behaviors more modular.
+
+- Dynamic Asset Loading: Implement dynamic loading of sounds, textures, and other resources based on the active level or screen to save memory and improve performance.
+
+- Map Rendering Optimization: Enhance performance by only rendering visible tiles when the camera moves, optimizing rendering in larger levels.
+
+- UI Enhancements: Add additional information to the HUD, such as indicators for magic power-ups, health, and proximity of enemies.
+
 
 ## License
-
-The source code is dual licensed under Public Domain and MIT -- choose whichever you prefer.
+This project is licensed under the MIT License. See [LICENSE.md](https://github.com/fransanchez/ghosty/blob/main/LICENSE.md) for full details.
