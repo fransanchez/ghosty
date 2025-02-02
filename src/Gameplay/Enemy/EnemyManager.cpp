@@ -202,7 +202,7 @@ bool EnemyManager::initEnemyFromCachedDescriptor(Enemy* enemy, EnemyType enemyTy
     descriptorCopy.type = cachedDescriptor.type;
     descriptorCopy.collider = new Collider(*cachedDescriptor.collider);
     descriptorCopy.animations = new std::unordered_map<AnimationType, Animation*>();
-    descriptorCopy.animations = new std::unordered_map<AnimationType, Animation*>();
+
     for (const auto& [type, animation] : *cachedDescriptor.animations)
     {
         (*descriptorCopy.animations)[type] = new Animation(*animation);

@@ -29,7 +29,7 @@ RangedAttack::RangedAttack(
 RangedAttack::RangedAttack(const RangedAttack& other)
     : m_projectileLifetime(other.m_projectileLifetime),
     m_projectileSpeed(other.m_projectileSpeed),
-    m_animation(other.m_animation),
+    m_animation(new Animation(*other.m_animation)),
     m_projectilesPool(other.m_projectilesPool)
 {
     m_attackRatePerSecond = other.m_attackRatePerSecond;
@@ -49,7 +49,7 @@ RangedAttack& RangedAttack::operator=(const RangedAttack& other)
 
         m_projectileLifetime = other.m_projectileLifetime;
         m_projectileSpeed = other.m_projectileSpeed;
-        m_animation = other.m_animation;
+        m_animation = new Animation(*other.m_animation);
         m_projectilesPool = other.m_projectilesPool;
         m_attackRatePerSecond = other.m_attackRatePerSecond;
         m_damage = other.m_damage;
@@ -68,6 +68,7 @@ RangedAttack::~RangedAttack()
     // Return all active projectiles to the pool
     for (auto& projectile : m_projectiles)
     {
+        m_collisionManager->unregisterProjectile(projectile, m_faction);
         m_projectilesPool.release(*projectile);
     }
     m_projectiles.clear();

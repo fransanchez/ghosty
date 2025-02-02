@@ -203,6 +203,7 @@ void Entity::reset()
     m_animations = nullptr;
     for (auto attack : m_attacks)
     {
+        attack->stopAttack();
         delete attack;
     }
     m_attacks.clear();
