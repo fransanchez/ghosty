@@ -8,9 +8,11 @@ Collisionable::Collisionable(Collider* collider, CollisionManager* manager) {
 }
 
 Collisionable::~Collisionable() {
-    delete(m_collider);
-    m_collider = nullptr;
-    m_collisionManager = nullptr;
+    if (m_collider) {
+        delete(m_collider);
+        m_collider = nullptr;
+        m_collisionManager = nullptr;
+    }
 }
 
 Collider* Collisionable::getCollider() const

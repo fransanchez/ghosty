@@ -105,6 +105,8 @@ void Projectile::unload()
 {
     if (m_animation)
     {
+        delete m_collider;
+        m_collider = nullptr;
         delete m_animation;
         m_animation = nullptr;
     }
