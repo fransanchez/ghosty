@@ -20,35 +20,35 @@
     },
     "Animations": {
         "Idle": {
-            "TexturePath": "../data/Images/Enemies/Vampire/idle.png",
+            "TexturePath": "./data/Images/Enemies/Vampire/idle.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": true,
             "FrameDuration": 200
         },
         "Walk": {
-            "TexturePath": "../data/Images/Enemies/Vampire/walk.png",
+            "TexturePath": "./data/Images/Enemies/Vampire/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": true,
             "FrameDuration": 200
         },
         "Attack": {
-            "TexturePath": "../data/Images/Enemies/Vampire/attack.png",
+            "TexturePath": "./data/Images/Enemies/Vampire/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 3,
             "Loop": false,
             "FrameDuration": 150
         },
         "Hurt": {
-            "TexturePath": "../data/Images/Enemies/Vampire/hurt.png",
+            "TexturePath": "./data/Images/Enemies/Vampire/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 2,
             "Loop": false,
             "FrameDuration": 300
         },
         "Death": {
-            "TexturePath": "../data/Images/Enemies/Vampire/death.png",
+            "TexturePath": "./data/Images/Enemies/Vampire/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 5,
             "Loop": false,
@@ -63,10 +63,10 @@
             "FireRateSeconds": 0.66,
             "Range": 600.0,
             "SoundType": "VampireAttack",
-            "SoundPath": "../data/Sound/VampireAttack.wav",
+            "SoundPath": "./data/Sound/VampireAttack.wav",
             "Animation": {
                 "FireProjectile": {
-                    "TexturePath": "../data/Images/Enemies/Vampire/fire.png",
+                    "TexturePath": "./data/Images/Enemies/Vampire/fire.png",
                     "FrameCountRows": 1,
                     "FrameCountColumns": 6,
                     "Loop": false,
@@ -88,7 +88,7 @@
     "Sounds": [
         {
             "SoundType": "VampireHurt",
-            "SoundPath": "../data/Sound/VampireHurt.wav"
+            "SoundPath": "./data/Sound/VampireHurt.wav"
         }
     ]
 }

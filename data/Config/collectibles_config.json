@@ -3,7 +3,7 @@
         {
             "Type": "Life",
             "Animation": {
-                "TexturePath": "../data/Images/Collectibles/life.png",
+                "TexturePath": "./data/Images/Collectibles/life.png",
                 "FrameCountRows": 1,
                 "FrameCountColumns": 10,
                 "Loop": true,
@@ -13,7 +13,7 @@
         {
             "Type": "Ice",
             "Animation": {
-                "TexturePath": "../data/Images/Collectibles/ice.png",
+                "TexturePath": "./data/Images/Collectibles/ice.png",
                 "FrameCountRows": 1,
                 "FrameCountColumns": 10,
                 "Loop": true,
@@ -23,7 +23,7 @@
         {
             "Type": "Fire",
             "Animation": {
-                "TexturePath": "../data/Images/Collectibles/fire.png",
+                "TexturePath": "./data/Images/Collectibles/fire.png",
                 "FrameCountRows": 1,
                 "FrameCountColumns": 10,
                 "Loop": true,
@@ -33,7 +33,7 @@
         {
             "Type": "Wind",
             "Animation": {
-                "TexturePath": "../data/Images/Collectibles/wind.png",
+                "TexturePath": "./data/Images/Collectibles/wind.png",
                 "FrameCountRows": 1,
                 "FrameCountColumns": 10,
                 "Loop": true,

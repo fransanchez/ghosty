@@ -19,6 +19,8 @@ Ghosty is a platform-style game inspired by Ghosts 'n Goblins, where you control
    cmake --build ../build
 3. (Optional) If you are on Windows, go to scripts folder and run build.bat.
 4. (Optional) If you want to use Visual Studio 2022, run generate.bat from the scripts folder to generarte the solution
+5. (Optional) If you want to see Debug rendering change the target_compile_definitions line with target_compile_definitions(${PROJECT_NAME} PUBLIC DEBUG_MODE=0)
+
 
 ## Features
 

@@ -20,35 +20,35 @@
     },
     "Animations": {
         "Idle": {
-            "TexturePath": "../data/Images/Enemies/Dino/idle.png",
+            "TexturePath": "./data/Images/Enemies/Dino/idle.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": true,
             "FrameDuration": 200
         },
         "Walk": {
-            "TexturePath": "../data/Images/Enemies/Dino/walk.png",
+            "TexturePath": "./data/Images/Enemies/Dino/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": true,
             "FrameDuration": 200
         },
         "Attack": {
-            "TexturePath": "../data/Images/Enemies/Dino/attack.png",
+            "TexturePath": "./data/Images/Enemies/Dino/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 5,
             "Loop": false,
             "FrameDuration": 150
         },
         "Hurt": {
-            "TexturePath": "../data/Images/Enemies/Dino/hurt.png",
+            "TexturePath": "./data/Images/Enemies/Dino/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": false,
             "FrameDuration": 200
         },
         "Death": {
-            "TexturePath": "../data/Images/Enemies/Dino/death.png",
+            "TexturePath": "./data/Images/Enemies/Dino/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 6,
             "Loop": false,
@@ -61,7 +61,7 @@
             "LifetimeMilliseconds": 1000,
             "AttackRatePerSecond": 0.5,
             "SoundType": "DinoAttack",
-            "SoundPath": "../data/Sound/DinoAttack.wav",
+            "SoundPath": "./data/Sound/DinoAttack.wav",
             "Collider": {
                 "CenterOffset": {
                     "X": 0.0,
@@ -77,7 +77,7 @@
     "Sounds": [
         {
             "SoundType": "DinoHurt",
-            "SoundPath": "../data/Sound/DinoHurt.wav"
+            "SoundPath": "./data/Sound/DinoHurt.wav"
         }
     ]
 }

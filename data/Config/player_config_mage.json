@@ -12,63 +12,63 @@
     },
     "Animations": {
         "Idle": {
-            "TexturePath": "../data/Images/Player/Mage/Idle/idle.png",
+            "TexturePath": "./data/Images/Player/Mage/Idle/idle.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 14,
             "Loop": true,
             "FrameDuration": 200
         },
         "Walk": {
-            "TexturePath": "../data/Images/Player/Mage/Walk/walk.png",
+            "TexturePath": "./data/Images/Player/Mage/Walk/walk.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 6,
             "Loop": true,
             "FrameDuration": 100
         },
         "Run": {
-            "TexturePath": "../data/Images/Player/Mage/Run/run.png",
+            "TexturePath": "./data/Images/Player/Mage/Run/run.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 8,
             "Loop": true,
             "FrameDuration": 80
         },
         "Jump": {
-            "TexturePath": "../data/Images/Player/Mage/High_jump/high_jump2.png",
+            "TexturePath": "./data/Images/Player/Mage/High_jump/high_jump2.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 10,
             "Loop": false,
             "FrameDuration": 100
         },
         "Hurt": {
-            "TexturePath": "../data/Images/Player/Mage/Hurt/hurt.png",
+            "TexturePath": "./data/Images/Player/Mage/Hurt/hurt.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 4,
             "Loop": false,
             "FrameDuration": 200
         },
         "Death": {
-            "TexturePath": "../data/Images/Player/Mage/Death/death.png",
+            "TexturePath": "./data/Images/Player/Mage/Death/death.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 10,
             "Loop": false,
             "FrameDuration": 200
         },
         "Attack": {
-            "TexturePath": "../data/Images/Player/Mage/Attack/attack.png",
+            "TexturePath": "./data/Images/Player/Mage/Attack/attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 7,
             "Loop": false,
             "FrameDuration": 70
         },
         "WalkAttack": {
-            "TexturePath": "../data/Images/Player/Mage/Walk_Attack/walk_attack.png",
+            "TexturePath": "./data/Images/Player/Mage/Walk_Attack/walk_attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 6,
             "Loop": false,
             "FrameDuration": 80
         },
         "RunAttack": {
-            "TexturePath": "../data/Images/Player/Mage/Run_Attack/run_attack.png",
+            "TexturePath": "./data/Images/Player/Mage/Run_Attack/run_attack.png",
             "FrameCountRows": 1,
             "FrameCountColumns": 8,
             "Loop": false,
@@ -83,10 +83,10 @@
             "FireRateSeconds": 2.5,
             "Range": 1000.0,
             "SoundType": "DarkBall",
-            "SoundPath": "../data/Sound/DarkBall.wav",
+            "SoundPath": "./data/Sound/DarkBall.wav",
             "Animation": {
                 "DarkProjectile": {
-                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/dark.png",
+                    "TexturePath": "./data/Images/Player/Mage/Attack_Effects/dark.png",
                     "FrameCountRows": 1,
                     "FrameCountColumns": 9,
                     "Loop": true,
@@ -111,10 +111,10 @@
             "FireRateSeconds": 1.5,
             "Range": 1000.0,
             "SoundType": "FireBall",
-            "SoundPath": "../data/Sound/FireBall.wav",
+            "SoundPath": "./data/Sound/FireBall.wav",
             "Animation": {
                 "FireProjectile": {
-                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/fire_big.png",
+                    "TexturePath": "./data/Images/Player/Mage/Attack_Effects/fire_big.png",
                     "FrameCountRows": 1,
                     "FrameCountColumns": 6,
                     "Loop": true,
@@ -139,10 +139,10 @@
             "FireRateSeconds": 1.5,
             "Range": 600.0,
             "SoundType": "IceSpike",
-            "SoundPath": "../data/Sound/IceSpike.wav",
+            "SoundPath": "./data/Sound/IceSpike.wav",
             "Animation": {
                 "IceProjectile": {
-                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/ice.png",
+                    "TexturePath": "./data/Images/Player/Mage/Attack_Effects/ice.png",
                     "FrameCountRows": 1,
                     "FrameCountColumns": 9,
                     "Loop": false,
@@ -167,10 +167,10 @@
             "FireRateSeconds": 1.5,
             "Range": 600.0,
             "SoundType": "WindMagic",
-            "SoundPath": "../data/Sound/WindMagic.wav",
+            "SoundPath": "./data/Sound/WindMagic.wav",
             "Animation": {
                 "Wind": {
-                    "TexturePath": "../data/Images/Player/Mage/Attack_Effects/wind.png",
+                    "TexturePath": "./data/Images/Player/Mage/Attack_Effects/wind.png",
                     "FrameCountRows": 1,
                     "FrameCountColumns": 9,
                     "Loop": true,
@@ -192,15 +192,15 @@
     "Sounds": [
         {
             "SoundType": "PlayerJump",
-            "SoundPath": "../data/Sound/PlayerJump.wav"
+            "SoundPath": "./data/Sound/PlayerJump.wav"
         },
         {
             "SoundType": "PlayerDeath",
-            "SoundPath": "../data/Sound/PlayerDeath.wav"
+            "SoundPath": "./data/Sound/PlayerDeath.wav"
         },
         {
             "SoundType": "PlayerHurt",
-            "SoundPath": "../data/Sound/PlayerHurt.wav"
+            "SoundPath": "./data/Sound/PlayerHurt.wav"
         }
     ]
 }

@@ -1,12 +1,12 @@
 {
     "music": {
-        "MainMenu": "../data/Sound/MainMenu.wav",
-        "Game": "../data/Sound/Game.wav"
+        "MainMenu": "./data/Sound/MainMenu.wav",
+        "Game": "./data/Sound/Game.wav"
     },
     "sounds": {
-        "ButtonClick": "../data/Sound/ButtonClick.wav",
-        "GameOver": "../data/Sound/GameOver.wav",
-        "ItemPickup": "../data/Sound/ItemPickup.wav",
-        "Victory": "../data/Sound/Victory.wav"
+        "ButtonClick": "./data/Sound/ButtonClick.wav",
+        "GameOver": "./data/Sound/GameOver.wav",
+        "ItemPickup": "./data/Sound/ItemPickup.wav",
+        "Victory": "./data/Sound/Victory.wav"
     }
 }
