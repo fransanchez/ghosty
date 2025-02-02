@@ -31,5 +31,5 @@ private:
     std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>> m_spawnPoints;
     std::vector<sf::Vector2f> m_loadedSpawnPoints;
 
-    ObjectPool<Collectible, 3> m_collectiblePool;
+    ObjectPool<Collectible, 5> m_collectiblePool;
 };
