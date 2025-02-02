@@ -1,7 +1,8 @@
 #include <Core/Level.h>
 #include <tmxlite/Map.hpp>
 #include <tmxlite/ImageLayer.hpp>
-#include <Render/SFMLOrthogonalLayer.h>
+#include <Render/MapLayer.h>
+#include <Render/ObjectLayer.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>

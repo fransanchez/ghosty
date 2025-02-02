@@ -70,7 +70,9 @@ set(PROJECT_HEADERS
     include/Render/Animation.h
     include/Render/AnimationLoader.h
     include/Render/AnimationType.h
-    include/Render/SFMLOrthogonalLayer.h
+    include/Render/Chunk.h
+    include/Render/MapLayer.h
+    include/Render/ObjectLayer.h
 
     include/UI/HUD.h
     include/UI/UIManager.h
@@ -120,6 +122,10 @@ set(PROJECT_SOURCES
 
     src/Render/Animation.cpp
     src/Render/AnimationLoader.cpp
+    src/Render/Chunk.cpp
+    src/Render/MapLayer.cpp
+    src/Render/ObjectLayer.cpp
+
 
     src/UI/HUD.cpp
     src/UI/UIManager.cpp
