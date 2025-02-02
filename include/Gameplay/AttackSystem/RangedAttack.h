@@ -38,6 +38,6 @@ private:
     float m_projectileSpeed;
     const Animation* m_animation;
 
-    ObjectPool<Projectile, 8> m_projectilesPool;
+    ObjectPool<Projectile, 10> m_projectilesPool;
     std::list<Projectile*> m_projectiles;
 };

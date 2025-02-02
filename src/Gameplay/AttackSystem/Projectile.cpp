@@ -13,7 +13,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
     m_lifetime = descriptor.projectileLife;
     m_damage = descriptor.damage;
     m_animation = new Animation(*anim);
-    m_collider = collider;
+    m_collider = new Collider(*collider);
     m_collisionManager = collisionManager;
     m_collider->setPosition(m_position);
     m_animation->applyToSprite(m_sprite);

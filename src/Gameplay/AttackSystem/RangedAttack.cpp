@@ -87,8 +87,7 @@ void RangedAttack::attack(const sf::Vector2f& position, const sf::Vector2f& dire
         descriptor.projectileLife = m_projectileLifetime;
         descriptor.damage = m_damage;
 
-        Collider* projectileCollider = new Collider(*m_collider);
-        projectile.init(descriptor, m_animation, projectileCollider, m_collisionManager);
+        projectile.init(descriptor, m_animation, m_collider, m_collisionManager);
         m_projectiles.push_front(&projectile);
         m_cooldownTimer = m_attackRatePerSecond;
         m_collisionManager->registerProjectile(&projectile, m_faction);
