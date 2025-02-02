@@ -69,6 +69,7 @@ RangedAttack::~RangedAttack()
     for (auto& projectile : m_projectiles)
     {
         m_collisionManager->unregisterProjectile(projectile, m_faction);
+        projectile->unload();
         m_projectilesPool.release(*projectile);
     }
     m_projectiles.clear();
@@ -111,6 +112,7 @@ void RangedAttack::update(float deltaMilliseconds)
         if (projectile->isExpired() || projectile->isMarkedForDestruction())
         {
             m_collisionManager->unregisterProjectile(projectile, m_faction);
+            projectile->unload();
             m_projectilesPool.release(*projectile);
             it = m_projectiles.erase(it);
         }
@@ -139,6 +141,7 @@ void RangedAttack::stopAttack()
     {
         Projectile* projectile = *it;
         m_collisionManager->unregisterProjectile(projectile, m_faction);
+        projectile->unload();
         m_projectilesPool.release(*projectile);
         it = m_projectiles.erase(it);
     }

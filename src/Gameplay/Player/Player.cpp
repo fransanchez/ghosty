@@ -224,6 +224,7 @@ void Player::handleScenarioCollisions()
     if (m_collisionManager->isPlayerFallingToDeath()) {
         AudioManager::getInstance()->playSoundEffect(SoundType::PlayerDeath);
         setIsDead(true);
+        m_attacks[m_currentAttackIndex]->stopAttack();
         updateAnimationType();
     }
 }
@@ -241,6 +242,7 @@ void Player::handleHurtingCollisions()
         {
             AudioManager::getInstance()->playSoundEffect(SoundType::PlayerDeath);
             setIsDead(true);
+            m_attacks[m_currentAttackIndex]->stopAttack();
         }
         else
         {

@@ -38,6 +38,7 @@ class Projectile : public Collisionable
         void markForDestruction();
         bool isMarkedForDestruction() const;
         int getDamage() const;
+        void unload();
 
     private:
         int m_damage = 0;

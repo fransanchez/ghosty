@@ -12,15 +12,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
     m_projectileSpeed = descriptor.projectileSpeed;
     m_lifetime = descriptor.projectileLife;
     m_damage = descriptor.damage;
-
-    if (!m_animation)
-    {
-        m_animation = new Animation(*anim);
-    }
-    else
-    {
-        m_animation->reset();
-    }
+    m_animation = new Animation(*anim);
     m_collider = collider;
     m_collisionManager = collisionManager;
     m_collider->setPosition(m_position);
@@ -30,8 +22,7 @@ void Projectile::init(ProjectileDescriptor descriptor,
 
 Projectile::~Projectile()
 {
-    delete m_animation;
-    m_animation = nullptr;
+    unload();
 }
 
 sf::Vector2f Projectile::getPosition() const
@@ -107,5 +98,14 @@ void Projectile::handleCollisions()
     {
         m_direction.x = 0.f;
         m_markedForDestruction = true;
+    }
+}
+
+void Projectile::unload()
+{
+    if (m_animation)
+    {
+        delete m_animation;
+        m_animation = nullptr;
     }
 }
