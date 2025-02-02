@@ -3,6 +3,7 @@
 #include <Gameplay/Entity.h>
 #include <Gameplay/AttackSystem/Attack.h>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <Utils/Constants.h>
 
 Entity::~Entity()
@@ -121,12 +122,22 @@ void Entity::render(sf::RenderWindow& window)
 {
     window.draw(m_sprite);
 
+
     for (auto& attack : m_attacks)
     {
         attack->render(window);
     }
 
     Collisionable::render(window);
+#ifdef DEBUG_MODE
+    const sf::FloatRect spriteBounds = m_sprite.getGlobalBounds();
+    sf::RectangleShape boundsRect(sf::Vector2f(spriteBounds.width, spriteBounds.height));
+    boundsRect.setPosition(spriteBounds.left, spriteBounds.top);
+    boundsRect.setOutlineColor(sf::Color::Red);
+    boundsRect.setOutlineThickness(2.f);
+    boundsRect.setFillColor(sf::Color::Transparent);
+    window.draw(boundsRect);
+#endif
 }
 
 void Entity::setAnimationType(AnimationType desiredAnimationType)
