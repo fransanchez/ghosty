@@ -205,7 +205,6 @@ void Entity::reset()
     m_isDead = false;
     m_isInvincible = false;
     m_life.addLife(m_life.getMaxLife());
-    m_sprite.setPosition(m_position);
     for (auto& [type, animation] : *m_animations)
     {
         delete animation;

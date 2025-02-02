@@ -235,6 +235,5 @@ bool Enemy::isPlayerInArea() {
 void Enemy::reset()
 {
     m_currentState = EnemyState::Idle;
-    setPosition(m_originalPosition);
     Entity::reset();
 }
