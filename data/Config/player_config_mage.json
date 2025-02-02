@@ -78,7 +78,7 @@
     "Attacks": {
         "Darkball": {
             "Damage": 1.0,
-            "LifetimeMilliseconds": 2000,
+            "LifetimeMilliseconds": 700,
             "Speed": 500.0,
             "FireRateSeconds": 2.5,
             "Range": 1000.0,
@@ -106,7 +106,7 @@
         },
         "Fireball": {
             "Damage": 3.0,
-            "LifetimeMilliseconds": 2000,
+            "LifetimeMilliseconds": 1200,
             "Speed": 500.0,
             "FireRateSeconds": 1.5,
             "Range": 1000.0,
@@ -134,7 +134,7 @@
         },
         "IceSpike": {
             "Damage": 3.0,
-            "LifetimeMilliseconds": 1000,
+            "LifetimeMilliseconds": 1200,
             "Speed": 500.0,
             "FireRateSeconds": 1.5,
             "Range": 600.0,
@@ -162,7 +162,7 @@
         },
         "Wind": {
             "Damage": 3.0,
-            "LifetimeMilliseconds": 1000,
+            "LifetimeMilliseconds": 1200,
             "Speed": 500.0,
             "FireRateSeconds": 1.5,
             "Range": 600.0,

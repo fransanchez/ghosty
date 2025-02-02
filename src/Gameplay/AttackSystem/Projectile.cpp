@@ -46,15 +46,14 @@ const Animation* Projectile::getAnimation() const
 
 void Projectile::update(float deltaMilliseconds)
 {
-    if (m_markedForDestruction) {
+    if (m_markedForDestruction || m_lifetime <= 0.0f) {
         return;
     }
     handleCollisions();
 
-    float deltaSeconds = deltaMilliseconds / 1000.f;
-    m_lifetime -= deltaSeconds;
+    m_lifetime -= deltaMilliseconds;
 
-    m_position += m_direction * m_projectileSpeed * deltaSeconds;
+    m_position += m_direction * m_projectileSpeed * deltaMilliseconds / 1000.f;
     if (m_direction.x > 0.f) {
         m_sprite.setScale(1.0f, 1.0f);
     }
