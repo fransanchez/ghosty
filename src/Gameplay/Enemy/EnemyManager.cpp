@@ -87,9 +87,22 @@ void EnemyManager::update(uint32_t deltaMilliseconds, const sf::View& cameraView
 {
     loadEnemiesInRange(m_spawnPoints, cameraView);
 
+    m_visibleEnemies.clear();
     for (auto it = m_activeEnemies.begin(); it != m_activeEnemies.end();)
     {
         Enemy* enemy = *it;
+
+        sf::FloatRect renderBounds;
+        sf::Vector2f center = cameraView.getCenter();
+        sf::Vector2f size = cameraView.getSize();
+        renderBounds.left = center.x - size.x / 2;
+        renderBounds.top = center.y - size.y / 2;
+        renderBounds.width = size.x;
+        renderBounds.height = size.y;
+        if (renderBounds.contains(enemy->getPosition()))
+        {
+            m_visibleEnemies.push_back(enemy);
+        }
         if (enemy->isMarkedForDestruction())
         {
             m_collisionManager->unregisterEnemy(enemy);
@@ -106,7 +119,7 @@ void EnemyManager::update(uint32_t deltaMilliseconds, const sf::View& cameraView
 
 void EnemyManager::render(sf::RenderWindow& window)
 {
-    for (Enemy* enemy : m_activeEnemies)
+    for (Enemy* enemy : m_visibleEnemies)
     {
         enemy->render(window);
     }
@@ -162,6 +175,7 @@ void EnemyManager::unload()
         releaseFromPools(enemy->getType(), enemy);
     }
     m_activeEnemies.clear();
+    m_visibleEnemies.clear();
 
     m_spawnPoints.clear();
     m_loadedSpawnPoints.clear();

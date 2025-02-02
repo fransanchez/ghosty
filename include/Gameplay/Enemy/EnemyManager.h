@@ -34,6 +34,7 @@ private:
     CollisionManager* m_collisionManager;
     std::unordered_map<EnemyType, Enemy::EnemyDescriptor*> m_enemyDescriptors; // Cached descriptors so we don't have to load from file each time
     std::vector<Enemy*> m_activeEnemies;
+    std::vector<Enemy*> m_visibleEnemies;
     std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>> m_spawnPoints;
     std::vector<sf::Vector2f> m_loadedSpawnPoints;
 
