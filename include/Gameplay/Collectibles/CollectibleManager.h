@@ -13,8 +13,10 @@ public:
     CollectibleManager(CollisionManager* collisionManager);
     ~CollectibleManager();
 
-    bool loadCollectibles(const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& spawnPoints);
-    void update(uint32_t deltaMilliseconds);
+    bool loadCollectiblesInRange(
+        const std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>>& spawnPoints,
+        const sf::View& cameraView);
+    void update(uint32_t deltaMilliseconds, const sf::View& cameraView);
     void render(sf::RenderWindow& window);
     void unload();
 
@@ -25,6 +27,9 @@ private:
     CollisionManager* m_collisionManager;
     std::unordered_map<CollectibleType, Animation*> m_collectibleAnimations;
     std::vector<Collectible*> m_activeCollectibles;
+    std::vector<Collectible*> m_visibleCollectibles;
+    std::vector<std::pair<sf::Vector2f, std::unordered_map<std::string, std::string>>> m_spawnPoints;
+    std::vector<sf::Vector2f> m_loadedSpawnPoints;
 
-    ObjectPool<Collectible, 8> m_collectiblePool;
+    ObjectPool<Collectible, 3> m_collectiblePool;
 };

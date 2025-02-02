@@ -55,7 +55,7 @@ bool World::load(uint32_t cameraWidth, uint32_t cameraHeight)
 	}
 
 	m_collectibleManager = new CollectibleManager(m_collisionManager);
-	if (!m_collectibleManager->loadCollectibles(m_level->getCollectiblesSpawnPoints()))
+	if (!m_collectibleManager->loadCollectiblesInRange(m_level->getCollectiblesSpawnPoints(), m_camera))
 	{
 		printf("Failed to load collectibles.\n");
 		return false;
@@ -108,7 +108,7 @@ void World::update(uint32_t deltaMilliseconds)
 
 			m_enemyManager->update(deltaMilliseconds, m_camera);
 
-			m_collectibleManager->update(deltaMilliseconds);
+			m_collectibleManager->update(deltaMilliseconds, m_camera);
 
 			updateCamera();
 
