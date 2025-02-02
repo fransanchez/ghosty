@@ -1,14 +1,20 @@
 # Ghosty - Platformer Game
+
+![Ghosty Main Screen](screenshots/screenshot1.png)
+![Ghosty Gameplay](screenshots/screenshot2.png)
+
+
 Ghosty is a platform-style game inspired by Ghosts 'n Goblins, where you control Ghosty, the main character, using ranged spells to defeat monsters and survive through different levels filled with enemies, collectibles, and obstacles.
 
 ## How to Build and Run
+
 ### Prerequisites
 1. Install [Git](https://git-scm.com/downloads) and [CMake](https://cmake.org/download/). Use your system's package manager if available.
 
 ### Steps to Build
 
 1. Clone the Repository: git clone https://github.com/fransanchez/ghosty.git
-2. Call CMake from the root directory:  
+2. Call CMake from the root directory:
    cmake -B build
    cmake --build ../build
 3. (Optional) If you are on Windows, go to scripts folder and run build.bat.
